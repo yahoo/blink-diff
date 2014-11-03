@@ -1,0 +1,41 @@
+{
+  "name": "blink-diff",
+  "version": "1.0.1",
+  "description": "A lightweight image comparison tool",
+  "license": "MIT",
+  "main": "index.js",
+  "bugs": "https://github.com/yahoo/blink-diff/issues",
+  "homepage": "https://github.com/yahoo/blink-diff",
+  "bin": {
+    "blink-diff": "bin/blink-diff"
+  },
+  "author": {
+    "name": "Marcel Erz",
+    "email": "erz@yahoo-inc.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yahoo/blink-diff.git"
+  },
+  "scripts": {
+    "test": "istanbul cover -- _mocha --reporter spec",
+    "docs": "yuidoc ."
+  },
+  "keywords": [
+    "image-diff",
+    "blink",
+    "image",
+    "difference",
+    "compare"
+  ],
+  "dependencies": {
+    "promise": "6.0.0",
+    "pngjs-image": "~0.9.3"
+  },
+  "devDependencies": {
+    "chai": "1.9.1",
+    "istanbul": "0.3.2",
+    "mocha": "1.21.4",
+    "yuidocjs": "0.3.50"
+  }
+}
