@@ -21,6 +21,7 @@ A lightweight image comparison tool
     * [Object Usage](#object-usage)
     * [Logging](#logging)
 * [Examples](#examples)
+* [Results](#results)
 * [API-Documentation](#api-documentation)
 * [Tests](#tests)
 * [Project Naming](#project-naming)
@@ -158,6 +159,9 @@ You can find examples for:
 
 All screenshots were compared to ```wikipedia_approved.png```, a previously approved screenshot without a regression.
 Each of the regression has the screenshot and the output result, highlighting the differences.
+
+##Results
+![Conversion](https://raw.githubusercontent.com/yahoo/blink-diff/master/images/conversion.png)
 
 ##API-Documentation
 
