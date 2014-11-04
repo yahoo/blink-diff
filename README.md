@@ -9,6 +9,11 @@ A lightweight image comparison tool
 [![NPM](https://nodei.co/npm/blink-diff.png?downloads=true)](https://nodei.co/npm/blink-diff/)
 
 
+[API-Documentation](http://yahoo.github.io/blink-diff/docs/)
+
+[Coverage Report](http://yahoo.github.io/blink-diff/coverage/lcov-report/)
+
+
 **Table of Contents**
 * [Installation](#installation)
 * [Usage](#usage)
