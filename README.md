@@ -3,6 +3,25 @@ Blink-Diff
 
 A lightweight image comparison tool
 
+[![Build Status](https://secure.travis-ci.org/yahoo/blink-diff.png)](http://travis-ci.org/yahoo/blink-diff)
+[![npm version](https://badge.fury.io/js/blink-diff.svg)](http://badge.fury.io/js/blink-diff)
+
+[![NPM](https://nodei.co/npm/blink-diff.png?downloads=true)](https://nodei.co/npm/blink-diff/)
+
+
+**Table of Contents**
+* [Installation](#installation)
+* [Usage](#usage)
+    * [Command-Line Usage](#command-line-usage)
+    * [Object Usage](#object-usage)
+    * [Logging](#logging)
+* [Examples](#examples)
+* [API-Documentation](#api-documentation)
+* [Tests](#tests)
+* [Project Naming](#project-naming)
+* [Third-party libraries](#third-party-libraries)
+* [License](#license)
+
 
 ##Installation
 
@@ -150,6 +169,10 @@ Run the tests with the following command:
 npm run test
 ```
 The code-coverage will be written to the ```coverage``` folder in the module root.
+
+
+##Project Naming
+The name comes from the Blink comparator that was used in Astronomy to recognize differences in multiple photos, taking a picture of the same area in the sky over consecutive days, months, or years. Most notably, it was used to discover Pluto.
 
 ##Third-party libraries
 
