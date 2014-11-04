@@ -1,0 +1,811 @@
+{
+    "project": {
+        "name": "blink-diff",
+        "description": "A lightweight image comparison tool",
+        "version": "1.0.1"
+    },
+    "files": {
+        "index.js": {
+            "name": "index.js",
+            "modules": {},
+            "classes": {
+                "BlinkDiff": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "BlinkDiff": {
+            "name": "BlinkDiff",
+            "shortname": "BlinkDiff",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "index.js",
+            "line": 8,
+            "description": "Blink-diff comparison class",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "imageA",
+                            "description": "Image object of first image",
+                            "type": "PNGImage"
+                        },
+                        {
+                            "name": "imageAPath",
+                            "description": "Path to first image",
+                            "type": "String"
+                        },
+                        {
+                            "name": "imageB",
+                            "description": "Image object of second image",
+                            "type": "PNGImage"
+                        },
+                        {
+                            "name": "imageBPath",
+                            "description": "Path to second image",
+                            "type": "String"
+                        },
+                        {
+                            "name": "imageOutputPath",
+                            "description": "Path to output image file",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "undefined"
+                        },
+                        {
+                            "name": "verbose",
+                            "description": "Verbose output?",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "thresholdType",
+                            "description": "Defines the threshold of the comparison",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "BlinkDiff.THRESHOLD_PIXEL"
+                        },
+                        {
+                            "name": "threshold",
+                            "description": "Threshold limit according to the comparison limit.",
+                            "type": "Int",
+                            "optional": true,
+                            "optdefault": "100"
+                        },
+                        {
+                            "name": "delta",
+                            "description": "Distance between the color coordinates in the 4 dimensional color-space that will not trigger a difference.",
+                            "type": "Number",
+                            "optional": true,
+                            "optdefault": "15"
+                        },
+                        {
+                            "name": "outputMaskRed",
+                            "description": "Value to set for red on difference pixel. 'Undefined' will not change the value.",
+                            "type": "Int",
+                            "optional": true,
+                            "optdefault": "255"
+                        },
+                        {
+                            "name": "outputMaskGreen",
+                            "description": "Value to set for green on difference pixel. 'Undefined' will not change the value.",
+                            "type": "Int",
+                            "optional": true,
+                            "optdefault": "0"
+                        },
+                        {
+                            "name": "outputMaskBlue",
+                            "description": "Value to set for blue on difference pixel. 'Undefined' will not change the value.",
+                            "type": "Int",
+                            "optional": true,
+                            "optdefault": "0"
+                        },
+                        {
+                            "name": "outputMaskAlpha",
+                            "description": "Value to set for the alpha channel on difference pixel. 'Undefined' will not change the value.",
+                            "type": "Int",
+                            "optional": true,
+                            "optdefault": "255"
+                        },
+                        {
+                            "name": "outputMaskOpacity",
+                            "description": "Strength of masking the pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.",
+                            "type": "Int",
+                            "optional": true,
+                            "optdefault": "undefined"
+                        },
+                        {
+                            "name": "outputBackgroundRed",
+                            "description": "Value to set for red as background. 'Undefined' will not change the value.",
+                            "type": "Int",
+                            "optional": true,
+                            "optdefault": "0"
+                        },
+                        {
+                            "name": "outputBackgroundGreen",
+                            "description": "Value to set for green as background. 'Undefined' will not change the value.",
+                            "type": "Int",
+                            "optional": true,
+                            "optdefault": "0"
+                        },
+                        {
+                            "name": "outputBackgroundBlue",
+                            "description": "Value to set for blue as background. 'Undefined' will not change the value.",
+                            "type": "Int",
+                            "optional": true,
+                            "optdefault": "0"
+                        },
+                        {
+                            "name": "outputBackgroundAlpha",
+                            "description": "Value to set for the alpha channel as background. 'Undefined' will not change the value.",
+                            "type": "Int",
+                            "optional": true,
+                            "optdefault": "undefined"
+                        },
+                        {
+                            "name": "outputBackgroundOpacity",
+                            "description": "Strength of masking the pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.",
+                            "type": "Int",
+                            "optional": true,
+                            "optdefault": "0.1"
+                        },
+                        {
+                            "name": "copyImageAToOutput",
+                            "description": "Copies the first image to the output image before the comparison begins. This will make sure that the output image will highlight the differences on the first image.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "true"
+                        },
+                        {
+                            "name": "copyImageBToOutput",
+                            "description": "Copies the second image to the output image before the comparison begins. This will make sure that the output image will highlight the differences on the second image.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "filter",
+                            "description": "Filters that will be applied before the comparison. Available filters are: blur, grayScale, gaussianBlur, lightness, luma, luminosity, sepia",
+                            "type": "String[]",
+                            "optional": true,
+                            "optdefault": "["
+                        },
+                        {
+                            "name": "debug",
+                            "description": "When set, then the applied filters will be shown on the output image.",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "composition",
+                            "description": "Should a composition be created to compare?",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "true"
+                        },
+                        {
+                            "name": "composeLeftToRight",
+                            "description": "Create composition from left to right, otherwise let it decide on its own whats best",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "composeTopToBottom",
+                            "description": "Create composition from top to bottom, otherwise let it decide on its own whats best",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        }
+                    ]
+                }
+            ],
+            "itemtype": "property",
+            "type": "PNGImage"
+        }
+    },
+    "classitems": [
+        {
+            "file": "index.js",
+            "line": 119,
+            "description": "Version of class",
+            "static": 1,
+            "itemtype": "property",
+            "name": "version",
+            "type": "{string}",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 129,
+            "description": "Threshold-type for pixel",
+            "static": 1,
+            "itemtype": "property",
+            "name": "THRESHOLD_PIXEL",
+            "type": "{string}",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 138,
+            "description": "Threshold-type for percent of all pixels",
+            "static": 1,
+            "itemtype": "property",
+            "name": "THRESHOLD_PERCENT",
+            "type": "{string}",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 148,
+            "description": "Unknown result of the comparison",
+            "static": 1,
+            "itemtype": "property",
+            "name": "RESULT_UNKNOWN",
+            "type": "{int}",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 157,
+            "description": "The images are too different",
+            "static": 1,
+            "itemtype": "property",
+            "name": "RESULT_DIFFERENT",
+            "type": "{int}",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 166,
+            "description": "The images are identical (or near identical)",
+            "static": 1,
+            "itemtype": "property",
+            "name": "RESULT_IDENTICAL",
+            "type": "{int}",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 175,
+            "description": "The images are very similar, but still below the threshold",
+            "static": 1,
+            "itemtype": "property",
+            "name": "RESULT_SIMILAR",
+            "type": "{int}",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 187,
+            "description": "Runs the comparison with a promise",
+            "itemtype": "method",
+            "name": "runWithPromise",
+            "example": [
+                "\n    var blinkDiff = BlinkDiff(...);\n    blinkDiff.runWithPromise().then(function (result) {\n      ...\n    });"
+            ],
+            "return": {
+                "description": "",
+                "type": "Promise"
+            },
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 202,
+            "description": "Runs the comparison in node-style",
+            "itemtype": "method",
+            "name": "run",
+            "example": [
+                "\n    var blinkDiff = BlinkDiff(...);\n    blinkDiff.run(function (err, result) {\n      if (err) {\n        throw err;\n      }\n\n      ...\n    });"
+            ],
+            "params": [
+                {
+                    "name": "fn",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 292,
+            "description": "Creates a comparison image",
+            "itemtype": "method",
+            "name": "_createComposition",
+            "params": [
+                {
+                    "name": "imageA",
+                    "description": "",
+                    "type": "PNGImage"
+                },
+                {
+                    "name": "imageB",
+                    "description": "",
+                    "type": "PNGImage"
+                },
+                {
+                    "name": "imageOutput",
+                    "description": "",
+                    "type": "PNGImage"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "PNGImage"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 330,
+            "description": "Loads the image or uses the already available image",
+            "itemtype": "method",
+            "name": "_loadImage",
+            "params": [
+                {
+                    "name": "path",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "image",
+                    "description": "",
+                    "type": "PNGImage"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "PNGImage|Promise"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 347,
+            "description": "Copies one image into another image",
+            "itemtype": "method",
+            "name": "_copyImage",
+            "params": [
+                {
+                    "name": "imageSrc",
+                    "description": "",
+                    "type": "PNGImage"
+                },
+                {
+                    "name": "imageDst",
+                    "description": "",
+                    "type": "PNGImage"
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 366,
+            "description": "Is the difference above the set threshold?",
+            "itemtype": "method",
+            "name": "isAboveThreshold",
+            "params": [
+                {
+                    "name": "items",
+                    "description": "",
+                    "type": "Int"
+                },
+                {
+                    "name": "total",
+                    "description": "",
+                    "type": "Int",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 387,
+            "description": "Log method that can be overwritten to modify the logging behavior.",
+            "itemtype": "method",
+            "name": "log",
+            "params": [
+                {
+                    "name": "text",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 398,
+            "description": "Has comparison passed?",
+            "itemtype": "method",
+            "name": "hasPassed",
+            "params": [
+                {
+                    "name": "result",
+                    "description": "Comparison result-code",
+                    "type": "Int"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Boolean"
+            },
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 410,
+            "description": "Clips the images to the lower resolution of both",
+            "access": "private",
+            "tagname": "",
+            "itemtype": "method",
+            "name": "_clip",
+            "params": [
+                {
+                    "name": "imageA",
+                    "description": "Source image",
+                    "type": "PNGImage"
+                },
+                {
+                    "name": "imageB",
+                    "description": "Destination image",
+                    "type": "PNGImage"
+                }
+            ],
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 443,
+            "description": "Calculates the distance of colors in the 4 dimensional color space",
+            "itemtype": "method",
+            "name": "_colorDelta",
+            "params": [
+                {
+                    "name": "color1",
+                    "description": "Values for color 1",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "red",
+                            "description": "Red value of color 1",
+                            "type": "Int"
+                        },
+                        {
+                            "name": "green",
+                            "description": "Green value of color 1",
+                            "type": "Int"
+                        },
+                        {
+                            "name": "blue",
+                            "description": "Blue value of color 1",
+                            "type": "Int"
+                        },
+                        {
+                            "name": "alpha",
+                            "description": "Alpha value of color 1",
+                            "type": "Int"
+                        }
+                    ]
+                },
+                {
+                    "name": "color2",
+                    "description": "Values for color 2",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "red",
+                            "description": "Red value of color 2",
+                            "type": "Int"
+                        },
+                        {
+                            "name": "green",
+                            "description": "Green value of color 2",
+                            "type": "Int"
+                        },
+                        {
+                            "name": "blue",
+                            "description": "Blue value of color 2",
+                            "type": "Int"
+                        },
+                        {
+                            "name": "alpha",
+                            "description": "Alpha value of color 2",
+                            "type": "Int"
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "Distance",
+                "type": "Number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 471,
+            "description": "Calculates the distance of pixels in the 4 dimensional color space",
+            "itemtype": "method",
+            "name": "_pixelDelta",
+            "params": [
+                {
+                    "name": "imageA",
+                    "description": "Source image",
+                    "type": "PNGImage"
+                },
+                {
+                    "name": "imageB",
+                    "description": "Destination image",
+                    "type": "PNGImage"
+                },
+                {
+                    "name": "idx",
+                    "description": "Index of pixel in both images",
+                    "type": "Int"
+                }
+            ],
+            "return": {
+                "description": "Distance",
+                "type": "Number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 498,
+            "description": "Does a quick comparison between the supplied images",
+            "itemtype": "method",
+            "name": "_pixelCompare",
+            "params": [
+                {
+                    "name": "imageA",
+                    "description": "",
+                    "type": "PNGImage"
+                },
+                {
+                    "name": "imageB",
+                    "description": "",
+                    "type": "PNGImage"
+                },
+                {
+                    "name": "imageOutput",
+                    "description": "",
+                    "type": "PNGImage"
+                },
+                {
+                    "name": "deltaThreshold",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "dimension",
+                    "description": "Dimensions of the images",
+                    "type": "Int"
+                },
+                {
+                    "name": "outputMaskColor",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "red",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "green",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "blue",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "alpha",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "opacity",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "backgroundColor",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "red",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "green",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "blue",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "alpha",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "opacity",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "Number of pixel differences",
+                "type": "Int"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 541,
+            "description": "Compares the two images supplied",
+            "itemtype": "method",
+            "name": "_compare",
+            "params": [
+                {
+                    "name": "imageA",
+                    "description": "",
+                    "type": "PNGImage"
+                },
+                {
+                    "name": "imageB",
+                    "description": "",
+                    "type": "PNGImage"
+                },
+                {
+                    "name": "imageOutput",
+                    "description": "",
+                    "type": "PNGImage"
+                },
+                {
+                    "name": "deltaThreshold",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "outputMaskColor",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "red",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "green",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "blue",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "alpha",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "opacity",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "backgroundColor",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "red",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "green",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "blue",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "alpha",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "opacity",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        }
+                    ]
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "BlinkDiff"
+        }
+    ],
+    "warnings": []
+}
