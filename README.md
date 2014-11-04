@@ -142,7 +142,7 @@ blinkDiff.log = function (text) {
 ```
 
 
-##Example
+##Examples
 
 There are some examples in the ```examples``` folder, in which I used screenshots of Wikipedia to check for visual regressions (and made some manual modifications to the dom).
 You can find examples for:
