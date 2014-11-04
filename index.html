@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Blink-diff : A lightweight image comparison tool">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Blink-diff</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/yahoo/blink-diff">View on GitHub</a>
+
+          <h1 id="project_title">Blink-diff</h1>
+          <h2 id="project_tagline">A lightweight image comparison tool</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/yahoo/blink-diff/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/yahoo/blink-diff/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="blink-diff" class="anchor" href="#blink-diff" aria-hidden="true"><span class="octicon octicon-link"></span></a>Blink-Diff</h1>
+
+<p>A lightweight image comparison tool</p>
+
+<p><a href="http://travis-ci.org/yahoo/blink-diff"><img src="https://secure.travis-ci.org/yahoo/blink-diff.png" alt="Build Status"></a>
+<a href="http://badge.fury.io/js/blink-diff"><img src="https://badge.fury.io/js/blink-diff.svg" alt="npm version"></a></p>
+
+<p><a href="https://nodei.co/npm/blink-diff/"><img src="https://nodei.co/npm/blink-diff.png?downloads=true" alt="NPM"></a></p>
+
+<p><strong>Table of Contents</strong></p>
+
+<ul>
+<li><a href="#installation">Installation</a></li>
+<li>
+<a href="#usage">Usage</a>
+
+<ul>
+<li><a href="#command-line-usage">Command-Line Usage</a></li>
+<li><a href="#object-usage">Object Usage</a></li>
+<li><a href="#logging">Logging</a></li>
+</ul>
+</li>
+<li><a href="#examples">Examples</a></li>
+<li><a href="#api-documentation">API-Documentation</a></li>
+<li><a href="#tests">Tests</a></li>
+<li><a href="#project-naming">Project Naming</a></li>
+<li><a href="#third-party-libraries">Third-party libraries</a></li>
+<li><a href="#license">License</a></li>
+</ul>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Install this module with the following command:</p>
+
+<div class="highlight highlight-shell"><pre>npm install blink-diff
+</pre></div>
+
+<p>Add the module to your <code>package.json</code> dependencies:</p>
+
+<div class="highlight highlight-shell"><pre>npm install --save blink-diff
+</pre></div>
+
+<p>Add the module to your <code>package.json</code> dev-dependencies:</p>
+
+<div class="highlight highlight-shell"><pre>npm install --save-dev blink-diff
+</pre></div>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>The package can be used in two different ways:</p>
+
+<ul>
+<li>per command line</li>
+<li>through an object</li>
+</ul>
+
+<h3>
+<a id="command-line-usage" class="anchor" href="#command-line-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Command-Line usage</h3>
+
+<p>The command-line tool can be found in the <code>bin</code> directory. You can run the application with</p>
+
+<div class="highlight highlight-shell"><pre>blink-diff --output &lt;output&gt;.png &lt;image1&gt;.png &lt;image2&gt;.png
+</pre></div>
+
+<p>Use <code>image1</code> and <code>image2</code> as the images you want to compare.
+Only PNGs are supported at this point.</p>
+
+<p>The command-line tool exposes a couple of flags and parameters for the comparison:</p>
+
+<div class="highlight highlight-shell"><pre>--verbose           Turn on verbose mode<span class="err">"</span>
+--threshold p       Number of pixels/percent <span class="s1">'p'</span> below which differences are ignored
+--threshold-type t  <span class="s1">'pixel'</span> and <span class="s1">'percent'</span> as <span class="nb">type </span>of threshold. <span class="o">(</span>default: pixel<span class="o">)</span>
+--delta p           Max. distance colors in the <span class="m">4</span> dimensional color-space without triggering a difference.
+--copyImageA        Copies first image to output as base. <span class="o">(</span>default: <span class="nb">true</span><span class="o">)</span>
+--copyImageB        Copies second image to output as base.
+--no-copy           Doesn<span class="s1">'t copy anything to output as base.</span>
+<span class="s1">--output o          Write difference to the file '</span>o<span class="err">'</span>
+--filter f          Filters f <span class="o">(</span>separated with comma<span class="o">)</span> that will be applied before the comparison.
+--no-composition    Turns the composition feature off
+--compose-ltr       Compose output image from left to right
+--compose-ttb       Compose output image from top to bottom
+--version           Print version
+--help              This <span class="nb">help</span>
+</pre></div>
+
+<h3>
+<a id="object-usage" class="anchor" href="#object-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Object usage</h3>
+
+<p>The package can also be used directly in code, without going through the command-line.</p>
+
+<p><strong>Example:</strong></p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">diff</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BlinkDiff</span><span class="p">({</span>
+    <span class="nx">imageAPath</span><span class="o">:</span> <span class="s1">'...'</span><span class="p">,</span>
+    <span class="nx">imageBPath</span><span class="o">:</span> <span class="s1">'...'</span><span class="p">,</span>
+
+    <span class="nx">thresholdType</span><span class="o">:</span> <span class="nx">BlinkDiff</span><span class="p">.</span><span class="nx">THRESHOLD_PERCENT</span><span class="p">,</span>
+    <span class="nx">threshold</span><span class="o">:</span> <span class="mf">0.01</span><span class="p">,</span>
+
+    <span class="nx">outputPath</span><span class="o">:</span> <span class="s1">'...'</span>
+<span class="p">});</span>
+
+<span class="nx">diff</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">passed</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">passed</span> <span class="o">?</span> <span class="s1">'Passed'</span> <span class="o">:</span> <span class="s1">'Failed'</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+
+<p>All the parameters that were available in the command-line tool are also available through the class constructor, however they might use slightly different wording. The class exposes additional parameters that are not available from the command-line:</p>
+
+<ul>
+<li>
+<code>imageAPath</code> Defines the path to the first image that should be compared (required; one or the other)</li>
+<li>
+<code>imageA</code> Supplies first image that should be compared (required; one or the other)</li>
+<li>
+<code>imageBPath</code> Defines the path to the second image that should be compared (required; one or the other)</li>
+<li>
+<code>imageB</code> Supplies second image that should be compared (required; one or the other)</li>
+<li>
+<code>imageOutputPath</code> Defines the path to the output-file. If you leaves this one off, then this feature is turned-off.</li>
+<li>
+<code>verbose</code> Verbose output (default: false)</li>
+<li>
+<code>thresholdType</code> Type of threshold check. This can be BlinkDiff.THRESHOLD_PIXEL and BlinkDiff.THRESHOLD_PERCENT (default: BlinkDiff.THRESHOLD_PIXEL)</li>
+<li>
+<code>threshold</code> Number of pixels/percent p below which differences are ignored (default: 100)</li>
+<li>
+<code>delta</code> Distance between the color coordinates in the 4 dimensional color-space that will not trigger a difference. (default: 15)</li>
+<li>
+<code>outputMaskRed</code> Red intensity for the difference highlighting in the output file (default: 255 - full red)</li>
+<li>
+<code>outputMaskGreen</code> Green intensity for the difference highlighting in the output file (default: 0)</li>
+<li>
+<code>outputMaskBlue</code> Blue intensity for the difference highlighting in the output file (default: 0)</li>
+<li>
+<code>outputMaskAlpha</code> Alpha intensity for the difference highlighting in the output file (default: 255)</li>
+<li>
+<code>outputMaskOpacity</code> Opacity of the pixel for the difference highlighting in the output file (default: 0.7 - slightly transparent)</li>
+<li>
+<code>outputBackgroundRed</code> Red intensity for the background in the output file</li>
+<li>
+<code>outputBackgroundGreen</code> Green intensity for the background in the output file</li>
+<li>
+<code>outputBackgroundBlue</code> Blue intensity for the background in the output file</li>
+<li>
+<code>outputBackgroundAlpha</code> Alpha intensity for the background in the output file</li>
+<li>
+<code>outputMaskOpacity</code> Opacity of the pixel for the background in the output file (default: 0.5 - transparent)</li>
+<li>
+<code>copyImageAToOutput</code> Copies the first image to the output image before the comparison begins. This will make sure that the output image will highlight the differences on the first image. (default)</li>
+<li>
+<code>copyImageBToOutput</code> Copies the second image to the output image before the comparison begins. This will make sure that the output image will highlight the differences on the second image.</li>
+<li>
+<code>filter</code> Filters that will be applied before the comparison. Available filters are: blur, grayScale, gaussianBlur, lightness, luma, luminosity, sepia</li>
+<li>
+<code>debug</code> When set, then the applied filters will be shown on the output image.</li>
+<li>
+<code>createComparison</code> Creates a composition of all three images as output</li>
+<li>
+<code>compareLeftToRight</code> Creates comparison-composition from left to right, otherwise it lets decide the app on what is best</li>
+<li>
+<code>compareTopToBottom</code> Creates comparison-composition from top to bottom, otherwise it lets decide the app on what is best</li>
+</ul>
+
+<h4>
+<a id="logging" class="anchor" href="#logging" aria-hidden="true"><span class="octicon octicon-link"></span></a>Logging</h4>
+
+<p>By default, the logger doesn't log events anywhere, but you can change this behavior by overwriting <code>blinkDiff.log</code>:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">blinkDiff</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BlinkDiff</span><span class="p">({</span>
+    <span class="p">...</span>
+<span class="p">});</span>
+
+<span class="nx">blinkDiff</span><span class="p">.</span><span class="nx">log</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">text</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Do whatever you want to do</span>
+<span class="p">};</span>
+
+<span class="p">...</span>
+</pre></div>
+
+<h2>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h2>
+
+<p>There are some examples in the <code>examples</code> folder, in which I used screenshots of Wikipedia to check for visual regressions (and made some manual modifications to the dom).
+You can find examples for:</p>
+
+<ul>
+<li>Missing DOM elements in <code>hidden_regression</code>
+</li>
+<li>Disrupted sorting in <code>sorting_regression</code>
+</li>
+<li>Color changes in <code>style_regression</code>
+</li>
+<li>Text capitalization in <code>text_regression</code>
+</li>
+</ul>
+
+<p>All screenshots were compared to <code>wikipedia_approved.png</code>, a previously approved screenshot without a regression.
+Each of the regression has the screenshot and the output result, highlighting the differences.</p>
+
+<h2>
+<a id="api-documentation" class="anchor" href="#api-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>API-Documentation</h2>
+
+<p>Generate the documentation with following command:</p>
+
+<div class="highlight highlight-shell"><pre>npm run docs
+</pre></div>
+
+<p>The documentation will be generated in the <code>docs</code> folder of the module root.</p>
+
+<h2>
+<a id="tests" class="anchor" href="#tests" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tests</h2>
+
+<p>Run the tests with the following command:</p>
+
+<div class="highlight highlight-shell"><pre>npm run <span class="nb">test</span>
+</pre></div>
+
+<p>The code-coverage will be written to the <code>coverage</code> folder in the module root.</p>
+
+<h2>
+<a id="project-naming" class="anchor" href="#project-naming" aria-hidden="true"><span class="octicon octicon-link"></span></a>Project Naming</h2>
+
+<p>The name comes from the Blink comparator that was used in Astronomy to recognize differences in multiple photos, taking a picture of the same area in the sky over consecutive days, months, or years. Most notably, it was used to discover Pluto.</p>
+
+<h2>
+<a id="third-party-libraries" class="anchor" href="#third-party-libraries" aria-hidden="true"><span class="octicon octicon-link"></span></a>Third-party libraries</h2>
+
+<p>The following third-party libraries are used by this module:</p>
+
+<h3>
+<a id="dependencies" class="anchor" href="#dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dependencies</h3>
+
+<ul>
+<li>promise: <a href="https://github.com/then/promise">https://github.com/then/promise</a>
+</li>
+<li>pngjs-image: <a href="https://github.com/yahoo/pngjs-image">https://github.com/yahoo/pngjs-image</a>
+</li>
+</ul>
+
+<h3>
+<a id="dev-dependencies" class="anchor" href="#dev-dependencies" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dev-Dependencies</h3>
+
+<ul>
+<li>chai: <a href="http://chaijs.com">http://chaijs.com</a>
+</li>
+<li>istanbul: <a href="https://github.com/gotwarlost/istanbul">https://github.com/gotwarlost/istanbul</a>
+</li>
+<li>mocha: <a href="https://github.com/visionmedia/mocha">https://github.com/visionmedia/mocha</a>
+</li>
+<li>yuidocjs: <a href="https://github.com/yui/yuidoc">https://github.com/yui/yuidoc</a>
+</li>
+</ul>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>The MIT License</p>
+
+<p>Copyright 2014 Yahoo Inc.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Blink-diff maintained by <a href="https://github.com/yahoo">yahoo</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-56408730-8");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
