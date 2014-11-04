@@ -123,7 +123,7 @@ describe('Blink-Diff', function () {
         });
 
         it('should not have a value for delta', function () {
-            expect(this.instance._delta).to.be.equal(15);
+            expect(this.instance._delta).to.be.equal(10);
         });
 
         it('should not have a value for outputMaskRed', function () {
@@ -143,7 +143,7 @@ describe('Blink-Diff', function () {
         });
 
         it('should not have a value for outputMaskOpacity', function () {
-            expect(this.instance._outputMaskOpacity).to.be.undefined;
+            expect(this.instance._outputMaskOpacity).to.be.equal(0.7);
         });
 
         it('should not have a value for outputBackgroundRed', function () {
@@ -163,7 +163,7 @@ describe('Blink-Diff', function () {
         });
 
         it('should not have a value for outputBackgroundOpacity', function () {
-            expect(this.instance._outputBackgroundOpacity).to.be.equal(0.1);
+            expect(this.instance._outputBackgroundOpacity).to.be.equal(0.5);
         });
 
         it('should not have a value for copyImageAToOutput', function () {
@@ -536,6 +536,8 @@ describe('Blink-Diff', function () {
 
                 this.instance._thresholdType = BlinkDiff.THRESHOLD_PIXEL;
                 this.instance._threshold = 3;
+
+                this.instance._composition = false;
             });
 
             it('should clip image-b', function (done) {
