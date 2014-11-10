@@ -2,7 +2,7 @@
     "project": {
         "name": "blink-diff",
         "description": "A lightweight image comparison tool",
-        "version": "1.0.1"
+        "version": "1.0.2"
     },
     "files": {
         "index.js": {
@@ -63,13 +63,6 @@
                             "optdefault": "undefined"
                         },
                         {
-                            "name": "verbose",
-                            "description": "Verbose output?",
-                            "type": "Boolean",
-                            "optional": true,
-                            "optdefault": "false"
-                        },
-                        {
                             "name": "thresholdType",
                             "description": "Defines the threshold of the comparison",
                             "type": "String",
@@ -81,14 +74,14 @@
                             "description": "Threshold limit according to the comparison limit.",
                             "type": "Int",
                             "optional": true,
-                            "optdefault": "100"
+                            "optdefault": "500"
                         },
                         {
                             "name": "delta",
                             "description": "Distance between the color coordinates in the 4 dimensional color-space that will not trigger a difference.",
                             "type": "Number",
                             "optional": true,
-                            "optdefault": "15"
+                            "optdefault": "20"
                         },
                         {
                             "name": "outputMaskRed",
@@ -123,7 +116,42 @@
                             "description": "Strength of masking the pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.",
                             "type": "Int",
                             "optional": true,
-                            "optdefault": "undefined"
+                            "optdefault": "0.7"
+                        },
+                        {
+                            "name": "outputShiftRed",
+                            "description": "Value to set for red on shifted pixel. 'Undefined' will not change the value.",
+                            "type": "Int",
+                            "optional": true,
+                            "optdefault": "255"
+                        },
+                        {
+                            "name": "outputShiftGreen",
+                            "description": "Value to set for green on shifted pixel. 'Undefined' will not change the value.",
+                            "type": "Int",
+                            "optional": true,
+                            "optdefault": "165"
+                        },
+                        {
+                            "name": "outputShiftBlue",
+                            "description": "Value to set for blue on shifted pixel. 'Undefined' will not change the value.",
+                            "type": "Int",
+                            "optional": true,
+                            "optdefault": "0"
+                        },
+                        {
+                            "name": "outputShiftAlpha",
+                            "description": "Value to set for the alpha channel on shifted pixel. 'Undefined' will not change the value.",
+                            "type": "Int",
+                            "optional": true,
+                            "optdefault": "255"
+                        },
+                        {
+                            "name": "outputShiftOpacity",
+                            "description": "Strength of masking the shifted pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.",
+                            "type": "Int",
+                            "optional": true,
+                            "optdefault": "0.7"
                         },
                         {
                             "name": "outputBackgroundRed",
@@ -158,7 +186,7 @@
                             "description": "Strength of masking the pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.",
                             "type": "Int",
                             "optional": true,
-                            "optdefault": "0.1"
+                            "optdefault": "0.6"
                         },
                         {
                             "name": "copyImageAToOutput",
@@ -176,7 +204,7 @@
                         },
                         {
                             "name": "filter",
-                            "description": "Filters that will be applied before the comparison. Available filters are: blur, grayScale, gaussianBlur, lightness, luma, luminosity, sepia",
+                            "description": "Filters that will be applied before the comparison. Available filters are: blur, grayScale, lightness, luma, luminosity, sepia",
                             "type": "String[]",
                             "optional": true,
                             "optdefault": "["
@@ -208,6 +236,27 @@
                             "type": "Boolean",
                             "optional": true,
                             "optdefault": "false"
+                        },
+                        {
+                            "name": "hideShift",
+                            "description": "Hides shift highlighting by using the background color instead",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "hShift",
+                            "description": "Horizontal shift for possible antialiasing",
+                            "type": "Int",
+                            "optional": true,
+                            "optdefault": "2"
+                        },
+                        {
+                            "name": "vShift",
+                            "description": "Vertical shift for possible antialiasing",
+                            "type": "Int",
+                            "optional": true,
+                            "optdefault": "2"
                         }
                     ]
                 }
@@ -219,7 +268,7 @@
     "classitems": [
         {
             "file": "index.js",
-            "line": 119,
+            "line": 148,
             "description": "Version of class",
             "static": 1,
             "itemtype": "property",
@@ -229,7 +278,7 @@
         },
         {
             "file": "index.js",
-            "line": 129,
+            "line": 158,
             "description": "Threshold-type for pixel",
             "static": 1,
             "itemtype": "property",
@@ -239,7 +288,7 @@
         },
         {
             "file": "index.js",
-            "line": 138,
+            "line": 167,
             "description": "Threshold-type for percent of all pixels",
             "static": 1,
             "itemtype": "property",
@@ -249,7 +298,7 @@
         },
         {
             "file": "index.js",
-            "line": 148,
+            "line": 177,
             "description": "Unknown result of the comparison",
             "static": 1,
             "itemtype": "property",
@@ -259,7 +308,7 @@
         },
         {
             "file": "index.js",
-            "line": 157,
+            "line": 186,
             "description": "The images are too different",
             "static": 1,
             "itemtype": "property",
@@ -269,7 +318,7 @@
         },
         {
             "file": "index.js",
-            "line": 166,
+            "line": 195,
             "description": "The images are identical (or near identical)",
             "static": 1,
             "itemtype": "property",
@@ -279,7 +328,7 @@
         },
         {
             "file": "index.js",
-            "line": 175,
+            "line": 204,
             "description": "The images are very similar, but still below the threshold",
             "static": 1,
             "itemtype": "property",
@@ -289,7 +338,7 @@
         },
         {
             "file": "index.js",
-            "line": 187,
+            "line": 216,
             "description": "Runs the comparison with a promise",
             "itemtype": "method",
             "name": "runWithPromise",
@@ -304,7 +353,7 @@
         },
         {
             "file": "index.js",
-            "line": 202,
+            "line": 231,
             "description": "Runs the comparison in node-style",
             "itemtype": "method",
             "name": "run",
@@ -322,7 +371,7 @@
         },
         {
             "file": "index.js",
-            "line": 292,
+            "line": 330,
             "description": "Creates a comparison image",
             "itemtype": "method",
             "name": "_createComposition",
@@ -353,7 +402,7 @@
         },
         {
             "file": "index.js",
-            "line": 330,
+            "line": 368,
             "description": "Loads the image or uses the already available image",
             "itemtype": "method",
             "name": "_loadImage",
@@ -379,7 +428,7 @@
         },
         {
             "file": "index.js",
-            "line": 347,
+            "line": 385,
             "description": "Copies one image into another image",
             "itemtype": "method",
             "name": "_copyImage",
@@ -401,7 +450,7 @@
         },
         {
             "file": "index.js",
-            "line": 366,
+            "line": 404,
             "description": "Is the difference above the set threshold?",
             "itemtype": "method",
             "name": "isAboveThreshold",
@@ -426,7 +475,7 @@
         },
         {
             "file": "index.js",
-            "line": 387,
+            "line": 425,
             "description": "Log method that can be overwritten to modify the logging behavior.",
             "itemtype": "method",
             "name": "log",
@@ -441,7 +490,7 @@
         },
         {
             "file": "index.js",
-            "line": 398,
+            "line": 436,
             "description": "Has comparison passed?",
             "itemtype": "method",
             "name": "hasPassed",
@@ -460,7 +509,7 @@
         },
         {
             "file": "index.js",
-            "line": 410,
+            "line": 448,
             "description": "Clips the images to the lower resolution of both",
             "access": "private",
             "tagname": "",
@@ -482,7 +531,7 @@
         },
         {
             "file": "index.js",
-            "line": 443,
+            "line": 481,
             "description": "Calculates the distance of colors in the 4 dimensional color space",
             "itemtype": "method",
             "name": "_colorDelta",
@@ -552,30 +601,25 @@
         },
         {
             "file": "index.js",
-            "line": 471,
-            "description": "Calculates the distance of pixels in the 4 dimensional color space",
+            "line": 509,
+            "description": "Gets the color of an image by the index",
             "itemtype": "method",
-            "name": "_pixelDelta",
+            "name": "_getColor",
             "params": [
                 {
-                    "name": "imageA",
-                    "description": "Source image",
-                    "type": "PNGImage"
-                },
-                {
-                    "name": "imageB",
-                    "description": "Destination image",
+                    "name": "image",
+                    "description": "Image",
                     "type": "PNGImage"
                 },
                 {
                     "name": "idx",
-                    "description": "Index of pixel in both images",
+                    "description": "Index of pixel in image",
                     "type": "Int"
                 }
             ],
             "return": {
-                "description": "Distance",
-                "type": "Number"
+                "description": "Color",
+                "type": "Object"
             },
             "access": "private",
             "tagname": "",
@@ -583,7 +627,129 @@
         },
         {
             "file": "index.js",
-            "line": 498,
+            "line": 528,
+            "description": "Calculates the lower limit",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Int"
+                },
+                {
+                    "name": "min",
+                    "description": "",
+                    "type": "Int"
+                },
+                {
+                    "name": "shift",
+                    "description": "",
+                    "type": "Int"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Int"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 541,
+            "description": "Calculates the upper limit",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Int"
+                },
+                {
+                    "name": "max",
+                    "description": "",
+                    "type": "Int"
+                },
+                {
+                    "name": "shift",
+                    "description": "",
+                    "type": "Int"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Int"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 554,
+            "description": "Checks if any pixel in the shift surrounding has a comparable color",
+            "params": [
+                {
+                    "name": "x",
+                    "description": "",
+                    "type": "Int"
+                },
+                {
+                    "name": "y",
+                    "description": "",
+                    "type": "Int"
+                },
+                {
+                    "name": "color",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "deltaThreshold",
+                    "description": "",
+                    "type": "Number"
+                },
+                {
+                    "name": "imageA",
+                    "description": "",
+                    "type": "PNGImage"
+                },
+                {
+                    "name": "imageB",
+                    "description": "",
+                    "type": "PNGImage"
+                },
+                {
+                    "name": "width",
+                    "description": "",
+                    "type": "Int"
+                },
+                {
+                    "name": "height",
+                    "description": "",
+                    "type": "Int"
+                },
+                {
+                    "name": "hShift",
+                    "description": "",
+                    "type": "Int"
+                },
+                {
+                    "name": "vShift",
+                    "description": "",
+                    "type": "Int"
+                }
+            ],
+            "return": {
+                "description": "Is pixel within delta found in surrounding?",
+                "type": "Boolean"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 612,
             "description": "Does a quick comparison between the supplied images",
             "itemtype": "method",
             "name": "_pixelCompare",
@@ -609,12 +775,54 @@
                     "type": "Number"
                 },
                 {
-                    "name": "dimension",
-                    "description": "Dimensions of the images",
+                    "name": "width",
+                    "description": "Width of image",
+                    "type": "Int"
+                },
+                {
+                    "name": "height",
+                    "description": "Height of image",
                     "type": "Int"
                 },
                 {
                     "name": "outputMaskColor",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "red",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "green",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "blue",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "alpha",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "opacity",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "outputShiftColor",
                     "description": "",
                     "type": "Object",
                     "props": [
@@ -686,6 +894,20 @@
                             "optional": true
                         }
                     ]
+                },
+                {
+                    "name": "hShift",
+                    "description": "Horizontal shift",
+                    "type": "Int",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "vShift",
+                    "description": "Vertical shift",
+                    "type": "Int",
+                    "optional": true,
+                    "optdefault": "0"
                 }
             ],
             "return": {
@@ -698,7 +920,7 @@
         },
         {
             "file": "index.js",
-            "line": 541,
+            "line": 680,
             "description": "Compares the two images supplied",
             "itemtype": "method",
             "name": "_compare",
@@ -761,6 +983,43 @@
                     ]
                 },
                 {
+                    "name": "outputShiftColor",
+                    "description": "",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "red",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "green",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "blue",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "alpha",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        },
+                        {
+                            "name": "opacity",
+                            "description": "",
+                            "type": "Int",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
                     "name": "backgroundColor",
                     "description": "",
                     "type": "Object",
@@ -796,6 +1055,20 @@
                             "optional": true
                         }
                     ]
+                },
+                {
+                    "name": "hShift",
+                    "description": "Horizontal shift",
+                    "type": "Int",
+                    "optional": true,
+                    "optdefault": "0"
+                },
+                {
+                    "name": "vShift",
+                    "description": "Vertical shift",
+                    "type": "Int",
+                    "optional": true,
+                    "optdefault": "0"
                 }
             ],
             "return": {
@@ -807,5 +1080,18 @@
             "class": "BlinkDiff"
         }
     ],
-    "warnings": []
+    "warnings": [
+        {
+            "message": "Missing item type\nCalculates the lower limit",
+            "line": " index.js:528"
+        },
+        {
+            "message": "Missing item type\nCalculates the upper limit",
+            "line": " index.js:541"
+        },
+        {
+            "message": "Missing item type\nChecks if any pixel in the shift surrounding has a comparable color",
+            "line": " index.js:554"
+        }
+    ]
 }

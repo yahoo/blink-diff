@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.1</em>
+            <em>API Docs for: 1.0.2</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -259,21 +259,6 @@
                             
                             <li class="param">
                                 
-                                    <code class="param-name optional">[verbose=false]</code>
-                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-                                    <span class="flag optional" title="This parameter is optional.">optional</span>
-                                
-
-                                <div class="param-description">
-                                    <p>Verbose output?</p>
-
-                                </div>
-
-                                
-                            </li>
-                            
-                            <li class="param">
-                                
                                     <code class="param-name optional">[thresholdType=BlinkDiff.THRESHOLD_PIXEL]</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
@@ -289,7 +274,7 @@
                             
                             <li class="param">
                                 
-                                    <code class="param-name optional">[threshold=100]</code>
+                                    <code class="param-name optional">[threshold=500]</code>
                                     <span class="type">Int</span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
                                 
@@ -304,7 +289,7 @@
                             
                             <li class="param">
                                 
-                                    <code class="param-name optional">[delta=15]</code>
+                                    <code class="param-name optional">[delta=20]</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
                                 
@@ -379,13 +364,88 @@
                             
                             <li class="param">
                                 
-                                    <code class="param-name optional">[outputMaskOpacity=undefined]</code>
+                                    <code class="param-name optional">[outputMaskOpacity=0.7]</code>
                                     <span class="type">Int</span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
                                 
 
                                 <div class="param-description">
                                     <p>Strength of masking the pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[outputShiftRed=255]</code>
+                                    <span class="type">Int</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Value to set for red on shifted pixel. &#39;Undefined&#39; will not change the value.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[outputShiftGreen=165]</code>
+                                    <span class="type">Int</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Value to set for green on shifted pixel. &#39;Undefined&#39; will not change the value.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[outputShiftBlue=0]</code>
+                                    <span class="type">Int</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Value to set for blue on shifted pixel. &#39;Undefined&#39; will not change the value.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[outputShiftAlpha=255]</code>
+                                    <span class="type">Int</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Value to set for the alpha channel on shifted pixel. &#39;Undefined&#39; will not change the value.</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[outputShiftOpacity=0.7]</code>
+                                    <span class="type">Int</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Strength of masking the shifted pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.</p>
 
                                 </div>
 
@@ -454,7 +514,7 @@
                             
                             <li class="param">
                                 
-                                    <code class="param-name optional">[outputBackgroundOpacity=0.1]</code>
+                                    <code class="param-name optional">[outputBackgroundOpacity=0.6]</code>
                                     <span class="type">Int</span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
                                 
@@ -505,7 +565,7 @@
                                 
 
                                 <div class="param-description">
-                                    <p>Filters that will be applied before the comparison. Available filters are: blur, grayScale, gaussianBlur, lightness, luma, luminosity, sepia</p>
+                                    <p>Filters that will be applied before the comparison. Available filters are: blur, grayScale, lightness, luma, luminosity, sepia</p>
 
                                 </div>
 
@@ -566,6 +626,51 @@
 
                                 <div class="param-description">
                                     <p>Create composition from top to bottom, otherwise let it decide on its own whats best</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[hideShift=false]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Hides shift highlighting by using the background color instead</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[hShift=2]</code>
+                                    <span class="type">Int</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Horizontal shift for possible antialiasing</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[vShift=2]</code>
+                                    <span class="type">Int</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Vertical shift for possible antialiasing</p>
 
                                 </div>
 
@@ -648,6 +753,13 @@
                             </li>
                         
                             <li class="index-item method private">
+                                <a href="#method__getColor">_getColor</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
                                 <a href="#method__loadImage">_loadImage</a>
 
                                 
@@ -656,13 +768,6 @@
                         
                             <li class="index-item method private">
                                 <a href="#method__pixelCompare">_pixelCompare</a>
-
-                                
-                                
-                            </li>
-                        
-                            <li class="index-item method private">
-                                <a href="#method__pixelDelta">_pixelDelta</a>
 
                                 
                                 
@@ -840,7 +945,7 @@
             
         
         
-        <a href="../files/index.js.html#l410"><code>index.js:410</code></a>
+        <a href="../files/index.js.html#l448"><code>index.js:448</code></a>
         
         </p>
 
@@ -957,7 +1062,7 @@
             
         
         
-        <a href="../files/index.js.html#l443"><code>index.js:443</code></a>
+        <a href="../files/index.js.html#l481"><code>index.js:481</code></a>
         
         </p>
 
@@ -1193,7 +1298,25 @@
             
                 <li class="arg">
                     
+                        <code>outputShiftColor</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
                         <code>backgroundColor</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[hShift=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[vShift=0]</code>
                     
                 </li>
             
@@ -1232,7 +1355,7 @@
             
         
         
-        <a href="../files/index.js.html#l541"><code>index.js:541</code></a>
+        <a href="../files/index.js.html#l680"><code>index.js:680</code></a>
         
         </p>
 
@@ -1404,6 +1527,95 @@
             
                 <li class="param">
                     
+                        <code class="param-name">outputShiftColor</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[red]</code>
+                                    <span class="type">Int</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[green]</code>
+                                    <span class="type">Int</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[blue]</code>
+                                    <span class="type">Int</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[alpha]</code>
+                                    <span class="type">Int</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[opacity]</code>
+                                    <span class="type">Int</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+                <li class="param">
+                    
                         <code class="param-name">backgroundColor</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
                     
@@ -1491,6 +1703,40 @@
                     
                 </li>
             
+                <li class="param">
+                    
+                        <code class="param-name optional">[hShift=0]</code>
+                        <span class="type">Int</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Horizontal shift</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[vShift=0]</code>
+                        <span class="type">Int</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Vertical shift</p>
+
+                    </div>
+
+                    
+                </li>
+            
             </ul>
         </div>
     
@@ -1563,7 +1809,7 @@
             
         
         
-        <a href="../files/index.js.html#l347"><code>index.js:347</code></a>
+        <a href="../files/index.js.html#l385"><code>index.js:385</code></a>
         
         </p>
 
@@ -1684,7 +1930,7 @@
             
         
         
-        <a href="../files/index.js.html#l292"><code>index.js:292</code></a>
+        <a href="../files/index.js.html#l330"><code>index.js:330</code></a>
         
         </p>
 
@@ -1772,6 +2018,137 @@
 </div>
 
                 
+                    <div id="method__getColor" class="method item private">
+    <h3 class="name"><code>_getColor</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>image</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>idx</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/index.js.html#l509"><code>index.js:509</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Gets the color of an image by the index</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">image</code>
+                        <span class="type">PNGImage</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Image</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">idx</code>
+                        <span class="type">Int</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Index of pixel in image</p>
+
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
+                    
+                    <p>Color</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method__loadImage" class="method item private">
     <h3 class="name"><code>_loadImage</code></h3>
 
@@ -1826,7 +2203,7 @@
             
         
         
-        <a href="../files/index.js.html#l330"><code>index.js:330</code></a>
+        <a href="../files/index.js.html#l368"><code>index.js:368</code></a>
         
         </p>
 
@@ -1932,7 +2309,13 @@
             
                 <li class="arg">
                     
-                        <code>dimension</code>
+                        <code>width</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>height</code>
                     
                 </li>
             
@@ -1944,7 +2327,25 @@
             
                 <li class="arg">
                     
+                        <code>outputShiftColor</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
                         <code>backgroundColor</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[hShift=0]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[vShift=0]</code>
                     
                 </li>
             
@@ -1983,7 +2384,7 @@
             
         
         
-        <a href="../files/index.js.html#l498"><code>index.js:498</code></a>
+        <a href="../files/index.js.html#l612"><code>index.js:612</code></a>
         
         </p>
 
@@ -2066,14 +2467,30 @@
             
                 <li class="param">
                     
-                        <code class="param-name">dimension</code>
+                        <code class="param-name">width</code>
                         <span class="type">Int</span>
                     
 
                     
 
                     <div class="param-description">
-                        <p>Dimensions of the images</p>
+                        <p>Width of image</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">height</code>
+                        <span class="type">Int</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Height of image</p>
 
                     </div>
 
@@ -2083,6 +2500,95 @@
                 <li class="param">
                     
                         <code class="param-name">outputMaskColor</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[red]</code>
+                                    <span class="type">Int</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[green]</code>
+                                    <span class="type">Int</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[blue]</code>
+                                    <span class="type">Int</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[alpha]</code>
+                                    <span class="type">Int</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[opacity]</code>
+                                    <span class="type">Int</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">outputShiftColor</code>
                         <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
                     
 
@@ -2258,6 +2764,40 @@
                     
                 </li>
             
+                <li class="param">
+                    
+                        <code class="param-name optional">[hShift=0]</code>
+                        <span class="type">Int</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Horizontal shift</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[vShift=0]</code>
+                        <span class="type">Int</span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Vertical shift</p>
+
+                    </div>
+
+                    
+                </li>
+            
             </ul>
         </div>
     
@@ -2272,159 +2812,6 @@
                         <span class="type">Int</span>:
                     
                     <p>Number of pixel differences</p>
-
-                
-            </div>
-        </div>
-    
-
-    
-</div>
-
-                
-                    <div id="method__pixelDelta" class="method item private">
-    <h3 class="name"><code>_pixelDelta</code></h3>
-
-    
-        <div class="args">
-            <span class="paren">(</span><ul class="args-list inline commas">
-            
-                <li class="arg">
-                    
-                        <code>imageA</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>imageB</code>
-                    
-                </li>
-            
-                <li class="arg">
-                    
-                        <code>idx</code>
-                    
-                </li>
-            
-            </ul><span class="paren">)</span>
-        </div>
-    
-
-    
-        <span class="returns-inline">
-            <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-        </span>
-    
-
-    
-
-    
-        <span class="flag private">private</span>
-    
-
-    
-
-    
-
-    
-
-    
-
-    <div class="meta">
-        
-            
-                
-                <p>
-                
-                Defined in
-                
-            
-        
-        
-        <a href="../files/index.js.html#l471"><code>index.js:471</code></a>
-        
-        </p>
-
-
-        
-
-        
-    </div>
-
-    <div class="description">
-        <p>Calculates the distance of pixels in the 4 dimensional color space</p>
-
-    </div>
-
-    
-        <div class="params">
-            <h4>Parameters:</h4>
-
-            <ul class="params-list">
-            
-                <li class="param">
-                    
-                        <code class="param-name">imageA</code>
-                        <span class="type">PNGImage</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Source image</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">imageB</code>
-                        <span class="type">PNGImage</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Destination image</p>
-
-                    </div>
-
-                    
-                </li>
-            
-                <li class="param">
-                    
-                        <code class="param-name">idx</code>
-                        <span class="type">Int</span>
-                    
-
-                    
-
-                    <div class="param-description">
-                        <p>Index of pixel in both images</p>
-
-                    </div>
-
-                    
-                </li>
-            
-            </ul>
-        </div>
-    
-
-    
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                
-                    
-                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>:
-                    
-                    <p>Distance</p>
 
                 
             </div>
@@ -2481,7 +2868,7 @@
             
         
         
-        <a href="../files/index.js.html#l398"><code>index.js:398</code></a>
+        <a href="../files/index.js.html#l436"><code>index.js:436</code></a>
         
         </p>
 
@@ -2592,7 +2979,7 @@
             
         
         
-        <a href="../files/index.js.html#l366"><code>index.js:366</code></a>
+        <a href="../files/index.js.html#l404"><code>index.js:404</code></a>
         
         </p>
 
@@ -2708,7 +3095,7 @@
             
         
         
-        <a href="../files/index.js.html#l387"><code>index.js:387</code></a>
+        <a href="../files/index.js.html#l425"><code>index.js:425</code></a>
         
         </p>
 
@@ -2796,7 +3183,7 @@
             
         
         
-        <a href="../files/index.js.html#l202"><code>index.js:202</code></a>
+        <a href="../files/index.js.html#l231"><code>index.js:231</code></a>
         
         </p>
 
@@ -2894,7 +3281,7 @@ blinkDiff.run(function (err, result) {
             
         
         
-        <a href="../files/index.js.html#l187"><code>index.js:187</code></a>
+        <a href="../files/index.js.html#l216"><code>index.js:216</code></a>
         
         </p>
 
@@ -2974,7 +3361,7 @@ blinkDiff.runWithPromise().then(function (result) {
             
         
         
-        <a href="../files/index.js.html#l157"><code>index.js:157</code></a>
+        <a href="../files/index.js.html#l186"><code>index.js:186</code></a>
         
         </p>
 
@@ -3021,7 +3408,7 @@ blinkDiff.runWithPromise().then(function (result) {
             
         
         
-        <a href="../files/index.js.html#l166"><code>index.js:166</code></a>
+        <a href="../files/index.js.html#l195"><code>index.js:195</code></a>
         
         </p>
 
@@ -3068,7 +3455,7 @@ blinkDiff.runWithPromise().then(function (result) {
             
         
         
-        <a href="../files/index.js.html#l175"><code>index.js:175</code></a>
+        <a href="../files/index.js.html#l204"><code>index.js:204</code></a>
         
         </p>
 
@@ -3115,7 +3502,7 @@ blinkDiff.runWithPromise().then(function (result) {
             
         
         
-        <a href="../files/index.js.html#l148"><code>index.js:148</code></a>
+        <a href="../files/index.js.html#l177"><code>index.js:177</code></a>
         
         </p>
 
@@ -3162,7 +3549,7 @@ blinkDiff.runWithPromise().then(function (result) {
             
         
         
-        <a href="../files/index.js.html#l138"><code>index.js:138</code></a>
+        <a href="../files/index.js.html#l167"><code>index.js:167</code></a>
         
         </p>
 
@@ -3209,7 +3596,7 @@ blinkDiff.runWithPromise().then(function (result) {
             
         
         
-        <a href="../files/index.js.html#l129"><code>index.js:129</code></a>
+        <a href="../files/index.js.html#l158"><code>index.js:158</code></a>
         
         </p>
 
@@ -3256,7 +3643,7 @@ blinkDiff.runWithPromise().then(function (result) {
             
         
         
-        <a href="../files/index.js.html#l119"><code>index.js:119</code></a>
+        <a href="../files/index.js.html#l148"><code>index.js:148</code></a>
         
         </p>
 
