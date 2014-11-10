@@ -66,7 +66,7 @@ The command-line tool exposes a couple of flags and parameters for the compariso
 --verbose           Turn on verbose mode"
 --threshold p       Number of pixels/percent 'p' below which differences are ignored
 --threshold-type t  'pixel' and 'percent' as type of threshold. (default: pixel)
---delta p           Max. distance colors in the 4 dimensional color-space without triggering a difference.
+--delta p           Max. distance colors in the 4 dimensional color-space without triggering a difference. (default: 20)
 --copyImageA        Copies first image to output as base. (default: true)
 --copyImageB        Copies second image to output as base.
 --no-copy           Doesn't copy anything to output as base.
@@ -75,6 +75,9 @@ The command-line tool exposes a couple of flags and parameters for the compariso
 --no-composition    Turns the composition feature off
 --compose-ltr       Compose output image from left to right
 --compose-ttb       Compose output image from top to bottom
+--hide-shift        Hides shift highlighting (default: true)
+--h-shift           Acceptable horizontal shift of pixel. (default: 0)
+--v-shift           Acceptable vertical shift of pixel. (default: 0)
 --version           Print version
 --help              This help
 ```
@@ -109,25 +112,32 @@ All the parameters that were available in the command-line tool are also availab
 * ```imageOutputPath``` Defines the path to the output-file. If you leaves this one off, then this feature is turned-off.
 * ```verbose``` Verbose output (default: false)
 * ```thresholdType``` Type of threshold check. This can be BlinkDiff.THRESHOLD_PIXEL and BlinkDiff.THRESHOLD_PERCENT (default: BlinkDiff.THRESHOLD_PIXEL)
-* ```threshold``` Number of pixels/percent p below which differences are ignored (default: 100)
-* ```delta``` Distance between the color coordinates in the 4 dimensional color-space that will not trigger a difference. (default: 15)
-* ```outputMaskRed``` Red intensity for the difference highlighting in the output file (default: 255 - full red)
+* ```threshold``` Number of pixels/percent p below which differences are ignored (default: 500)
+* ```delta``` Distance between the color coordinates in the 4 dimensional color-space that will not trigger a difference. (default: 20)
+* ```outputMaskRed``` Red intensity for the difference highlighting in the output file (default: 255)
 * ```outputMaskGreen``` Green intensity for the difference highlighting in the output file (default: 0)
 * ```outputMaskBlue``` Blue intensity for the difference highlighting in the output file (default: 0)
 * ```outputMaskAlpha``` Alpha intensity for the difference highlighting in the output file (default: 255)
 * ```outputMaskOpacity``` Opacity of the pixel for the difference highlighting in the output file (default: 0.7 - slightly transparent)
-* ```outputBackgroundRed``` Red intensity for the background in the output file
-* ```outputBackgroundGreen``` Green intensity for the background in the output file
-* ```outputBackgroundBlue``` Blue intensity for the background in the output file
-* ```outputBackgroundAlpha``` Alpha intensity for the background in the output file
-* ```outputMaskOpacity``` Opacity of the pixel for the background in the output file (default: 0.5 - transparent)
+* ```outputShiftRed``` Red intensity for the shift highlighting in the output file (default: 255)
+* ```outputShiftGreen``` Green intensity for the shift highlighting in the output file (default: 165)
+* ```outputShiftBlue``` Blue intensity for the shift highlighting in the output file (default: 0)
+* ```outputShiftAlpha``` Alpha intensity for the shift highlighting in the output file (default: 255)
+* ```outputShiftOpacity``` Opacity of the pixel for the shift highlighting in the output file (default: 0.7 - slightly transparent)
+* ```outputBackgroundRed``` Red intensity for the background in the output file (default: 0)
+* ```outputBackgroundGreen``` Green intensity for the background in the output file (default: 0)
+* ```outputBackgroundBlue``` Blue intensity for the background in the output file (default: 0)
+* ```outputBackgroundAlpha``` Alpha intensity for the background in the output file (default: undefined)
+* ```outputMaskOpacity``` Opacity of the pixel for the background in the output file (default: 0.6 - transparent)
 * ```copyImageAToOutput``` Copies the first image to the output image before the comparison begins. This will make sure that the output image will highlight the differences on the first image. (default)
 * ```copyImageBToOutput``` Copies the second image to the output image before the comparison begins. This will make sure that the output image will highlight the differences on the second image.
-* ```filter``` Filters that will be applied before the comparison. Available filters are: blur, grayScale, gaussianBlur, lightness, luma, luminosity, sepia
-* ```debug``` When set, then the applied filters will be shown on the output image.
-* ```createComparison``` Creates a composition of all three images as output
+* ```filter``` Filters that will be applied before the comparison. Available filters are: blur, grayScale, lightness, luma, luminosity, sepia
+* ```debug``` When set, then the applied filters will be shown on the output image. (default: false)
+* ```createComparison``` Creates a composition of all three images as output (default: true)
 * ```compareLeftToRight``` Creates comparison-composition from left to right, otherwise it lets decide the app on what is best
 * ```compareTopToBottom``` Creates comparison-composition from top to bottom, otherwise it lets decide the app on what is best
+* ```hShift``` Horizontal shift for possible antialiasing (default: 2)
+* ```vShift``` Vertical shift for possible antialiasing (default: 2)
 
 
 ####Logging
