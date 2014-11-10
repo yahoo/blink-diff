@@ -14,6 +14,9 @@ try {
     options = parseArgs(process.argv.slice(1));
 
     diff = new BlinkDiff(options);
+    if (options.verbose) {
+        diff.verbose = true;
+    }
 
     // Setup console logger
     diff.log = function (text) {
@@ -35,6 +38,8 @@ try {
 
         if (diff.verbose) {
             console.timeEnd('Time');
+
+            console.log('Differences:', result.differences, '(' + Math.round((result.differences / result.dimension) * 10000) / 100 + '%)');
         }
 
         if (passed) {
@@ -73,7 +78,7 @@ function printHelp () {
     console.log("    --verbose           Turn on verbose mode");
     console.log("    --threshold p       Number of pixels/percent 'p' below which differences are ignored");
     console.log("    --threshold-type t  'pixel' and 'percent' as type of threshold. (default: pixel)");
-    console.log("    --delta p           Max. distance colors in the 4 dimensional color-space without triggering a difference. (default: 15)");
+    console.log("    --delta p           Max. distance colors in the 4 dimensional color-space without triggering a difference. (default: 20)");
     console.log("    --copyImageA        Copies first image to output as base. (default: true)");
     console.log("    --copyImageB        Copies second image to output as base.");
     console.log("    --no-copy           Doesn't copy anything to output as base.");
@@ -82,6 +87,9 @@ function printHelp () {
     console.log("    --no-composition    Turns the composition feature off");
     console.log("    --compose-ltr       Compose output image from left to right");
     console.log("    --compose-ttb       Compose output image from top to bottom");
+    console.log("    --hide-shift        Hides shift highlighting (default: true)");
+    console.log("    --h-shift           Acceptable horizontal shift of pixel. (default: 0)");
+    console.log("    --v-shift           Acceptable vertical shift of pixel. (default: 0)");
     console.log("    --version           Print version");
     console.log("    --help              This help");
     console.log("");
@@ -126,6 +134,9 @@ function parseArgs (argv) {
                 options.copyImageAToOutput = false;
                 options.copyImageBToOutput = false;
 
+            } else if (argv[i] == "--hide-shift") {
+                options.hideShift = true;
+
             } else if (argv[i] == "--copyImageA") {
                 options.copyImageAToOutput = true;
                 options.copyImageBToOutput = false;
@@ -143,7 +154,7 @@ function parseArgs (argv) {
                         options.thresholdType = BlinkDiff.THRESHOLD_PERCENT;
 
                     } else {
-                        throw new Error("-threshold-type can be either 'pixel' or 'percent'");
+                        throw new Error("--threshold-type can be either 'pixel' or 'percent'");
                     }
                 }
 
@@ -152,9 +163,29 @@ function parseArgs (argv) {
 
                     temporary = parseFloat(argv[i]);
                     if (temporary < 0) {
-                        throw new Error("-threshold must be positive");
+                        throw new Error("--threshold must be positive");
                     }
                     options.threshold = temporary;
+                }
+
+            } else if (argv[i] == "--h-shift") {
+                if (++i < argLength) {
+
+                    temporary = parseInt(argv[i], 10);
+                    if (temporary < 0) {
+                        throw new Error("--h-shift must be positive");
+                    }
+                    options.hShift = temporary;
+                }
+
+            } else if (argv[i] == "--v-shift") {
+                if (++i < argLength) {
+
+                    temporary = parseInt(argv[i], 10);
+                    if (temporary < 0) {
+                        throw new Error("--v-shift must be positive");
+                    }
+                    options.vShift = temporary;
                 }
 
             } else if (argv[i] == "--delta") {
@@ -162,7 +193,7 @@ function parseArgs (argv) {
 
                     temporary = parseFloat(argv[i]);
                     if (temporary < 0) {
-                        throw new Error("-delta must be positive");
+                        throw new Error("--delta must be positive");
                     }
                     options.delta = temporary;
                 }

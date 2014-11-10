@@ -16,27 +16,34 @@ var assert = require('assert'),
  * @param {PNGImage} options.imageB Image object of second image
  * @param {string} options.imageBPath Path to second image
  * @param {string} [options.imageOutputPath=undefined] Path to output image file
- * @param {boolean} [options.verbose=false] Verbose output?
  * @param {string} [options.thresholdType=BlinkDiff.THRESHOLD_PIXEL] Defines the threshold of the comparison
- * @param {int} [options.threshold=100] Threshold limit according to the comparison limit.
- * @param {number} [options.delta=15] Distance between the color coordinates in the 4 dimensional color-space that will not trigger a difference.
+ * @param {int} [options.threshold=500] Threshold limit according to the comparison limit.
+ * @param {number} [options.delta=20] Distance between the color coordinates in the 4 dimensional color-space that will not trigger a difference.
  * @param {int} [options.outputMaskRed=255] Value to set for red on difference pixel. 'Undefined' will not change the value.
  * @param {int} [options.outputMaskGreen=0] Value to set for green on difference pixel. 'Undefined' will not change the value.
  * @param {int} [options.outputMaskBlue=0] Value to set for blue on difference pixel. 'Undefined' will not change the value.
  * @param {int} [options.outputMaskAlpha=255] Value to set for the alpha channel on difference pixel. 'Undefined' will not change the value.
- * @param {int} [options.outputMaskOpacity=undefined] Strength of masking the pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.
+ * @param {int} [options.outputMaskOpacity=0.7] Strength of masking the pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.
+ * @param {int} [options.outputShiftRed=255] Value to set for red on shifted pixel. 'Undefined' will not change the value.
+ * @param {int} [options.outputShiftGreen=165] Value to set for green on shifted pixel. 'Undefined' will not change the value.
+ * @param {int} [options.outputShiftBlue=0] Value to set for blue on shifted pixel. 'Undefined' will not change the value.
+ * @param {int} [options.outputShiftAlpha=255] Value to set for the alpha channel on shifted pixel. 'Undefined' will not change the value.
+ * @param {int} [options.outputShiftOpacity=0.7] Strength of masking the shifted pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.
  * @param {int} [options.outputBackgroundRed=0] Value to set for red as background. 'Undefined' will not change the value.
  * @param {int} [options.outputBackgroundGreen=0] Value to set for green as background. 'Undefined' will not change the value.
  * @param {int} [options.outputBackgroundBlue=0] Value to set for blue as background. 'Undefined' will not change the value.
  * @param {int} [options.outputBackgroundAlpha=undefined] Value to set for the alpha channel as background. 'Undefined' will not change the value.
- * @param {int} [options.outputBackgroundOpacity=0.1] Strength of masking the pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.
+ * @param {int} [options.outputBackgroundOpacity=0.6] Strength of masking the pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.
  * @param {boolean} [options.copyImageAToOutput=true]  Copies the first image to the output image before the comparison begins. This will make sure that the output image will highlight the differences on the first image.
  * @param {boolean} [options.copyImageBToOutput=false] Copies the second image to the output image before the comparison begins. This will make sure that the output image will highlight the differences on the second image.
- * @param {string[]} [options.filter=[]] Filters that will be applied before the comparison. Available filters are: blur, grayScale, gaussianBlur, lightness, luma, luminosity, sepia
+ * @param {string[]} [options.filter=[]] Filters that will be applied before the comparison. Available filters are: blur, grayScale, lightness, luma, luminosity, sepia
  * @param {boolean} [options.debug=false] When set, then the applied filters will be shown on the output image.
  * @param {boolean} [options.composition=true] Should a composition be created to compare?
  * @param {boolean} [options.composeLeftToRight=false] Create composition from left to right, otherwise let it decide on its own whats best
  * @param {boolean} [options.composeTopToBottom=false] Create composition from top to bottom, otherwise let it decide on its own whats best
+ * @param {boolean} [options.hideShift=false] Hides shift highlighting by using the background color instead
+ * @param {int} [options.hShift=2] Horizontal shift for possible antialiasing
+ * @param {int} [options.vShift=2] Vertical shift for possible antialiasing
  *
  * @property {PNGImage} _imageA
  * @property {PNGImage} _imageACompare
@@ -46,7 +53,6 @@ var assert = require('assert'),
  * @property {string} _imageBPath
  * @property {PNGImage} _imageOutput
  * @property {string} _imageOutputPath
- * @property {boolean} _verbose
  * @property {string} _thresholdType
  * @property {int} _threshold
  * @property {number} _delta
@@ -55,6 +61,11 @@ var assert = require('assert'),
  * @property {int} _outputMaskBlue
  * @property {int} _outputMaskAlpha
  * @property {int} _outputMaskOpacity
+ * @property {int} _outputShiftRed
+ * @property {int} _outputShiftGreen
+ * @property {int} _outputShiftBlue
+ * @property {int} _outputShiftAlpha
+ * @property {int} _outputShiftOpacity
  * @property {int} _outputBackgroundRed
  * @property {int} _outputBackgroundGreen
  * @property {int} _outputBackgroundBlue
@@ -67,6 +78,8 @@ var assert = require('assert'),
  * @property {boolean} _composition
  * @property {boolean} _composeLeftToRight
  * @property {boolean} _composeTopToBottom
+ * @property {int} _hShift
+ * @property {int} _vShift
  */
 function BlinkDiff (options) {
 
@@ -81,15 +94,13 @@ function BlinkDiff (options) {
     this._imageOutput = null;
     this._imageOutputPath = options.imageOutputPath;
 
-    this._verbose = options.verbose || false;
-
     // Pixel or Percent
     this._thresholdType = options.thresholdType || BlinkDiff.THRESHOLD_PIXEL;
 
     // How many pixels different to ignore.
-    this._threshold = options.threshold || 100;
+    this._threshold = options.threshold || 500;
 
-    this._delta = options.delta || 10;
+    this._delta = options.delta || 20;
 
     this._outputMaskRed = options.outputMaskRed || 255;
     this._outputMaskGreen = options.outputMaskGreen || 0;
@@ -101,7 +112,22 @@ function BlinkDiff (options) {
     this._outputBackgroundGreen = options.outputBackgroundGreen || 0;
     this._outputBackgroundBlue = options.outputBackgroundBlue || 0;
     this._outputBackgroundAlpha = options.outputBackgroundAlpha;
-    this._outputBackgroundOpacity = options.outputBackgroundOpacity || 0.5;
+    this._outputBackgroundOpacity = options.outputBackgroundOpacity || 0.6;
+
+    if (options.hideShift) {
+        this._outputShiftRed = this._outputBackgroundRed;
+        this._outputShiftGreen = this._outputBackgroundGreen;
+        this._outputShiftBlue = this._outputBackgroundBlue;
+        this._outputShiftAlpha = this._outputBackgroundAlpha;
+        this._outputShiftOpacity = this._outputBackgroundOpacity;
+
+    } else {
+        this._outputShiftRed = options.outputShiftRed || 200;
+        this._outputShiftGreen = options.outputShiftGreen || 100;
+        this._outputShiftBlue = options.outputShiftBlue || 0;
+        this._outputShiftAlpha = options.outputShiftAlpha || 255;
+        this._outputShiftOpacity = options.outputShiftOpacity || 0.7;
+    }
 
     this._copyImageAToOutput = options.copyImageAToOutput || true;
     this._copyImageBToOutput = options.copyImageBToOutput || false;
@@ -113,6 +139,9 @@ function BlinkDiff (options) {
     this._composition = options.composition || true;
     this._composeLeftToRight = options.composeLeftToRight || false;
     this._composeTopToBottom = options.composeTopToBottom || false;
+
+    this._hShift = options.hShift || 2;
+    this._vShift = options.vShift || 2;
 }
 
 
@@ -257,13 +286,22 @@ BlinkDiff.prototype = {
                     alpha: this._outputMaskAlpha,
                     opacity: this._outputMaskOpacity
                 },
+                { // Output-Shift color
+                    red: this._outputShiftRed,
+                    green: this._outputShiftGreen,
+                    blue: this._outputShiftBlue,
+                    alpha: this._outputShiftAlpha,
+                    opacity: this._outputShiftOpacity
+                },
                 { // Background color
                     red: this._outputBackgroundRed,
                     green: this._outputBackgroundGreen,
                     blue: this._outputBackgroundBlue,
                     alpha: this._outputBackgroundAlpha,
                     opacity: this._outputBackgroundOpacity
-                }
+                },
+                this._hShift,
+                this._vShift
             );
 
             // Create composition if requested
@@ -469,30 +507,106 @@ BlinkDiff.prototype = {
     },
 
     /**
-     * Calculates the distance of pixels in the 4 dimensional color space
+     * Gets the color of an image by the index
      *
-     * @method _pixelDelta
-     * @param {PNGImage} imageA Source image
-     * @param {PNGImage} imageB Destination image
-     * @param {int} idx Index of pixel in both images
-     * @return {number} Distance
+     * @method _getColor
+     * @param {PNGImage} image Image
+     * @param {int} idx Index of pixel in image
+     * @return {object} Color
      * @private
      */
-    _pixelDelta: function (imageA, imageB, idx) {
-        var color1 = {
-                red: imageA.getRed(idx),
-                green: imageA.getGreen(idx),
-                blue: imageA.getBlue(idx),
-                alpha: imageA.getAlpha(idx)
-            },
-            color2 = {
-                red: imageB.getRed(idx),
-                green: imageB.getGreen(idx),
-                blue: imageB.getBlue(idx),
-                alpha: imageB.getAlpha(idx)
-            };
+    _getColor: function (image, idx) {
+        return {
+            red: image.getRed(idx),
+            green: image.getGreen(idx),
+            blue: image.getBlue(idx),
+            alpha: image.getAlpha(idx)
+        };
+    },
 
-        return this._colorDelta(color1, color2);
+
+    /**
+     * Calculates the lower limit
+     *
+     * @param {int} value
+     * @param {int} min
+     * @param {int} shift
+     * @return {int}
+     * @private
+     */
+    _calculateLowerLimit: function (value, min, shift) {
+        return (value - shift) < min ? -(shift + (value - shift)) : -shift;
+    },
+
+    /**
+     * Calculates the upper limit
+     *
+     * @param {int} value
+     * @param {int} max
+     * @param {int} shift
+     * @return {int}
+     * @private
+     */
+    _calculateUpperLimit: function (value, max, shift) {
+        return (value + shift) > max ? (max - value) : shift;
+    },
+
+    /**
+     * Checks if any pixel in the shift surrounding has a comparable color
+     *
+     * @param {int} x
+     * @param {int} y
+     * @param {object} color
+     * @param {number} deltaThreshold
+     * @param {PNGImage} imageA
+     * @param {PNGImage} imageB
+     * @param {int} width
+     * @param {int} height
+     * @param {int} hShift
+     * @param {int} vShift
+     * @return {boolean} Is pixel within delta found in surrounding?
+     * @private
+     */
+    _shiftCompare: function (x, y, color, deltaThreshold, imageA, imageB, width, height, hShift, vShift) {
+
+        var i,
+            xOffset, xLow, xHigh,
+            yOffset, yLow, yHigh,
+            delta,
+            color1,
+            color2,
+            localDeltaThreshold;
+
+        if ((hShift > 0) || (vShift > 0)) {
+
+            xLow = this._calculateLowerLimit(x, 0, hShift);
+            xHigh = this._calculateUpperLimit(x, width - 1, hShift);
+
+            yLow = this._calculateLowerLimit(y, 0, vShift);
+            yHigh = this._calculateUpperLimit(y, height - 1, vShift);
+
+            for (xOffset = xLow; xOffset <= xHigh; xOffset++) {
+                for (yOffset = yLow; yOffset <= yHigh; yOffset++) {
+
+                    if ((xOffset != 0) || (yOffset != 0)) {
+
+                        i = imageB.getIndex(x + xOffset, y + yOffset);
+
+                        color1 = this._getColor(imageA, i);
+                        localDeltaThreshold = this._colorDelta(color, color1);
+
+                        color2 = this._getColor(imageB, i);
+                        delta = this._colorDelta(color, color2);
+
+                        if ((Math.abs(delta - localDeltaThreshold) < deltaThreshold) && (localDeltaThreshold > deltaThreshold)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
     },
 
     /**
@@ -503,35 +617,60 @@ BlinkDiff.prototype = {
      * @param {PNGImage} imageB
      * @param {PNGImage} imageOutput
      * @param {number} deltaThreshold
-     * @param {int} dimension Dimensions of the images
+     * @param {int} width Width of image
+     * @param {int} height Height of image
      * @param {object} outputMaskColor
      * @param {int} [outputMaskColor.red]
      * @param {int} [outputMaskColor.green]
      * @param {int} [outputMaskColor.blue]
      * @param {int} [outputMaskColor.alpha]
      * @param {int} [outputMaskColor.opacity]
+     * @param {object} outputShiftColor
+     * @param {int} [outputShiftColor.red]
+     * @param {int} [outputShiftColor.green]
+     * @param {int} [outputShiftColor.blue]
+     * @param {int} [outputShiftColor.alpha]
+     * @param {int} [outputShiftColor.opacity]
      * @param {object} backgroundColor
      * @param {int} [backgroundColor.red]
      * @param {int} [backgroundColor.green]
      * @param {int} [backgroundColor.blue]
      * @param {int} [backgroundColor.alpha]
      * @param {int} [backgroundColor.opacity]
+     * @param {int} [hShift=0] Horizontal shift
+     * @param {int} [vShift=0] Vertical shift
      * @return {int} Number of pixel differences
      * @private
      */
-    _pixelCompare: function (imageA, imageB, imageOutput, deltaThreshold, dimension, outputMaskColor, backgroundColor) {
+    _pixelCompare: function (imageA, imageB, imageOutput, deltaThreshold, width, height, outputMaskColor, outputShiftColor, backgroundColor, hShift, vShift) {
         var difference = 0,
-            i, len,
-            delta;
+            i,
+            x, y,
+            delta,
+            color1, color2;
 
-        for (i = 0, len = dimension; i < len; i++) {
-            delta = this._pixelDelta(imageA, imageB, i);
+        for (x = 0; x < width; x++) {
+            for (y = 0; y < height; y++) {
+                i = imageA.getIndex(x, y);
 
-            if (delta > deltaThreshold) {
-                difference++;
-                imageOutput.setAtIndex(i, outputMaskColor);
-            } else {
-                imageOutput.setAtIndex(i, backgroundColor);
+                color1 = this._getColor(imageA, i);
+                color2 = this._getColor(imageB, i);
+
+                delta = this._colorDelta(color1, color2);
+
+                if (delta > deltaThreshold) {
+
+                    if (this._shiftCompare(x, y, color1, deltaThreshold, imageA, imageB, width, height, hShift, vShift) &&
+                        this._shiftCompare(x, y, color2, deltaThreshold, imageB, imageA, width, height, hShift, vShift)) {
+                        imageOutput.setAtIndex(i, outputShiftColor);
+                    } else {
+                        difference++;
+                        imageOutput.setAtIndex(i, outputMaskColor);
+                    }
+
+                } else {
+                    imageOutput.setAtIndex(i, backgroundColor);
+                }
             }
         }
 
@@ -552,16 +691,24 @@ BlinkDiff.prototype = {
      * @param {int} [outputMaskColor.blue]
      * @param {int} [outputMaskColor.alpha]
      * @param {int} [outputMaskColor.opacity]
+     * @param {object} outputShiftColor
+     * @param {int} [outputShiftColor.red]
+     * @param {int} [outputShiftColor.green]
+     * @param {int} [outputShiftColor.blue]
+     * @param {int} [outputShiftColor.alpha]
+     * @param {int} [outputShiftColor.opacity]
      * @param {object} backgroundColor
      * @param {int} [backgroundColor.red]
      * @param {int} [backgroundColor.green]
      * @param {int} [backgroundColor.blue]
      * @param {int} [backgroundColor.alpha]
      * @param {int} [backgroundColor.opacity]
+     * @param {int} [hShift=0] Horizontal shift
+     * @param {int} [vShift=0] Vertical shift
      * @return {object}
      * @private
      */
-    _compare: function (imageA, imageB, imageOutput, deltaThreshold, outputMaskColor, backgroundColor) {
+    _compare: function (imageA, imageB, imageOutput, deltaThreshold, outputMaskColor, outputShiftColor, backgroundColor, hShift, vShift) {
 
         var result = {
                 code: BlinkDiff.RESULT_UNKNOWN,
@@ -582,9 +729,12 @@ BlinkDiff.prototype = {
             imageB,
             imageOutput,
             deltaThreshold,
-            result.dimension,
+            result.width,
+            result.height,
             outputMaskColor,
-            backgroundColor
+            outputShiftColor,
+            backgroundColor,
+            hShift, vShift
         );
 
         // Result

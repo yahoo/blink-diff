@@ -110,20 +110,16 @@ describe('Blink-Diff', function () {
             expect(this.instance._imageOutputPath).to.be.undefined;
         });
 
-        it('should not have a value for verbose', function () {
-            expect(this.instance._verbose).to.be.false;
-        });
-
         it('should not have a value for thresholdType', function () {
             expect(this.instance._thresholdType).to.be.equal("pixel");
         });
 
         it('should not have a value for threshold', function () {
-            expect(this.instance._threshold).to.be.equal(100);
+            expect(this.instance._threshold).to.be.equal(500);
         });
 
         it('should not have a value for delta', function () {
-            expect(this.instance._delta).to.be.equal(10);
+            expect(this.instance._delta).to.be.equal(20);
         });
 
         it('should not have a value for outputMaskRed', function () {
@@ -163,7 +159,7 @@ describe('Blink-Diff', function () {
         });
 
         it('should not have a value for outputBackgroundOpacity', function () {
-            expect(this.instance._outputBackgroundOpacity).to.be.equal(0.5);
+            expect(this.instance._outputBackgroundOpacity).to.be.equal(0.6);
         });
 
         it('should not have a value for copyImageAToOutput', function () {
@@ -339,19 +335,6 @@ describe('Blink-Diff', function () {
             });
         });
 
-        describe('_pixelDelta', function () {
-
-            it('should calculate the pixel delta', function () {
-                var image1 = generateImage('small-1'),
-                    image2 = generateImage('small-2'),
-                    result;
-
-                result = this.instance._pixelDelta(image1, image2, 0);
-
-                expect(result).to.be.equal(400);
-            });
-        });
-
         describe('isAboveThreshold', function () {
 
             describe('Pixel threshold', function () {
@@ -409,6 +392,12 @@ describe('Blink-Diff', function () {
                     blue: 125,
                     alpha: 126
                 };
+                this.shiftColor = {
+                    red: 200,
+                    green: 100,
+                    blue: 0,
+                    alpha: 113
+                };
                 this.backgroundMaskColor = {
                     red: 31,
                     green: 33,
@@ -422,12 +411,16 @@ describe('Blink-Diff', function () {
                 it('should have no differences with a zero dimension', function () {
                     var result,
                         deltaThreshold = 10,
-                        dimension = 0;
+                        width = 0,
+                        height = 0,
+                        hShift = 0,
+                        vShift = 0;
 
                     result = this.instance._pixelCompare(
                         this.image1, this.image2, this.image3,
-                        deltaThreshold, dimension,
-                        this.maskColor, this.backgroundMaskColor
+                        deltaThreshold, width, height,
+                        this.maskColor, this.shiftColor, this.backgroundMaskColor,
+                        hShift, vShift
                     );
 
                     expect(result).to.be.equal(0);
@@ -436,12 +429,16 @@ describe('Blink-Diff', function () {
                 it('should have all differences', function () {
                     var result,
                         deltaThreshold = 10,
-                        dimension = 4;
+                        width = 2,
+                        height = 2,
+                        hShift = 0,
+                        vShift = 0;
 
                     result = this.instance._pixelCompare(
                         this.image1, this.image2, this.image3,
-                        deltaThreshold, dimension,
-                        this.maskColor, this.backgroundMaskColor
+                        deltaThreshold, width, height,
+                        this.maskColor, this.shiftColor, this.backgroundMaskColor,
+                        hShift, vShift
                     );
 
                     expect(result).to.be.equal(4);
@@ -450,12 +447,16 @@ describe('Blink-Diff', function () {
                 it('should have some differences', function () {
                     var result,
                         deltaThreshold = 100,
-                        dimension = 4;
+                        width = 2,
+                        height = 2,
+                        hShift = 0,
+                        vShift = 0;
 
                     result = this.instance._pixelCompare(
                         this.image1, this.image2, this.image3,
-                        deltaThreshold, dimension,
-                        this.maskColor, this.backgroundMaskColor
+                        deltaThreshold, width, height,
+                        this.maskColor, this.shiftColor, this.backgroundMaskColor,
+                        hShift, vShift
                     );
 
                     expect(result).to.be.equal(2);
@@ -471,12 +472,15 @@ describe('Blink-Diff', function () {
 
                 it('should be different', function () {
                     var result,
-                        deltaThreshold = 10;
+                        deltaThreshold = 10,
+                        hShift = 0,
+                        vShift = 0;
 
                     result = this.instance._compare(
                         this.image1, this.image2, this.image3,
                         deltaThreshold,
-                        this.maskColor, this.backgroundMaskColor
+                        this.maskColor, this.shiftColor, this.backgroundMaskColor,
+                        hShift, vShift
                     );
 
                     expect(result).to.be.deep.equal({
@@ -490,12 +494,15 @@ describe('Blink-Diff', function () {
 
                 it('should be similar', function () {
                     var result,
-                        deltaThreshold = 100;
+                        deltaThreshold = 100,
+                        hShift = 0,
+                        vShift = 0;
 
                     result = this.instance._compare(
                         this.image1, this.image2, this.image3,
                         deltaThreshold,
-                        this.maskColor, this.backgroundMaskColor
+                        this.maskColor, this.shiftColor, this.backgroundMaskColor,
+                        hShift, vShift
                     );
 
                     expect(result).to.be.deep.equal({
@@ -509,12 +516,15 @@ describe('Blink-Diff', function () {
 
                 it('should be identical', function () {
                     var result,
-                        deltaThreshold = 10;
+                        deltaThreshold = 10,
+                        hShift = 0,
+                        vShift = 0;
 
                     result = this.instance._compare(
                         this.image1, this.image4, this.image3,
                         deltaThreshold,
-                        this.maskColor, this.backgroundMaskColor
+                        this.maskColor, this.shiftColor, this.backgroundMaskColor,
+                        hShift, vShift
                     );
 
                     expect(result).to.be.deep.equal({
