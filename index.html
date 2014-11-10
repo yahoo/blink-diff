@@ -72,18 +72,15 @@
 
 <p>Install this module with the following command:</p>
 
-<div class="highlight highlight-shell"><pre>npm install blink-diff
-</pre></div>
+<div class="highlight highlight-shell"><pre>npm install blink-diff</pre></div>
 
 <p>Add the module to your <code>package.json</code> dependencies:</p>
 
-<div class="highlight highlight-shell"><pre>npm install --save blink-diff
-</pre></div>
+<div class="highlight highlight-shell"><pre>npm install --save blink-diff</pre></div>
 
 <p>Add the module to your <code>package.json</code> dev-dependencies:</p>
 
-<div class="highlight highlight-shell"><pre>npm install --save-dev blink-diff
-</pre></div>
+<div class="highlight highlight-shell"><pre>npm install --save-dev blink-diff</pre></div>
 
 <h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
@@ -100,8 +97,7 @@
 
 <p>The command-line tool can be found in the <code>bin</code> directory. You can run the application with</p>
 
-<div class="highlight highlight-shell"><pre>blink-diff --output &lt;output&gt;.png &lt;image1&gt;.png &lt;image2&gt;.png
-</pre></div>
+<div class="highlight highlight-shell"><pre>blink-diff --output <span class="o">&lt;</span>output<span class="o">&gt;</span>.png <span class="o">&lt;</span>image<span class="o">1&gt;</span>.png <span class="o">&lt;</span>image<span class="o">2&gt;</span>.png</pre></div>
 
 <p>Use <code>image1</code> and <code>image2</code> as the images you want to compare.
 Only PNGs are supported at this point.</p>
@@ -110,19 +106,21 @@ Only PNGs are supported at this point.</p>
 
 <div class="highlight highlight-shell"><pre>--verbose           Turn on verbose mode
 --threshold p       Number of pixels/percent <span class="s1">'p'</span> below which differences are ignored
---threshold-type t  <span class="s1">'pixel'</span> and <span class="s1">'percent'</span> as <span class="nb">type </span>of threshold. <span class="o">(</span>default: pixel<span class="o">)</span>
---delta p           Max. distance colors in the <span class="m">4</span> dimensional color-space without triggering a difference.
---copyImageA        Copies first image to output as base. <span class="o">(</span>default: <span class="nb">true</span><span class="o">)</span>
+--threshold-type t  <span class="s1">'pixel'</span> and <span class="s1">'percent'</span> as <span class="nf">type</span> of threshold. (default: pixel)
+--delta p           Max. distance colors <span class="k">in</span> the 4 dimensional color-space without triggering a difference. (default: 20)
+--copyImageA        Copies first image to output as base. (default: <span class="nf">true</span>)
 --copyImageB        Copies second image to output as base.
 --no-copy           Doesn<span class="s1">'t copy anything to output as base.</span>
-<span class="s1">--output o          Write difference to the file '</span>o<span class="err">'</span>
---filter f          Filters f <span class="o">(</span>separated with comma<span class="o">)</span> that will be applied before the comparison.
---no-composition    Turns the composition feature off
---compose-ltr       Compose output image from left to right
---compose-ttb       Compose output image from top to bottom
---version           Print version
---help              This <span class="nb">help</span>
-</pre></div>
+<span class="s1">--output o          Write difference to the file '</span>o<span class="s1">'</span>
+<span class="s1">--filter f          Filters f (separated with comma) that will be applied before the comparison.</span>
+<span class="s1">--no-composition    Turns the composition feature off</span>
+<span class="s1">--compose-ltr       Compose output image from left to right</span>
+<span class="s1">--compose-ttb       Compose output image from top to bottom</span>
+<span class="s1">--hide-shift        Hides shift highlighting (default: true)</span>
+<span class="s1">--h-shift           Acceptable horizontal shift of pixel. (default: 0)</span>
+<span class="s1">--v-shift           Acceptable vertical shift of pixel. (default: 0)</span>
+<span class="s1">--version           Print version</span>
+<span class="s1">--help              This help</span></pre></div>
 
 <h3>
 <a id="object-usage" class="anchor" href="#object-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Object usage</h3>
@@ -131,20 +129,19 @@ Only PNGs are supported at this point.</p>
 
 <p><strong>Example:</strong></p>
 
-<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">diff</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BlinkDiff</span><span class="p">({</span>
-    <span class="nx">imageAPath</span><span class="o">:</span> <span class="s1">'...'</span><span class="p">,</span>
-    <span class="nx">imageBPath</span><span class="o">:</span> <span class="s1">'...'</span><span class="p">,</span>
+<div class="highlight highlight-javascript"><pre><span class="k">var</span> diff <span class="o">=</span> <span class="o">new</span> <span class="nc">BlinkDiff</span>({
+    imageAPath<span class="o">:</span> <span class="s1">'...'</span>,
+    imageBPath<span class="o">:</span> <span class="s1">'...'</span>,
 
-    <span class="nx">thresholdType</span><span class="o">:</span> <span class="nx">BlinkDiff</span><span class="p">.</span><span class="nx">THRESHOLD_PERCENT</span><span class="p">,</span>
-    <span class="nx">threshold</span><span class="o">:</span> <span class="mf">0.01</span><span class="p">,</span>
+    thresholdType<span class="o">:</span> BlinkDiff.THRESHOLD_PERCENT,
+    threshold<span class="o">:</span> <span class="m">0.01</span>,
 
-    <span class="nx">outputPath</span><span class="o">:</span> <span class="s1">'...'</span>
-<span class="p">});</span>
+    outputPath<span class="o">:</span> <span class="s1">'...'</span>
+});
 
-<span class="nx">diff</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">passed</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">passed</span> <span class="o">?</span> <span class="s1">'Passed'</span> <span class="o">:</span> <span class="s1">'Failed'</span><span class="p">);</span>
-<span class="p">});</span>
-</pre></div>
+diff.run(<span class="kt">function</span> (<span class="nv">passed</span>) {
+    <span class="nc">console</span><span class="nf">.log</span>(passed <span class="o">?</span> <span class="s1">'Passed'</span> <span class="o">:</span> <span class="s1">'Failed'</span>);
+});</pre></div>
 
 <p>All the parameters that were available in the command-line tool are also available through the class constructor, however they might use slightly different wording. The class exposes additional parameters that are not available from the command-line:</p>
 
@@ -164,11 +161,11 @@ Only PNGs are supported at this point.</p>
 <li>
 <code>thresholdType</code> Type of threshold check. This can be BlinkDiff.THRESHOLD_PIXEL and BlinkDiff.THRESHOLD_PERCENT (default: BlinkDiff.THRESHOLD_PIXEL)</li>
 <li>
-<code>threshold</code> Number of pixels/percent p below which differences are ignored (default: 100)</li>
+<code>threshold</code> Number of pixels/percent p below which differences are ignored (default: 500)</li>
 <li>
-<code>delta</code> Distance between the color coordinates in the 4 dimensional color-space that will not trigger a difference. (default: 15)</li>
+<code>delta</code> Distance between the color coordinates in the 4 dimensional color-space that will not trigger a difference. (default: 20)</li>
 <li>
-<code>outputMaskRed</code> Red intensity for the difference highlighting in the output file (default: 255 - full red)</li>
+<code>outputMaskRed</code> Red intensity for the difference highlighting in the output file (default: 255)</li>
 <li>
 <code>outputMaskGreen</code> Green intensity for the difference highlighting in the output file (default: 0)</li>
 <li>
@@ -178,29 +175,43 @@ Only PNGs are supported at this point.</p>
 <li>
 <code>outputMaskOpacity</code> Opacity of the pixel for the difference highlighting in the output file (default: 0.7 - slightly transparent)</li>
 <li>
-<code>outputBackgroundRed</code> Red intensity for the background in the output file</li>
+<code>outputShiftRed</code> Red intensity for the shift highlighting in the output file (default: 255)</li>
 <li>
-<code>outputBackgroundGreen</code> Green intensity for the background in the output file</li>
+<code>outputShiftGreen</code> Green intensity for the shift highlighting in the output file (default: 165)</li>
 <li>
-<code>outputBackgroundBlue</code> Blue intensity for the background in the output file</li>
+<code>outputShiftBlue</code> Blue intensity for the shift highlighting in the output file (default: 0)</li>
 <li>
-<code>outputBackgroundAlpha</code> Alpha intensity for the background in the output file</li>
+<code>outputShiftAlpha</code> Alpha intensity for the shift highlighting in the output file (default: 255)</li>
 <li>
-<code>outputMaskOpacity</code> Opacity of the pixel for the background in the output file (default: 0.5 - transparent)</li>
+<code>outputShiftOpacity</code> Opacity of the pixel for the shift highlighting in the output file (default: 0.7 - slightly transparent)</li>
+<li>
+<code>outputBackgroundRed</code> Red intensity for the background in the output file (default: 0)</li>
+<li>
+<code>outputBackgroundGreen</code> Green intensity for the background in the output file (default: 0)</li>
+<li>
+<code>outputBackgroundBlue</code> Blue intensity for the background in the output file (default: 0)</li>
+<li>
+<code>outputBackgroundAlpha</code> Alpha intensity for the background in the output file (default: undefined)</li>
+<li>
+<code>outputMaskOpacity</code> Opacity of the pixel for the background in the output file (default: 0.6 - transparent)</li>
 <li>
 <code>copyImageAToOutput</code> Copies the first image to the output image before the comparison begins. This will make sure that the output image will highlight the differences on the first image. (default)</li>
 <li>
 <code>copyImageBToOutput</code> Copies the second image to the output image before the comparison begins. This will make sure that the output image will highlight the differences on the second image.</li>
 <li>
-<code>filter</code> Filters that will be applied before the comparison. Available filters are: blur, grayScale, gaussianBlur, lightness, luma, luminosity, sepia</li>
+<code>filter</code> Filters that will be applied before the comparison. Available filters are: blur, grayScale, lightness, luma, luminosity, sepia</li>
 <li>
-<code>debug</code> When set, then the applied filters will be shown on the output image.</li>
+<code>debug</code> When set, then the applied filters will be shown on the output image. (default: false)</li>
 <li>
-<code>createComparison</code> Creates a composition of all three images as output</li>
+<code>createComparison</code> Creates a composition of all three images as output (default: true)</li>
 <li>
 <code>compareLeftToRight</code> Creates comparison-composition from left to right, otherwise it lets decide the app on what is best</li>
 <li>
 <code>compareTopToBottom</code> Creates comparison-composition from top to bottom, otherwise it lets decide the app on what is best</li>
+<li>
+<code>hShift</code> Horizontal shift for possible antialiasing (default: 2)</li>
+<li>
+<code>vShift</code> Vertical shift for possible antialiasing (default: 2)</li>
 </ul>
 
 <h4>
@@ -208,16 +219,15 @@ Only PNGs are supported at this point.</p>
 
 <p>By default, the logger doesn't log events anywhere, but you can change this behavior by overwriting <code>blinkDiff.log</code>:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">blinkDiff</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BlinkDiff</span><span class="p">({</span>
-    <span class="p">...</span>
-<span class="p">});</span>
+<div class="highlight highlight-javascript"><pre><span class="k">var</span> blinkDiff <span class="o">=</span> <span class="o">new</span> <span class="nc">BlinkDiff</span>({
+    ...
+});
 
-<span class="nx">blinkDiff</span><span class="p">.</span><span class="nx">log</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">text</span><span class="p">)</span> <span class="p">{</span>
+<span class="no">blinkDiff</span>.<span class="nf">log</span> <span class="o">=</span> <span class="kt">function</span> (<span class="nv">text</span>) {
     <span class="c1">// Do whatever you want to do</span>
-<span class="p">};</span>
+};
 
-<span class="p">...</span>
-</pre></div>
+...</pre></div>
 
 <h2>
 <a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h2>
@@ -249,8 +259,7 @@ Each of the regression has the screenshot and the output result, highlighting th
 
 <p>Generate the documentation with following command:</p>
 
-<div class="highlight highlight-shell"><pre>npm run docs
-</pre></div>
+<div class="highlight highlight-shell"><pre>npm run docs</pre></div>
 
 <p>The documentation will be generated in the <code>docs</code> folder of the module root.</p>
 
@@ -259,8 +268,7 @@ Each of the regression has the screenshot and the output result, highlighting th
 
 <p>Run the tests with the following command:</p>
 
-<div class="highlight highlight-shell"><pre>npm run <span class="nb">test</span>
-</pre></div>
+<div class="highlight highlight-shell"><pre>npm run <span class="nf">test</span></pre></div>
 
 <p>The code-coverage will be written to the <code>coverage</code> folder in the module root.</p>
 
