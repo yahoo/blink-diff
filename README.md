@@ -100,8 +100,8 @@ var diff = new BlinkDiff({
     outputPath: '...'
 });
 
-diff.run(function (passed) {
-    console.log(passed ? 'Passed' : 'Failed');
+diff.run(function (error) {
+    console.log(error ? 'Failed' : 'Passed');
 });
 ```
 
