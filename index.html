@@ -116,7 +116,7 @@ Only PNGs are supported at this point.</p>
 <span class="s1">--no-composition    Turns the composition feature off</span>
 <span class="s1">--compose-ltr       Compose output image from left to right</span>
 <span class="s1">--compose-ttb       Compose output image from top to bottom</span>
-<span class="s1">--hide-shift        Hides shift highlighting (default: true)</span>
+<span class="s1">--hide-shift        Hides shift highlighting (default: false)</span>
 <span class="s1">--h-shift           Acceptable horizontal shift of pixel. (default: 0)</span>
 <span class="s1">--v-shift           Acceptable vertical shift of pixel. (default: 0)</span>
 <span class="s1">--version           Print version</span>
@@ -139,8 +139,8 @@ Only PNGs are supported at this point.</p>
     outputPath<span class="o">:</span> <span class="s1">'...'</span>
 });
 
-diff.run(<span class="kt">function</span> (<span class="nv">passed</span>) {
-    <span class="nc">console</span><span class="nf">.log</span>(passed <span class="o">?</span> <span class="s1">'Passed'</span> <span class="o">:</span> <span class="s1">'Failed'</span>);
+diff.run(<span class="kt">function</span> (<span class="nv">error</span>) {
+    <span class="nc">console</span><span class="nf">.log</span>(error <span class="o">?</span> <span class="s1">'Failed'</span> <span class="o">:</span> <span class="s1">'Passed'</span>);
 });</pre></div>
 
 <p>All the parameters that were available in the command-line tool are also available through the class constructor, however they might use slightly different wording. The class exposes additional parameters that are not available from the command-line:</p>
@@ -209,9 +209,11 @@ diff.run(<span class="kt">function</span> (<span class="nv">passed</span>) {
 <li>
 <code>compareTopToBottom</code> Creates comparison-composition from top to bottom, otherwise it lets decide the app on what is best</li>
 <li>
-<code>hShift</code> Horizontal shift for possible antialiasing (default: 2)</li>
+<code>hShift</code> Horizontal shift for possible antialiasing (default: 2) Set to 0 to turn this off.</li>
 <li>
-<code>vShift</code> Vertical shift for possible antialiasing (default: 2)</li>
+<code>vShift</code> Vertical shift for possible antialiasing (default: 2) Set to 0 to turn this off.</li>
+<li>
+<code>hideShift</code> Uses the background color for "highlighting" shifts. (default: false)</li>
 </ul>
 
 <h4>
