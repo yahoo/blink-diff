@@ -87,7 +87,7 @@ function printHelp () {
     console.log("    --no-composition    Turns the composition feature off");
     console.log("    --compose-ltr       Compose output image from left to right");
     console.log("    --compose-ttb       Compose output image from top to bottom");
-    console.log("    --hide-shift        Hides shift highlighting (default: true)");
+    console.log("    --hide-shift        Hides shift highlighting (default: false)");
     console.log("    --h-shift           Acceptable horizontal shift of pixel. (default: 0)");
     console.log("    --v-shift           Acceptable vertical shift of pixel. (default: 0)");
     console.log("    --version           Print version");
