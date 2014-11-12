@@ -91,13 +91,13 @@ The package can also be used directly in code, without going through the command
 **Example:**
 ```javascript
 var diff = new BlinkDiff({
-    imageAPath: '...',
-    imageBPath: '...',
+    imageAPath: 'path/to/first/image', // Use file-path
+    imageBPath: 'path/to/second/image',
 
     thresholdType: BlinkDiff.THRESHOLD_PERCENT,
     threshold: 0.01,
 
-    outputPath: '...'
+    outputPath: 'path/to/output/image'
 });
 
 diff.run(function (error) {
@@ -106,10 +106,10 @@ diff.run(function (error) {
 ```
 
 All the parameters that were available in the command-line tool are also available through the class constructor, however they might use slightly different wording. The class exposes additional parameters that are not available from the command-line:
-* ```imageAPath``` Defines the path to the first image that should be compared (required; one or the other)
-* ```imageA``` Supplies first image that should be compared (required; one or the other)
-* ```imageBPath``` Defines the path to the second image that should be compared (required; one or the other)
-* ```imageB``` Supplies second image that should be compared (required; one or the other)
+* ```imageAPath``` Defines the path to the first image that should be compared (required; imageAPath or imageA is required - see example below)
+* ```imageA``` Supplies first image that should be compared (required; imageAPath or imageA is required - see example below)
+* ```imageBPath``` Defines the path to the second image that should be compared (required; imageBPath or imageB is required - see example below)
+* ```imageB``` Supplies second image that should be compared (required; imageBPath or imageB is required - see example below)
 * ```imageOutputPath``` Defines the path to the output-file. If you leaves this one off, then this feature is turned-off.
 * ```verbose``` Verbose output (default: false)
 * ```thresholdType``` Type of threshold check. This can be BlinkDiff.THRESHOLD_PIXEL and BlinkDiff.THRESHOLD_PERCENT (default: BlinkDiff.THRESHOLD_PIXEL)
@@ -141,6 +141,33 @@ All the parameters that were available in the command-line tool are also availab
 * ```vShift``` Vertical shift for possible antialiasing (default: 2) Set to 0 to turn this off.
 * ```hideShift``` Uses the background color for "highlighting" shifts. (default: false)
 
+**Example:**
+```javascript
+var firstImage = PNGImage.readImage('path/to/first/image', function (err) {
+
+  if (err) {
+    throw err;
+  }
+
+  var diff = new BlinkDiff({
+      imageA: srcImage, // Use already loaded image for first image
+      imageBPath: 'path/to/second/image', // Use file-path to select image
+
+      delta: 50, // Make comparison more tolerant
+      
+      outputMaskRed: 0,
+      outputMaskBlue: 255, // Use blue for highlighting differences
+      
+      hideShift: true // Hide anti-aliasing differences - will still determine but not showing it
+
+      outputPath: 'path/to/output/image'
+  });
+
+  diff.run(function (error) {
+      console.log(error ? 'Failed' : 'Passed');
+  });
+});
+```
 
 ####Logging
 
@@ -161,14 +188,16 @@ blinkDiff.log = function (text) {
 
 ##Examples
 
-There are some examples in the ```examples``` folder, in which I used screenshots of Wikipedia to check for visual regressions (and made some manual modifications to the dom).
+There are some examples in the ```examples``` folder, in which I used screenshots of YDN to check for visual regressions (and made some manual modifications to the dom to make differences appear ;-)).
 You can find examples for:
-* Missing DOM elements in ```hidden_regression```
-* Disrupted sorting in ```sorting_regression```
-* Color changes in ```style_regression```
-* Text capitalization in ```text_regression```
+* Color changes in ```YDN_Color```
+* Missing DOM elements in ```YDN_Missing``` (including some anti-aliasing)
+* Multiple differences in ```YDN_Multi```
+* Disrupted sorting in ```YDN_Sort```
+* Swapped items in ```YDN_Swap```
+* Text capitalization in ```YDN_Upper```
 
-All screenshots were compared to ```wikipedia_approved.png```, a previously approved screenshot without a regression.
+All screenshots were compared to ```YDN.png```, a previously approved screenshot without a regression.
 Each of the regression has the screenshot and the output result, highlighting the differences.
 
 ##Results
