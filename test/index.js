@@ -75,6 +75,21 @@ function generateImage (type) {
     return image;
 }
 
+function compareBuffer (buf1, buf2) {
+
+    if (buf1.length !== buf2.length) {
+        return false;
+    }
+
+    for(var i = 0, len = buf1.length; i < len; i++) {
+        if (buf1[i] !== buf2[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 describe('Blink-Diff', function () {
 
     describe('Default values', function () {
@@ -246,23 +261,54 @@ describe('Blink-Diff', function () {
         describe('_loadImage', function () {
 
             beforeEach(function () {
-                this.image = generateImage('small-1');
+                this.image = generateImage('medium-2');
             });
 
-            it('should use already loaded image', function () {
-                var result = this.instance._loadImage("pathToFile", this.image);
-                expect(result).to.be.equal(this.image)
+            describe('from Path', function () {
+
+                it('should use already loaded image', function () {
+                    var result = this.instance._loadImage("pathToFile", this.image);
+
+                    expect(result).to.be.an.instanceof(PNGImage);
+                    expect(result).to.be.equal(this.image)
+                });
             });
 
-            it('should load image when path given', function (done) {
-                var result = this.instance._loadImage(__dirname + '/test.png', undefined);
+            describe('from Image', function () {
 
-                expect(result).to.be.an.instanceof(Promise);
+                it('should load image when only path given', function (done) {
+                    var result = this.instance._loadImage(__dirname + '/test2.png');
 
-                result.then(function () {
-                    done();
-                }, function (err) {
-                    done(err);
+                    expect(result).to.be.an.instanceof(Promise);
+
+                    result.then(function (image) {
+                        var compare = compareBuffer(image.getImage().data, this.image.getImage().data);
+                        expect(compare).to.be.true;
+                        done();
+                    }.bind(this)).then(null, function (err) {
+                        done(err);
+                    });
+                });
+            });
+
+            describe('from Buffer', function () {
+
+                beforeEach(function () {
+                    this.buffer = fs.readFileSync(__dirname + '/test2.png');
+                });
+
+                it('should load image from buffer if given', function () {
+                    var result = this.instance._loadImage("pathToFile", this.buffer);
+
+                    expect(result).to.be.an.instanceof(Promise);
+
+                    result.then(function (image) {
+                        var compare = compareBuffer(image.getImage().data, this.image.getImage().data);
+                        expect(compare).to.be.true;
+                        done();
+                    }.bind(this)).then(null, function (err) {
+                        done(err);
+                    });
                 });
             });
         });
@@ -698,13 +744,9 @@ describe('Blink-Diff', function () {
 
                 expect(promise).to.be.instanceof(Promise);
                 promise.then(function (result) {
-                    try {
-                        expect(result.code).to.be.equal(BlinkDiff.RESULT_DIFFERENT);
-                        done();
-                    } catch (err) {
-                        done(err);
-                    }
-                }, function (err) {
+                    expect(result.code).to.be.equal(BlinkDiff.RESULT_DIFFERENT);
+                    done();
+                }).then(null, function (err) {
                     done(err);
                 });
             });
