@@ -11,9 +11,9 @@ var assert = require('assert'),
  * @constructor
  * @class BlinkDiff
  * @param {object} options
- * @param {PNGImage} options.imageA Image object of first image
+ * @param {PNGImage|Buffer} options.imageA Image object of first image
  * @param {string} options.imageAPath Path to first image
- * @param {PNGImage} options.imageB Image object of second image
+ * @param {PNGImage|Buffer} options.imageB Image object of second image
  * @param {string} options.imageBPath Path to second image
  * @param {string} [options.imageOutputPath=undefined] Path to output image file
  * @param {string} [options.thresholdType=BlinkDiff.THRESHOLD_PIXEL] Defines the threshold of the comparison
@@ -375,8 +375,10 @@ BlinkDiff.prototype = {
      * @private
      */
     _loadImage: function (path, image) {
-        if (image) {
+        if (image instanceof PNGImage) {
             return image;
+        } else if (image instanceof Buffer) {
+            return Promise.denodeify(PNGImage.loadImage)(image);
         } else {
             return Promise.denodeify(PNGImage.readImage)(path);
         }

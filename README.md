@@ -110,9 +110,9 @@ diff.run(function (error) {
 
 All the parameters that were available in the command-line tool are also available through the class constructor, however they might use slightly different wording. The class exposes additional parameters that are not available from the command-line:
 * ```imageAPath``` Defines the path to the first image that should be compared (required; imageAPath or imageA is required - see example below)
-* ```imageA``` Supplies first image that should be compared (required; imageAPath or imageA is required - see example below)
+* ```imageA``` Supplies first image that should be compared (required; imageAPath or imageA is required - see example below) - This can be a PNGImage instance or a Buffer instance with PNG data
 * ```imageBPath``` Defines the path to the second image that should be compared (required; imageBPath or imageB is required - see example below)
-* ```imageB``` Supplies second image that should be compared (required; imageBPath or imageB is required - see example below)
+* ```imageB``` Supplies second image that should be compared (required; imageBPath or imageB is required - see example below) - This can be a PNGImage instance or a Buffer instance with PNG data
 * ```imageOutputPath``` Defines the path to the output-file. If you leaves this one off, then this feature is turned-off.
 * ```verbose``` Verbose output (default: false)
 * ```thresholdType``` Type of threshold check. This can be BlinkDiff.THRESHOLD_PIXEL and BlinkDiff.THRESHOLD_PERCENT (default: BlinkDiff.THRESHOLD_PIXEL)
@@ -244,6 +244,8 @@ Also, even if you simply gave us an idea for a feature and did not actually writ
 ##Contributors
 * [sarbbottam](https://github.com/sarbbottam)
   * Documentation
+* [koola](https://github.com/koola)
+  * Image loading from Buffer
 
 ##Third-party libraries
 
