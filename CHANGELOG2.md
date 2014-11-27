@@ -1,5 +1,6 @@
 Changelog
 =========
+
 V1.0.2 - (11/09/14)
 * Add shift feature for issues with anti-aliasing
 

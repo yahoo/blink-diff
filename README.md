@@ -24,7 +24,10 @@ A lightweight image comparison tool
 * [Results](#results)
 * [API-Documentation](#api-documentation)
 * [Tests](#tests)
+* [Project Focus](#project-focus)
 * [Project Naming](#project-naming)
+* [Contributions](#contributions)
+* [Contributors](#contributers)
 * [Third-party libraries](#third-party-libraries)
 * [License](#license)
 
@@ -219,9 +222,28 @@ npm run test
 ```
 The code-coverage will be written to the ```coverage``` folder in the module root.
 
+##Project Focus
+There are three types of image comparisons:
+* Pixel-by-pixel - Used to compare low-frequency images like screenshots from web-sites, making sure that small styling differences trigger
+* Perceptual - Used to compare image creation applications, for example rendering engines and photo manipulation applications that are taking the human perception into account, ignoring differences a human probably would not see
+* Context - Used to see if parts of images are missing or are severely distorted, but accepts smaller and/or perceptual differences
+
+Blink-Diff was initially created to compare screenshots. These images are generally low-frequency, meaning larger areas with the same color and less gradients than in photos. The pixel-by-pixel comparison was chosen as it will trigger for differences that a human might not be able to see. We believe that a bug is still a bug even if a human won't see it - a regression might have happened that wasn't intended.
+A perceptual comparison would not trigger small differences, possibly missing problems that could get worse down the road.
+Pixel-by-pixel comparisons have the reputation of triggering too often, adding manual labor, checking images by hand. Blink-Diff was created to keep this in mind and was optimized to reduce false-positives by taking sub-pixeling and anti-aliasing into account. Additional features like thresholds and the pythagorean distance calculation in the four dimensional color-space makes sure that this won't happen too often. Additionally, filters can be applied to the images, for example to compare luminosity of pixels and not the saturation thereof.
+In the future, we want to add support for perceptual comparison that can be used to compare photos and high-frequency images; this will be available through a flag, and one can toggle between these two modes. However, currently, we are still optimizing Blink-Diff for pixel-by-pixel comparisons, and perceptual comparison will therefore be not available in the near future.
 
 ##Project Naming
 The name comes from the Blink comparator that was used in Astronomy to recognize differences in multiple photos, taking a picture of the same area in the sky over consecutive days, months, or years. Most notably, it was used to discover Pluto.
+
+##Contributions
+Feel free to create an issue or create a pull-request if you have an idea on how to improve blink-diff. We are pretty relaxed on the contribution rules; add tests for your pull-requests when possible, but it is also ok if there are none - we'll add them for you. We are trying to improve blink-diff as much as possible, and this can only be done by contributions from the community.
+
+Also, even if you simply gave us an idea for a feature and did not actually write the code, we will still add you as the Contributor down below since it probably wouldn't be there without you. So, keep them coming!
+
+##Contributors
+* [sarbbottam](https://github.com/sarbbottam)
+  * Documentation
 
 ##Third-party libraries
 
