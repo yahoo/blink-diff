@@ -1,7 +1,7 @@
 Changelog
 =========
 
-v1.0.4
+v1.0.4 - 11/28/14
 * Added limit for image output, being able to determine when an output should be created
 
 v1.0.3 - 11/28/14
