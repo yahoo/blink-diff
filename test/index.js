@@ -328,6 +328,248 @@ describe('Blink-Diff', function () {
             });
         });
 
+        describe('_cropDimensions', function () {
+
+            describe('Missing Values', function () {
+
+                it('should correct missing x values', function () {
+                    var rect = { y:23, width:42, height:57 };
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(0);
+                    expect(rect.y).to.be.equal(23);
+                    expect(rect.width).to.be.equal(42);
+                    expect(rect.height).to.be.equal(57);
+                });
+
+                it('should correct missing y values', function () {
+                    var rect = { x:10, width:42, height:57 };
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(10);
+                    expect(rect.y).to.be.equal(0);
+                    expect(rect.width).to.be.equal(42);
+                    expect(rect.height).to.be.equal(57);
+                });
+
+                it('should correct missing width values', function () {
+                    var rect = { x:10, y:23, height:57 };
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(10);
+                    expect(rect.y).to.be.equal(23);
+                    expect(rect.width).to.be.equal(290);
+                    expect(rect.height).to.be.equal(57);
+                });
+
+                it('should correct missing height values', function () {
+                    var rect = { x:10, y:23, width:42 };
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(10);
+                    expect(rect.y).to.be.equal(23);
+                    expect(rect.width).to.be.equal(42);
+                    expect(rect.height).to.be.equal(177);
+                });
+
+                it('should correct all missing values', function () {
+                    var rect = {};
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(0);
+                    expect(rect.y).to.be.equal(0);
+                    expect(rect.width).to.be.equal(300);
+                    expect(rect.height).to.be.equal(200);
+                });
+            });
+
+            describe('Negative Values', function () {
+
+                it('should correct negative x values', function () {
+                    var rect = { x:-10, y:23, width:42, height:57 };
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(0);
+                    expect(rect.y).to.be.equal(23);
+                    expect(rect.width).to.be.equal(42);
+                    expect(rect.height).to.be.equal(57);
+                });
+
+                it('should correct negative y values', function () {
+                    var rect = { x:10, y:-23, width:42, height:57 };
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(10);
+                    expect(rect.y).to.be.equal(0);
+                    expect(rect.width).to.be.equal(42);
+                    expect(rect.height).to.be.equal(57);
+                });
+
+                it('should correct negative width values', function () {
+                    var rect = { x:10, y:23, width:-42, height:57 };
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(10);
+                    expect(rect.y).to.be.equal(23);
+                    expect(rect.width).to.be.equal(0);
+                    expect(rect.height).to.be.equal(57);
+                });
+
+                it('should correct negative height values', function () {
+                    var rect = { x:10, y:23, width:42, height:-57 };
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(10);
+                    expect(rect.y).to.be.equal(23);
+                    expect(rect.width).to.be.equal(42);
+                    expect(rect.height).to.be.equal(0);
+                });
+
+                it('should correct all negative values', function () {
+                    var rect = { x:-10, y:-23, width:-42, height:-57 };
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(0);
+                    expect(rect.y).to.be.equal(0);
+                    expect(rect.width).to.be.equal(0);
+                    expect(rect.height).to.be.equal(0);
+                });
+            });
+
+            describe('Dimensions', function () {
+
+                it('should correct too big x values', function () {
+                    var rect = { x:1000, y:23, width:42, height:57 };
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(299);
+                    expect(rect.y).to.be.equal(23);
+                    expect(rect.width).to.be.equal(1);
+                    expect(rect.height).to.be.equal(57);
+                });
+
+                it('should correct too big y values', function () {
+                    var rect = { x:10, y:2300, width:42, height:57 };
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(10);
+                    expect(rect.y).to.be.equal(199);
+                    expect(rect.width).to.be.equal(42);
+                    expect(rect.height).to.be.equal(1);
+                });
+
+                it('should correct too big width values', function () {
+                    var rect = { x:11, y:23, width:4200, height:57 };
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(11);
+                    expect(rect.y).to.be.equal(23);
+                    expect(rect.width).to.be.equal(289);
+                    expect(rect.height).to.be.equal(57);
+                });
+
+                it('should correct too big height values', function () {
+                    var rect = { x:11, y:23, width:42, height:5700 };
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(11);
+                    expect(rect.y).to.be.equal(23);
+                    expect(rect.width).to.be.equal(42);
+                    expect(rect.height).to.be.equal(177);
+                });
+
+                it('should correct too big width and height values', function () {
+                    var rect = { x:11, y:23, width:420, height:570 };
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(11);
+                    expect(rect.y).to.be.equal(23);
+                    expect(rect.width).to.be.equal(289);
+                    expect(rect.height).to.be.equal(177);
+                });
+            });
+
+            describe('Border Dimensions', function () {
+
+                it('should correct too big x values', function () {
+                    var rect = { x:300, y:23, width:42, height:57 };
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(299);
+                    expect(rect.y).to.be.equal(23);
+                    expect(rect.width).to.be.equal(1);
+                    expect(rect.height).to.be.equal(57);
+                });
+
+                it('should correct too big y values', function () {
+                    var rect = { x:10, y:200, width:42, height:57 };
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(10);
+                    expect(rect.y).to.be.equal(199);
+                    expect(rect.width).to.be.equal(42);
+                    expect(rect.height).to.be.equal(1);
+                });
+
+                it('should correct too big width values', function () {
+                    var rect = { x:11, y:23, width:289, height:57 };
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(11);
+                    expect(rect.y).to.be.equal(23);
+                    expect(rect.width).to.be.equal(289);
+                    expect(rect.height).to.be.equal(57);
+                });
+
+                it('should correct too big height values', function () {
+                    var rect = { x:11, y:23, width:42, height:177 };
+
+                    this.instance._cropDimensions(300, 200, rect);
+
+                    expect(rect.x).to.be.equal(11);
+                    expect(rect.y).to.be.equal(23);
+                    expect(rect.width).to.be.equal(42);
+                    expect(rect.height).to.be.equal(177);
+                });
+            });
+        });
+
+        describe('_crop', function () {
+
+            beforeEach(function () {
+                this.croppedImage = generateImage('medium-1');
+                this.expectedImage = generateImage('medium-1');
+            });
+
+            it('should crop image', function () {
+                this.instance._crop("Medium-1", this.croppedImage, { x:1, y:2, width:2, height:1 });
+
+                expect(this.croppedImage.getWidth()).to.be.equal(2);
+                expect(this.croppedImage.getHeight()).to.be.equal(1);
+
+                expect(this.croppedImage.getAt(0, 0)).to.be.equal(this.expectedImage.getAt(1, 2));
+                expect(this.croppedImage.getAt(1, 0)).to.be.equal(this.expectedImage.getAt(2, 2));
+            });
+        });
+
         describe('_clip', function () {
 
             it('should clip the image small and medium', function () {
@@ -596,6 +838,38 @@ describe('Blink-Diff', function () {
                 this.instance._composition = false;
             });
 
+            it('should crop image-a', function (done) {
+                this.instance._cropImageA = { width:1, height:2 };
+                this.instance.run(function (err, result) {
+                    if (err) {
+                        done(err);
+                    } else {
+                        try {
+                            expect(result.dimension).to.be.equal(2);
+                            done();
+                        } catch (err) {
+                            done(err);
+                        }
+                    }
+                });
+            });
+
+            it('should crop image-b', function (done) {
+                this.instance._cropImageB = { width:1, height:1 };
+                this.instance.run(function (err, result) {
+                    if (err) {
+                        done(err);
+                    } else {
+                        try {
+                            expect(result.dimension).to.be.equal(1);
+                            done();
+                        } catch (err) {
+                            done(err);
+                        }
+                    }
+                });
+            });
+
             it('should clip image-b', function (done) {
                 this.instance.run(function (err, result) {
                     if (err) {
@@ -603,6 +877,23 @@ describe('Blink-Diff', function () {
                     } else {
                         try {
                             expect(result.dimension).to.be.equal(4);
+                            done();
+                        } catch (err) {
+                            done(err);
+                        }
+                    }
+                });
+            });
+
+            it('should crop and clip images', function (done) {
+                this.instance._cropImageA = { width:1, height:2 };
+                this.instance._cropImageB = { width:1, height:1 };
+                this.instance.run(function (err, result) {
+                    if (err) {
+                        done(err);
+                    } else {
+                        try {
+                            expect(result.dimension).to.be.equal(1);
                             done();
                         } catch (err) {
                             done(err);

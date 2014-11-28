@@ -44,6 +44,16 @@ var assert = require('assert'),
  * @param {boolean} [options.hideShift=false] Hides shift highlighting by using the background color instead
  * @param {int} [options.hShift=2] Horizontal shift for possible antialiasing
  * @param {int} [options.vShift=2] Vertical shift for possible antialiasing
+ * @param {object} [options.cropImageA=null] Cropping for first image (default: no cropping)
+ * @param {int} [options.cropImageA.x=0] Coordinate for left corner of cropping region
+ * @param {int} [options.cropImageA.y=0] Coordinate for top corner of cropping region
+ * @param {int} [options.cropImageA.width] Width of cropping region (default: Width that is left)
+ * @param {int} [options.cropImageA.height] Height of cropping region (default: Height that is left)
+ * @param {object} [options.cropImageB=null] Cropping for second image (default: no cropping)
+ * @param {int} [options.cropImageB.x=0] Coordinate for left corner of cropping region
+ * @param {int} [options.cropImageB.y=0] Coordinate for top corner of cropping region
+ * @param {int} [options.cropImageB.width] Width of cropping region (default: Width that is left)
+ * @param {int} [options.cropImageB.height] Height of cropping region (default: Height that is left)
  *
  * @property {PNGImage} _imageA
  * @property {PNGImage} _imageACompare
@@ -80,6 +90,16 @@ var assert = require('assert'),
  * @property {boolean} _composeTopToBottom
  * @property {int} _hShift
  * @property {int} _vShift
+ * @property {object} _cropImageA
+ * @property {int} _cropImageA.x
+ * @property {int} _cropImageA.y
+ * @property {int} _cropImageA.width
+ * @property {int} _cropImageA.height
+ * @property {object} _cropImageB
+ * @property {int} _cropImageB.x
+ * @property {int} _cropImageB.y
+ * @property {int} _cropImageB.width
+ * @property {int} _cropImageB.height
  */
 function BlinkDiff (options) {
 
@@ -142,6 +162,9 @@ function BlinkDiff (options) {
 
     this._hShift = options.hShift || 2;
     this._vShift = options.vShift || 2;
+
+    this._cropImageA = options.cropImageA;
+    this._cropImageB = options.cropImageB;
 }
 
 
@@ -263,6 +286,16 @@ BlinkDiff.prototype = {
 
         }.bind(this)).then(function (imageB) {
             this._imageB = imageB;
+
+            // Crop images if requested
+            if (this._cropImageA) {
+                this._cropDimensions(this._imageA.getWidth(), this._imageA.getHeight(), this._cropImageA);
+                this._crop("Image-A", this._imageA, this._cropImageA);
+            }
+            if (this._cropImageB) {
+                this._cropDimensions(this._imageB.getWidth(), this._imageB.getHeight(), this._cropImageB);
+                this._crop("Image-B", this._imageB, this._cropImageB);
+            }
 
             // Always clip
             this._clip(this._imageA, this._imageB);
@@ -477,6 +510,63 @@ BlinkDiff.prototype = {
             imageA.clip(0, 0, minWidth, minHeight);
             imageB.clip(0, 0, minWidth, minHeight);
         }
+    },
+
+    /**
+     * Crops the source image to the bounds of rect
+     *
+     * @method _crop
+     * @param {string} which Title of image to crop
+     * @param {PNGImage} image Source image
+     * @param {object} rect Values for rect
+     * @param {int} rect.x X value of rect
+     * @param {int} rect.y Y value of rect
+     * @param {int} rect.width Width value of rect
+     * @param {int} rect.height Height value of rect
+     * @private
+     */
+    _crop: function (which, image, rect) {
+
+        this.log("Cropping " + which + " from " + rect.x + "," + rect.y + " by " + rect.width + " x " + rect.height);
+
+        image.clip(rect.x, rect.y, rect.width, rect.height);
+    },
+
+    /**
+     * Correcting cropping dimensions if necessary
+     *
+     * Note:
+     *  Priority is on the x/y coordinates, and not on the dimensions since the dimensions will then be clipped anyways.
+     *
+     * @method _cropDimensions
+     * @param {int} width
+     * @param {int} height
+     * @param {object} rect Values for rect
+     * @param {int} rect.x X value of rect
+     * @param {int} rect.y Y value of rect
+     * @param {int} rect.width Width value of rect
+     * @param {int} rect.height Height value of rect
+     * @private
+     */
+    _cropDimensions: function (width, height, rect) {
+
+        // Add values if not given
+        rect.x = rect.x || 0;
+        rect.y = rect.y || 0;
+        rect.width = rect.width || width;
+        rect.height = rect.height || height;
+
+        // Check negative values
+        rect.x = Math.max(0, rect.x);
+        rect.y = Math.max(0, rect.y);
+        rect.width = Math.max(0, rect.width);
+        rect.height = Math.max(0, rect.height);
+
+        // Check dimensions
+        rect.x = Math.min(rect.x, width - 1); // -1 to make sure that there is an image
+        rect.y = Math.min(rect.y, height - 1);
+        rect.width = Math.min(rect.width, width - rect.x);
+        rect.height = Math.min(rect.height, height - rect.y);
     },
 
 
