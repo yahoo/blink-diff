@@ -2,7 +2,7 @@
     "project": {
         "name": "blink-diff",
         "description": "A lightweight image comparison tool",
-        "version": "1.0.2"
+        "version": "1.0.3"
     },
     "files": {
         "index.js": {
@@ -38,7 +38,7 @@
                         {
                             "name": "imageA",
                             "description": "Image object of first image",
-                            "type": "PNGImage"
+                            "type": "PNGImage|Buffer"
                         },
                         {
                             "name": "imageAPath",
@@ -48,7 +48,7 @@
                         {
                             "name": "imageB",
                             "description": "Image object of second image",
-                            "type": "PNGImage"
+                            "type": "PNGImage|Buffer"
                         },
                         {
                             "name": "imageBPath",
@@ -257,6 +257,107 @@
                             "type": "Int",
                             "optional": true,
                             "optdefault": "2"
+                        },
+                        {
+                            "name": "cropImageA",
+                            "description": "Cropping for first image (default: no cropping)",
+                            "type": "Object",
+                            "optional": true,
+                            "optdefault": "null",
+                            "props": [
+                                {
+                                    "name": "x",
+                                    "description": "Coordinate for left corner of cropping region",
+                                    "type": "Int",
+                                    "optional": true,
+                                    "optdefault": "0"
+                                },
+                                {
+                                    "name": "y",
+                                    "description": "Coordinate for top corner of cropping region",
+                                    "type": "Int",
+                                    "optional": true,
+                                    "optdefault": "0"
+                                },
+                                {
+                                    "name": "width",
+                                    "description": "Width of cropping region (default: Width that is left)",
+                                    "type": "Int",
+                                    "optional": true
+                                },
+                                {
+                                    "name": "height",
+                                    "description": "Height of cropping region (default: Height that is left)",
+                                    "type": "Int",
+                                    "optional": true
+                                }
+                            ]
+                        },
+                        {
+                            "name": "cropImageB",
+                            "description": "Cropping for second image (default: no cropping)",
+                            "type": "Object",
+                            "optional": true,
+                            "optdefault": "null",
+                            "props": [
+                                {
+                                    "name": "x",
+                                    "description": "Coordinate for left corner of cropping region",
+                                    "type": "Int",
+                                    "optional": true,
+                                    "optdefault": "0"
+                                },
+                                {
+                                    "name": "y",
+                                    "description": "Coordinate for top corner of cropping region",
+                                    "type": "Int",
+                                    "optional": true,
+                                    "optdefault": "0"
+                                },
+                                {
+                                    "name": "width",
+                                    "description": "Width of cropping region (default: Width that is left)",
+                                    "type": "Int",
+                                    "optional": true
+                                },
+                                {
+                                    "name": "height",
+                                    "description": "Height of cropping region (default: Height that is left)",
+                                    "type": "Int",
+                                    "optional": true
+                                }
+                            ]
+                        },
+                        {
+                            "name": "perceptual",
+                            "description": "Turns perceptual comparison on",
+                            "type": "Boolean",
+                            "optional": true,
+                            "optdefault": "false"
+                        },
+                        {
+                            "name": "gamma",
+                            "description": "Gamma correction for all colors",
+                            "type": "Float",
+                            "optional": true
+                        },
+                        {
+                            "name": "gammaR",
+                            "description": "Gamma correction for red",
+                            "type": "Float",
+                            "optional": true
+                        },
+                        {
+                            "name": "gammaG",
+                            "description": "Gamma correction for green",
+                            "type": "Float",
+                            "optional": true
+                        },
+                        {
+                            "name": "gammaB",
+                            "description": "Gamma correction for blue",
+                            "type": "Float",
+                            "optional": true
                         }
                     ]
                 }
@@ -268,7 +369,7 @@
     "classitems": [
         {
             "file": "index.js",
-            "line": 148,
+            "line": 192,
             "description": "Version of class",
             "static": 1,
             "itemtype": "property",
@@ -278,7 +379,7 @@
         },
         {
             "file": "index.js",
-            "line": 158,
+            "line": 202,
             "description": "Threshold-type for pixel",
             "static": 1,
             "itemtype": "property",
@@ -288,7 +389,7 @@
         },
         {
             "file": "index.js",
-            "line": 167,
+            "line": 211,
             "description": "Threshold-type for percent of all pixels",
             "static": 1,
             "itemtype": "property",
@@ -298,7 +399,7 @@
         },
         {
             "file": "index.js",
-            "line": 177,
+            "line": 221,
             "description": "Unknown result of the comparison",
             "static": 1,
             "itemtype": "property",
@@ -308,7 +409,7 @@
         },
         {
             "file": "index.js",
-            "line": 186,
+            "line": 230,
             "description": "The images are too different",
             "static": 1,
             "itemtype": "property",
@@ -318,7 +419,7 @@
         },
         {
             "file": "index.js",
-            "line": 195,
+            "line": 239,
             "description": "The images are identical (or near identical)",
             "static": 1,
             "itemtype": "property",
@@ -328,7 +429,7 @@
         },
         {
             "file": "index.js",
-            "line": 204,
+            "line": 248,
             "description": "The images are very similar, but still below the threshold",
             "static": 1,
             "itemtype": "property",
@@ -338,7 +439,7 @@
         },
         {
             "file": "index.js",
-            "line": 216,
+            "line": 260,
             "description": "Runs the comparison with a promise",
             "itemtype": "method",
             "name": "runWithPromise",
@@ -353,7 +454,7 @@
         },
         {
             "file": "index.js",
-            "line": 231,
+            "line": 275,
             "description": "Runs the comparison in node-style",
             "itemtype": "method",
             "name": "run",
@@ -371,7 +472,7 @@
         },
         {
             "file": "index.js",
-            "line": 330,
+            "line": 396,
             "description": "Creates a comparison image",
             "itemtype": "method",
             "name": "_createComposition",
@@ -402,7 +503,7 @@
         },
         {
             "file": "index.js",
-            "line": 368,
+            "line": 434,
             "description": "Loads the image or uses the already available image",
             "itemtype": "method",
             "name": "_loadImage",
@@ -428,7 +529,7 @@
         },
         {
             "file": "index.js",
-            "line": 385,
+            "line": 453,
             "description": "Copies one image into another image",
             "itemtype": "method",
             "name": "_copyImage",
@@ -450,7 +551,7 @@
         },
         {
             "file": "index.js",
-            "line": 404,
+            "line": 472,
             "description": "Is the difference above the set threshold?",
             "itemtype": "method",
             "name": "isAboveThreshold",
@@ -475,7 +576,7 @@
         },
         {
             "file": "index.js",
-            "line": 425,
+            "line": 493,
             "description": "Log method that can be overwritten to modify the logging behavior.",
             "itemtype": "method",
             "name": "log",
@@ -490,7 +591,7 @@
         },
         {
             "file": "index.js",
-            "line": 436,
+            "line": 504,
             "description": "Has comparison passed?",
             "itemtype": "method",
             "name": "hasPassed",
@@ -509,7 +610,7 @@
         },
         {
             "file": "index.js",
-            "line": 448,
+            "line": 516,
             "description": "Clips the images to the lower resolution of both",
             "access": "private",
             "tagname": "",
@@ -531,7 +632,105 @@
         },
         {
             "file": "index.js",
-            "line": 481,
+            "line": 548,
+            "description": "Crops the source image to the bounds of rect",
+            "itemtype": "method",
+            "name": "_crop",
+            "params": [
+                {
+                    "name": "which",
+                    "description": "Title of image to crop",
+                    "type": "String"
+                },
+                {
+                    "name": "image",
+                    "description": "Source image",
+                    "type": "PNGImage"
+                },
+                {
+                    "name": "rect",
+                    "description": "Values for rect",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "x",
+                            "description": "X value of rect",
+                            "type": "Int"
+                        },
+                        {
+                            "name": "y",
+                            "description": "Y value of rect",
+                            "type": "Int"
+                        },
+                        {
+                            "name": "width",
+                            "description": "Width value of rect",
+                            "type": "Int"
+                        },
+                        {
+                            "name": "height",
+                            "description": "Height value of rect",
+                            "type": "Int"
+                        }
+                    ]
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 568,
+            "description": "Correcting cropping dimensions if necessary\n\nNote:\n Priority is on the x/y coordinates, and not on the dimensions since the dimensions will then be clipped anyways.",
+            "itemtype": "method",
+            "name": "_cropDimensions",
+            "params": [
+                {
+                    "name": "width",
+                    "description": "",
+                    "type": "Int"
+                },
+                {
+                    "name": "height",
+                    "description": "",
+                    "type": "Int"
+                },
+                {
+                    "name": "rect",
+                    "description": "Values for rect",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "x",
+                            "description": "X value of rect",
+                            "type": "Int"
+                        },
+                        {
+                            "name": "y",
+                            "description": "Y value of rect",
+                            "type": "Int"
+                        },
+                        {
+                            "name": "width",
+                            "description": "Width value of rect",
+                            "type": "Int"
+                        },
+                        {
+                            "name": "height",
+                            "description": "Height value of rect",
+                            "type": "Int"
+                        }
+                    ]
+                }
+            ],
+            "access": "private",
+            "tagname": "",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 606,
             "description": "Calculates the distance of colors in the 4 dimensional color space",
             "itemtype": "method",
             "name": "_colorDelta",
@@ -542,23 +741,23 @@
                     "type": "Object",
                     "props": [
                         {
-                            "name": "red",
-                            "description": "Red value of color 1",
+                            "name": "c1",
+                            "description": "First value of color 1",
                             "type": "Int"
                         },
                         {
-                            "name": "green",
-                            "description": "Green value of color 1",
+                            "name": "c2",
+                            "description": "Second value of color 1",
                             "type": "Int"
                         },
                         {
-                            "name": "blue",
-                            "description": "Blue value of color 1",
+                            "name": "c3",
+                            "description": "Third value of color 1",
                             "type": "Int"
                         },
                         {
-                            "name": "alpha",
-                            "description": "Alpha value of color 1",
+                            "name": "c4",
+                            "description": "Fourth value of color 1",
                             "type": "Int"
                         }
                     ]
@@ -569,23 +768,23 @@
                     "type": "Object",
                     "props": [
                         {
-                            "name": "red",
-                            "description": "Red value of color 2",
+                            "name": "c1",
+                            "description": "First value of color 2",
                             "type": "Int"
                         },
                         {
-                            "name": "green",
-                            "description": "Green value of color 2",
+                            "name": "c2",
+                            "description": "Second value of color 2",
                             "type": "Int"
                         },
                         {
-                            "name": "blue",
-                            "description": "Blue value of color 2",
+                            "name": "c3",
+                            "description": "Third value of color 2",
                             "type": "Int"
                         },
                         {
-                            "name": "alpha",
-                            "description": "Alpha value of color 2",
+                            "name": "c4",
+                            "description": "Fourth value of color 2",
                             "type": "Int"
                         }
                     ]
@@ -601,7 +800,7 @@
         },
         {
             "file": "index.js",
-            "line": 509,
+            "line": 634,
             "description": "Gets the color of an image by the index",
             "itemtype": "method",
             "name": "_getColor",
@@ -615,6 +814,19 @@
                     "name": "idx",
                     "description": "Index of pixel in image",
                     "type": "Int"
+                },
+                {
+                    "name": "perceptual",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
+                },
+                {
+                    "name": "gamma",
+                    "description": "",
+                    "type": "Object",
+                    "optional": true
                 }
             ],
             "return": {
@@ -627,7 +839,76 @@
         },
         {
             "file": "index.js",
-            "line": 528,
+            "line": 665,
+            "description": "Correct gamma and return color in [0, 1] range",
+            "itemtype": "method",
+            "name": "_correctGamma",
+            "params": [
+                {
+                    "name": "color",
+                    "description": "",
+                    "type": "Object"
+                },
+                {
+                    "name": "gamma",
+                    "description": "",
+                    "type": "Object",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "}",
+                "type": "C1: number, c2: number, c3: number, c4: number"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 699,
+            "description": "Converts the color from RGB to XYZ",
+            "itemtype": "method",
+            "name": "_convertRgbToXyz",
+            "params": [
+                {
+                    "name": "color",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 718,
+            "description": "Converts the color from XYZ to CieLab",
+            "itemtype": "method",
+            "name": "_convertXyzToCieLab",
+            "params": [
+                {
+                    "name": "color",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "access": "private",
+            "tagname": "",
+            "class": "BlinkDiff"
+        },
+        {
+            "file": "index.js",
+            "line": 746,
             "description": "Calculates the lower limit",
             "params": [
                 {
@@ -656,7 +937,7 @@
         },
         {
             "file": "index.js",
-            "line": 541,
+            "line": 759,
             "description": "Calculates the upper limit",
             "params": [
                 {
@@ -685,7 +966,7 @@
         },
         {
             "file": "index.js",
-            "line": 554,
+            "line": 772,
             "description": "Checks if any pixel in the shift surrounding has a comparable color",
             "params": [
                 {
@@ -737,6 +1018,19 @@
                     "name": "vShift",
                     "description": "",
                     "type": "Int"
+                },
+                {
+                    "name": "perceptual",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
+                },
+                {
+                    "name": "gamma",
+                    "description": "",
+                    "type": "Object",
+                    "optional": true
                 }
             ],
             "return": {
@@ -749,7 +1043,7 @@
         },
         {
             "file": "index.js",
-            "line": 612,
+            "line": 832,
             "description": "Does a quick comparison between the supplied images",
             "itemtype": "method",
             "name": "_pixelCompare",
@@ -908,6 +1202,19 @@
                     "type": "Int",
                     "optional": true,
                     "optdefault": "0"
+                },
+                {
+                    "name": "perceptual",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
+                },
+                {
+                    "name": "gamma",
+                    "description": "",
+                    "type": "Object",
+                    "optional": true
                 }
             ],
             "return": {
@@ -920,7 +1227,7 @@
         },
         {
             "file": "index.js",
-            "line": 680,
+            "line": 902,
             "description": "Compares the two images supplied",
             "itemtype": "method",
             "name": "_compare",
@@ -1069,6 +1376,19 @@
                     "type": "Int",
                     "optional": true,
                     "optdefault": "0"
+                },
+                {
+                    "name": "perceptual",
+                    "description": "",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
+                },
+                {
+                    "name": "gamma",
+                    "description": "",
+                    "type": "Object",
+                    "optional": true
                 }
             ],
             "return": {
@@ -1083,15 +1403,15 @@
     "warnings": [
         {
             "message": "Missing item type\nCalculates the lower limit",
-            "line": " index.js:528"
+            "line": " index.js:746"
         },
         {
             "message": "Missing item type\nCalculates the upper limit",
-            "line": " index.js:541"
+            "line": " index.js:759"
         },
         {
             "message": "Missing item type\nChecks if any pixel in the shift surrounding has a comparable color",
-            "line": " index.js:554"
+            "line": " index.js:772"
         }
     ]
 }

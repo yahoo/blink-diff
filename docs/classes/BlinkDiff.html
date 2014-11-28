@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.2</em>
+            <em>API Docs for: 1.0.3</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -189,7 +189,7 @@
                             <li class="param">
                                 
                                     <code class="param-name">imageA</code>
-                                    <span class="type">PNGImage</span>
+                                    <span class="type">PNGImage | Buffer</span>
                                 
 
                                 <div class="param-description">
@@ -217,7 +217,7 @@
                             <li class="param">
                                 
                                     <code class="param-name">imageB</code>
-                                    <span class="type">PNGImage</span>
+                                    <span class="type">PNGImage | Buffer</span>
                                 
 
                                 <div class="param-description">
@@ -677,6 +677,215 @@
                                 
                             </li>
                             
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[cropImageA=null]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Cropping for first image (default: no cropping)</p>
+
+                                </div>
+
+                                
+                                    <ul class="params-list">
+                                        
+                                        <li class="param">
+                                            
+                                                <code class="param-name optional">[x=0]</code>
+                                                <span class="type">Int</span>
+                                                <span class="flag optional" title="This parameter is optional.">optional</span>
+                                            
+
+                                            <div class="param-description">
+                                                Coordinate for left corner of cropping region
+                                            </div>
+                                        </li>
+                                        
+                                        <li class="param">
+                                            
+                                                <code class="param-name optional">[y=0]</code>
+                                                <span class="type">Int</span>
+                                                <span class="flag optional" title="This parameter is optional.">optional</span>
+                                            
+
+                                            <div class="param-description">
+                                                Coordinate for top corner of cropping region
+                                            </div>
+                                        </li>
+                                        
+                                        <li class="param">
+                                            
+                                                <code class="param-name optional">[width]</code>
+                                                <span class="type">Int</span>
+                                                <span class="flag optional" title="This parameter is optional.">optional</span>
+                                            
+
+                                            <div class="param-description">
+                                                Width of cropping region (default: Width that is left)
+                                            </div>
+                                        </li>
+                                        
+                                        <li class="param">
+                                            
+                                                <code class="param-name optional">[height]</code>
+                                                <span class="type">Int</span>
+                                                <span class="flag optional" title="This parameter is optional.">optional</span>
+                                            
+
+                                            <div class="param-description">
+                                                Height of cropping region (default: Height that is left)
+                                            </div>
+                                        </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[cropImageB=null]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Cropping for second image (default: no cropping)</p>
+
+                                </div>
+
+                                
+                                    <ul class="params-list">
+                                        
+                                        <li class="param">
+                                            
+                                                <code class="param-name optional">[x=0]</code>
+                                                <span class="type">Int</span>
+                                                <span class="flag optional" title="This parameter is optional.">optional</span>
+                                            
+
+                                            <div class="param-description">
+                                                Coordinate for left corner of cropping region
+                                            </div>
+                                        </li>
+                                        
+                                        <li class="param">
+                                            
+                                                <code class="param-name optional">[y=0]</code>
+                                                <span class="type">Int</span>
+                                                <span class="flag optional" title="This parameter is optional.">optional</span>
+                                            
+
+                                            <div class="param-description">
+                                                Coordinate for top corner of cropping region
+                                            </div>
+                                        </li>
+                                        
+                                        <li class="param">
+                                            
+                                                <code class="param-name optional">[width]</code>
+                                                <span class="type">Int</span>
+                                                <span class="flag optional" title="This parameter is optional.">optional</span>
+                                            
+
+                                            <div class="param-description">
+                                                Width of cropping region (default: Width that is left)
+                                            </div>
+                                        </li>
+                                        
+                                        <li class="param">
+                                            
+                                                <code class="param-name optional">[height]</code>
+                                                <span class="type">Int</span>
+                                                <span class="flag optional" title="This parameter is optional.">optional</span>
+                                            
+
+                                            <div class="param-description">
+                                                Height of cropping region (default: Height that is left)
+                                            </div>
+                                        </li>
+                                        
+                                    </ul>
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[perceptual=false]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Turns perceptual comparison on</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[gamma]</code>
+                                    <span class="type">Float</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Gamma correction for all colors</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[gammaR]</code>
+                                    <span class="type">Float</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Gamma correction for red</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[gammaG]</code>
+                                    <span class="type">Float</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Gamma correction for green</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name optional">[gammaB]</code>
+                                    <span class="type">Float</span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Gamma correction for blue</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
                         </ul>
                     
                 </li>
@@ -739,6 +948,20 @@
                             </li>
                         
                             <li class="index-item method private">
+                                <a href="#method__convertRgbToXyz">_convertRgbToXyz</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__convertXyzToCieLab">_convertXyzToCieLab</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
                                 <a href="#method__copyImage">_copyImage</a>
 
                                 
@@ -746,7 +969,28 @@
                             </li>
                         
                             <li class="index-item method private">
+                                <a href="#method__correctGamma">_correctGamma</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
                                 <a href="#method__createComposition">_createComposition</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__crop">_crop</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__cropDimensions">_cropDimensions</a>
 
                                 
                                 
@@ -945,7 +1189,7 @@
             
         
         
-        <a href="../files/index.js.html#l448"><code>index.js:448</code></a>
+        <a href="../files/index.js.html#l516"><code>index.js:516</code></a>
         
         </p>
 
@@ -1062,7 +1306,7 @@
             
         
         
-        <a href="../files/index.js.html#l481"><code>index.js:481</code></a>
+        <a href="../files/index.js.html#l606"><code>index.js:606</code></a>
         
         </p>
 
@@ -1101,12 +1345,12 @@
                             
                             <li class="param">
                                 
-                                    <code class="param-name">red</code>
+                                    <code class="param-name">c1</code>
                                     <span class="type">Int</span>
                                 
 
                                 <div class="param-description">
-                                    <p>Red value of color 1</p>
+                                    <p>First value of color 1</p>
 
                                 </div>
 
@@ -1115,12 +1359,12 @@
                             
                             <li class="param">
                                 
-                                    <code class="param-name">green</code>
+                                    <code class="param-name">c2</code>
                                     <span class="type">Int</span>
                                 
 
                                 <div class="param-description">
-                                    <p>Green value of color 1</p>
+                                    <p>Second value of color 1</p>
 
                                 </div>
 
@@ -1129,12 +1373,12 @@
                             
                             <li class="param">
                                 
-                                    <code class="param-name">blue</code>
+                                    <code class="param-name">c3</code>
                                     <span class="type">Int</span>
                                 
 
                                 <div class="param-description">
-                                    <p>Blue value of color 1</p>
+                                    <p>Third value of color 1</p>
 
                                 </div>
 
@@ -1143,12 +1387,12 @@
                             
                             <li class="param">
                                 
-                                    <code class="param-name">alpha</code>
+                                    <code class="param-name">c4</code>
                                     <span class="type">Int</span>
                                 
 
                                 <div class="param-description">
-                                    <p>Alpha value of color 1</p>
+                                    <p>Fourth value of color 1</p>
 
                                 </div>
 
@@ -1177,12 +1421,12 @@
                             
                             <li class="param">
                                 
-                                    <code class="param-name">red</code>
+                                    <code class="param-name">c1</code>
                                     <span class="type">Int</span>
                                 
 
                                 <div class="param-description">
-                                    <p>Red value of color 2</p>
+                                    <p>First value of color 2</p>
 
                                 </div>
 
@@ -1191,12 +1435,12 @@
                             
                             <li class="param">
                                 
-                                    <code class="param-name">green</code>
+                                    <code class="param-name">c2</code>
                                     <span class="type">Int</span>
                                 
 
                                 <div class="param-description">
-                                    <p>Green value of color 2</p>
+                                    <p>Second value of color 2</p>
 
                                 </div>
 
@@ -1205,12 +1449,12 @@
                             
                             <li class="param">
                                 
-                                    <code class="param-name">blue</code>
+                                    <code class="param-name">c3</code>
                                     <span class="type">Int</span>
                                 
 
                                 <div class="param-description">
-                                    <p>Blue value of color 2</p>
+                                    <p>Third value of color 2</p>
 
                                 </div>
 
@@ -1219,12 +1463,12 @@
                             
                             <li class="param">
                                 
-                                    <code class="param-name">alpha</code>
+                                    <code class="param-name">c4</code>
                                     <span class="type">Int</span>
                                 
 
                                 <div class="param-description">
-                                    <p>Alpha value of color 2</p>
+                                    <p>Fourth value of color 2</p>
 
                                 </div>
 
@@ -1320,6 +1564,18 @@
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code class="optional">[perceptual=false]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[gamma]</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -1355,7 +1611,7 @@
             
         
         
-        <a href="../files/index.js.html#l680"><code>index.js:680</code></a>
+        <a href="../files/index.js.html#l902"><code>index.js:902</code></a>
         
         </p>
 
@@ -1737,6 +1993,250 @@
                     
                 </li>
             
+                <li class="param">
+                    
+                        <code class="param-name optional">[perceptual=false]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[gamma]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method__convertRgbToXyz" class="method item private">
+    <h3 class="name"><code>_convertRgbToXyz</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>color</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/index.js.html#l699"><code>index.js:699</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Converts the color from RGB to XYZ</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">color</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method__convertXyzToCieLab" class="method item private">
+    <h3 class="name"><code>_convertXyzToCieLab</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>color</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/index.js.html#l718"><code>index.js:718</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Converts the color from XYZ to CieLab</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">color</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
             </ul>
         </div>
     
@@ -1809,7 +2309,7 @@
             
         
         
-        <a href="../files/index.js.html#l385"><code>index.js:385</code></a>
+        <a href="../files/index.js.html#l453"><code>index.js:453</code></a>
         
         </p>
 
@@ -1864,6 +2364,136 @@
         </div>
     
 
+    
+
+    
+</div>
+
+                
+                    <div id="method__correctGamma" class="method item private">
+    <h3 class="name"><code>_correctGamma</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>color</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[gamma]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">C1: number, c2: number, c3: number, c4: number</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/index.js.html#l665"><code>index.js:665</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Correct gamma and return color in [0, 1] range</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">color</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[gamma]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">C1: number, c2: number, c3: number, c4: number</span>:
+                    
+                    <p>}</p>
+
+                
+            </div>
+        </div>
     
 
     
@@ -1930,7 +2560,7 @@
             
         
         
-        <a href="../files/index.js.html#l330"><code>index.js:330</code></a>
+        <a href="../files/index.js.html#l396"><code>index.js:396</code></a>
         
         </p>
 
@@ -2018,6 +2648,396 @@
 </div>
 
                 
+                    <div id="method__crop" class="method item private">
+    <h3 class="name"><code>_crop</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>which</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>image</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>rect</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/index.js.html#l548"><code>index.js:548</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Crops the source image to the bounds of rect</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">which</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Title of image to crop</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">image</code>
+                        <span class="type">PNGImage</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Source image</p>
+
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">rect</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Values for rect</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">x</code>
+                                    <span class="type">Int</span>
+                                
+
+                                <div class="param-description">
+                                    <p>X value of rect</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">y</code>
+                                    <span class="type">Int</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Y value of rect</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">width</code>
+                                    <span class="type">Int</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Width value of rect</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">height</code>
+                                    <span class="type">Int</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Height value of rect</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
+                    <div id="method__cropDimensions" class="method item private">
+    <h3 class="name"><code>_cropDimensions</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>width</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>height</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>rect</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/index.js.html#l568"><code>index.js:568</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Correcting cropping dimensions if necessary</p>
+<p>Note:
+ Priority is on the x/y coordinates, and not on the dimensions since the dimensions will then be clipped anyways.</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">width</code>
+                        <span class="type">Int</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">height</code>
+                        <span class="type">Int</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">rect</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                        <p>Values for rect</p>
+
+                    </div>
+
+                    
+                        <ul class="params-list">
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">x</code>
+                                    <span class="type">Int</span>
+                                
+
+                                <div class="param-description">
+                                    <p>X value of rect</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">y</code>
+                                    <span class="type">Int</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Y value of rect</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">width</code>
+                                    <span class="type">Int</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Width value of rect</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                            <li class="param">
+                                
+                                    <code class="param-name">height</code>
+                                    <span class="type">Int</span>
+                                
+
+                                <div class="param-description">
+                                    <p>Height value of rect</p>
+
+                                </div>
+
+                                
+                            </li>
+                            
+                        </ul>
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+
+    
+</div>
+
+                
                     <div id="method__getColor" class="method item private">
     <h3 class="name"><code>_getColor</code></h3>
 
@@ -2034,6 +3054,18 @@
                 <li class="arg">
                     
                         <code>idx</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[perceptual=false]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[gamma]</code>
                     
                 </li>
             
@@ -2072,7 +3104,7 @@
             
         
         
-        <a href="../files/index.js.html#l509"><code>index.js:509</code></a>
+        <a href="../files/index.js.html#l634"><code>index.js:634</code></a>
         
         </p>
 
@@ -2120,6 +3152,38 @@
                     <div class="param-description">
                         <p>Index of pixel in image</p>
 
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[perceptual=false]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[gamma]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
                     </div>
 
                     
@@ -2203,7 +3267,7 @@
             
         
         
-        <a href="../files/index.js.html#l368"><code>index.js:368</code></a>
+        <a href="../files/index.js.html#l434"><code>index.js:434</code></a>
         
         </p>
 
@@ -2349,6 +3413,18 @@
                     
                 </li>
             
+                <li class="arg">
+                    
+                        <code class="optional">[perceptual=false]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[gamma]</code>
+                    
+                </li>
+            
             </ul><span class="paren">)</span>
         </div>
     
@@ -2384,7 +3460,7 @@
             
         
         
-        <a href="../files/index.js.html#l612"><code>index.js:612</code></a>
+        <a href="../files/index.js.html#l832"><code>index.js:832</code></a>
         
         </p>
 
@@ -2798,6 +3874,38 @@
                     
                 </li>
             
+                <li class="param">
+                    
+                        <code class="param-name optional">[perceptual=false]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[gamma]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
             </ul>
         </div>
     
@@ -2868,7 +3976,7 @@
             
         
         
-        <a href="../files/index.js.html#l436"><code>index.js:436</code></a>
+        <a href="../files/index.js.html#l504"><code>index.js:504</code></a>
         
         </p>
 
@@ -2979,7 +4087,7 @@
             
         
         
-        <a href="../files/index.js.html#l404"><code>index.js:404</code></a>
+        <a href="../files/index.js.html#l472"><code>index.js:472</code></a>
         
         </p>
 
@@ -3095,7 +4203,7 @@
             
         
         
-        <a href="../files/index.js.html#l425"><code>index.js:425</code></a>
+        <a href="../files/index.js.html#l493"><code>index.js:493</code></a>
         
         </p>
 
@@ -3183,7 +4291,7 @@
             
         
         
-        <a href="../files/index.js.html#l231"><code>index.js:231</code></a>
+        <a href="../files/index.js.html#l275"><code>index.js:275</code></a>
         
         </p>
 
@@ -3281,7 +4389,7 @@ blinkDiff.run(function (err, result) {
             
         
         
-        <a href="../files/index.js.html#l216"><code>index.js:216</code></a>
+        <a href="../files/index.js.html#l260"><code>index.js:260</code></a>
         
         </p>
 
@@ -3361,7 +4469,7 @@ blinkDiff.runWithPromise().then(function (result) {
             
         
         
-        <a href="../files/index.js.html#l186"><code>index.js:186</code></a>
+        <a href="../files/index.js.html#l230"><code>index.js:230</code></a>
         
         </p>
 
@@ -3408,7 +4516,7 @@ blinkDiff.runWithPromise().then(function (result) {
             
         
         
-        <a href="../files/index.js.html#l195"><code>index.js:195</code></a>
+        <a href="../files/index.js.html#l239"><code>index.js:239</code></a>
         
         </p>
 
@@ -3455,7 +4563,7 @@ blinkDiff.runWithPromise().then(function (result) {
             
         
         
-        <a href="../files/index.js.html#l204"><code>index.js:204</code></a>
+        <a href="../files/index.js.html#l248"><code>index.js:248</code></a>
         
         </p>
 
@@ -3502,7 +4610,7 @@ blinkDiff.runWithPromise().then(function (result) {
             
         
         
-        <a href="../files/index.js.html#l177"><code>index.js:177</code></a>
+        <a href="../files/index.js.html#l221"><code>index.js:221</code></a>
         
         </p>
 
@@ -3549,7 +4657,7 @@ blinkDiff.runWithPromise().then(function (result) {
             
         
         
-        <a href="../files/index.js.html#l167"><code>index.js:167</code></a>
+        <a href="../files/index.js.html#l211"><code>index.js:211</code></a>
         
         </p>
 
@@ -3596,7 +4704,7 @@ blinkDiff.runWithPromise().then(function (result) {
             
         
         
-        <a href="../files/index.js.html#l158"><code>index.js:158</code></a>
+        <a href="../files/index.js.html#l202"><code>index.js:202</code></a>
         
         </p>
 
@@ -3643,7 +4751,7 @@ blinkDiff.runWithPromise().then(function (result) {
             
         
         
-        <a href="../files/index.js.html#l148"><code>index.js:148</code></a>
+        <a href="../files/index.js.html#l192"><code>index.js:192</code></a>
         
         </p>
 
