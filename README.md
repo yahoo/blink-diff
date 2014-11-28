@@ -263,6 +263,7 @@ Also, even if you simply gave us an idea for a feature and did not actually writ
 * [koola](https://github.com/koola)
   * Image loading from Buffer
   * Input image cropping
+  * Image output limit
 
 ##Third-party libraries
 

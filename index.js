@@ -283,7 +283,7 @@ BlinkDiff.OUTPUT_SIMILAR = 20;
  * @property OUTPUT_ALL
  * @type {int}
  */
-BlinkDiff.OUPUT_ALL = 100;
+BlinkDiff.OUTPUT_ALL = 100;
 
 
 BlinkDiff.prototype = {
