@@ -68,7 +68,7 @@ Only PNGs are supported at this point.
 
 
 The command-line tool exposes a couple of flags and parameters for the comparison:
-```shell
+```
 --verbose           Turn on verbose mode
 --threshold p       Number of pixels/percent 'p' below which differences are ignored
 --threshold-type t  'pixel' and 'percent' as type of threshold. (default: pixel)
