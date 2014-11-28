@@ -55,6 +55,8 @@
 <ul>
 <li><a href="#command-line-usage">Command-Line Usage</a></li>
 <li><a href="#object-usage">Object Usage</a></li>
+<li><a href="#cropping">Cropping</a></li>
+<li><a href="#perceptual-comparison">Perceptual Comparison</a></li>
 <li><a href="#logging">Logging</a></li>
 </ul>
 </li>
@@ -62,7 +64,10 @@
 <li><a href="#results">Results</a></li>
 <li><a href="#api-documentation">API-Documentation</a></li>
 <li><a href="#tests">Tests</a></li>
+<li><a href="#project-focus">Project Focus</a></li>
 <li><a href="#project-naming">Project Naming</a></li>
+<li><a href="#contributions">Contributions</a></li>
+<li><a href="#contributers">Contributors</a></li>
 <li><a href="#third-party-libraries">Third-party libraries</a></li>
 <li><a href="#license">License</a></li>
 </ul>
@@ -97,7 +102,7 @@
 
 <p>The command-line tool can be found in the <code>bin</code> directory. You can run the application with</p>
 
-<div class="highlight highlight-shell"><pre>blink-diff --output <span class="pl-ko">&lt;</span>output<span class="pl-ko">&gt;</span>.png <span class="pl-ko">&lt;</span>image<span class="pl-ko">1&gt;</span>.png <span class="pl-ko">&lt;</span>image<span class="pl-ko">2&gt;</span>.png</pre></div>
+<div class="highlight highlight-shell"><pre>blink-diff --output <span class="pl-k">&lt;</span>output<span class="pl-k">&gt;</span>.png <span class="pl-k">&lt;</span>image<span class="pl-k">1&gt;</span>.png <span class="pl-k">&lt;</span>image<span class="pl-k">2&gt;</span>.png</pre></div>
 
 <p>Use <code>image1</code> and <code>image2</code> as the images you want to compare.
 Only PNGs are supported at this point.</p>
@@ -106,9 +111,9 @@ Only PNGs are supported at this point.</p>
 
 <div class="highlight highlight-shell"><pre>--verbose           Turn on verbose mode
 --threshold p       Number of pixels/percent <span class="pl-s1"><span class="pl-pds">'</span>p<span class="pl-pds">'</span></span> below which differences are ignored
---threshold-type t  <span class="pl-s1"><span class="pl-pds">'</span>pixel<span class="pl-pds">'</span></span> and <span class="pl-s1"><span class="pl-pds">'</span>percent<span class="pl-pds">'</span></span> as <span class="pl-sf">type</span> of threshold. (default: pixel)
+--threshold-type t  <span class="pl-s1"><span class="pl-pds">'</span>pixel<span class="pl-pds">'</span></span> and <span class="pl-s1"><span class="pl-pds">'</span>percent<span class="pl-pds">'</span></span> as <span class="pl-s3">type</span> of threshold. (default: pixel)
 --delta p           Max. distance colors <span class="pl-k">in</span> the 4 dimensional color-space without triggering a difference. (default: 20)
---copyImageA        Copies first image to output as base. (default: <span class="pl-sf">true</span>)
+--copyImageA        Copies first image to output as base. (default: <span class="pl-s3">true</span>)
 --copyImageB        Copies second image to output as base.
 --no-copy           Doesn<span class="pl-s1"><span class="pl-pds">'</span>t copy anything to output as base.</span>
 <span class="pl-s1">--output o          Write difference to the file <span class="pl-pds">'</span></span>o<span class="pl-s1"><span class="pl-pds">'</span></span>
@@ -129,18 +134,18 @@ Only PNGs are supported at this point.</p>
 
 <p><strong>Example:</strong></p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> diff <span class="pl-ko">=</span> <span class="pl-ko">new</span> <span class="pl-enti">BlinkDiff</span>({
-    imageAPath<span class="pl-ko">:</span> <span class="pl-s1"><span class="pl-pds">'</span>path/to/first/image<span class="pl-pds">'</span></span>, <span class="pl-c"><span class="pl-pdc">//</span> Use file-path</span>
-    imageBPath<span class="pl-ko">:</span> <span class="pl-s1"><span class="pl-pds">'</span>path/to/second/image<span class="pl-pds">'</span></span>,
+<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> diff <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">BlinkDiff</span>({
+    imageAPath<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>path/to/first/image<span class="pl-pds">'</span></span>, <span class="pl-c">// Use file-path</span>
+    imageBPath<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>path/to/second/image<span class="pl-pds">'</span></span>,
 
-    thresholdType<span class="pl-ko">:</span> BlinkDiff.THRESHOLD_PERCENT,
-    threshold<span class="pl-ko">:</span> <span class="pl-cn">0.01</span>,
+    thresholdType<span class="pl-k">:</span> BlinkDiff.THRESHOLD_PERCENT,
+    threshold<span class="pl-k">:</span> <span class="pl-c1">0.01</span>,
 
-    outputPath<span class="pl-ko">:</span> <span class="pl-s1"><span class="pl-pds">'</span>path/to/output/image<span class="pl-pds">'</span></span>
+    outputPath<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>path/to/output/image<span class="pl-pds">'</span></span>
 });
 
-diff.run(<span class="pl-s">function</span> (<span class="pl-vpf">error</span>) {
-    console<span class="pl-sf">.log</span>(error <span class="pl-ko">?</span> <span class="pl-s1"><span class="pl-pds">'</span>Failed<span class="pl-pds">'</span></span> <span class="pl-ko">:</span> <span class="pl-s1"><span class="pl-pds">'</span>Passed<span class="pl-pds">'</span></span>);
+diff.run(<span class="pl-st">function</span> (<span class="pl-vpf">error</span>) {
+    <span class="pl-en">console</span><span class="pl-s3">.log</span>(error <span class="pl-k">?</span> <span class="pl-s1"><span class="pl-pds">'</span>Failed<span class="pl-pds">'</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>Passed<span class="pl-pds">'</span></span>);
 });</pre></div>
 
 <p>All the parameters that were available in the command-line tool are also available through the class constructor, however they might use slightly different wording. The class exposes additional parameters that are not available from the command-line:</p>
@@ -149,11 +154,11 @@ diff.run(<span class="pl-s">function</span> (<span class="pl-vpf">error</span>) 
 <li>
 <code>imageAPath</code> Defines the path to the first image that should be compared (required; imageAPath or imageA is required - see example below)</li>
 <li>
-<code>imageA</code> Supplies first image that should be compared (required; imageAPath or imageA is required - see example below)</li>
+<code>imageA</code> Supplies first image that should be compared (required; imageAPath or imageA is required - see example below) - This can be a PNGImage instance or a Buffer instance with PNG data</li>
 <li>
 <code>imageBPath</code> Defines the path to the second image that should be compared (required; imageBPath or imageB is required - see example below)</li>
 <li>
-<code>imageB</code> Supplies second image that should be compared (required; imageBPath or imageB is required - see example below)</li>
+<code>imageB</code> Supplies second image that should be compared (required; imageBPath or imageB is required - see example below) - This can be a PNGImage instance or a Buffer instance with PNG data</li>
 <li>
 <code>imageOutputPath</code> Defines the path to the output-file. If you leaves this one off, then this feature is turned-off.</li>
 <li>
@@ -214,46 +219,70 @@ diff.run(<span class="pl-s">function</span> (<span class="pl-vpf">error</span>) 
 <code>vShift</code> Vertical shift for possible antialiasing (default: 2) Set to 0 to turn this off.</li>
 <li>
 <code>hideShift</code> Uses the background color for "highlighting" shifts. (default: false)</li>
+<li>
+<code>cropImageA</code> Cropping for first image (default: no cropping) - Format: { x:, y:, width:, height: }</li>
+<li>
+<code>cropImageB</code> Cropping for second image (default: no cropping) - Format: { x:, y:, width:, height: }</li>
+<li>
+<code>perceptual</code> Turn the perceptual comparison mode on. See below for more information.</li>
+<li>
+<code>gamma</code> Gamma correction for all colors (will be used as base) (default: none) - Any value here will turn the perceptual comparison mode on</li>
+<li>
+<code>gammaR</code> Gamma correction for red - Any value here will turn the perceptual comparison mode on</li>
+<li>
+<code>gammaG</code> Gamma correction for green - Any value here will turn the perceptual comparison mode on</li>
+<li>
+<code>gammaB</code> Gamma correction for blue - Any value here will turn the perceptual comparison mode on</li>
 </ul>
 
 <p><strong>Example:</strong></p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> firstImage <span class="pl-ko">=</span> PNGImage.readImage(<span class="pl-s1"><span class="pl-pds">'</span>path/to/first/image<span class="pl-pds">'</span></span>, <span class="pl-s">function</span> (<span class="pl-vpf">err</span>) {
+<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> firstImage <span class="pl-k">=</span> PNGImage.readImage(<span class="pl-s1"><span class="pl-pds">'</span>path/to/first/image<span class="pl-pds">'</span></span>, <span class="pl-st">function</span> (<span class="pl-vpf">err</span>) {
 
   <span class="pl-k">if</span> (err) {
     <span class="pl-k">throw</span> err;
   }
 
-  <span class="pl-s">var</span> diff <span class="pl-ko">=</span> <span class="pl-ko">new</span> <span class="pl-enti">BlinkDiff</span>({
-      imageA<span class="pl-ko">:</span> srcImage, <span class="pl-c"><span class="pl-pdc">//</span> Use already loaded image for first image</span>
-      imageBPath<span class="pl-ko">:</span> <span class="pl-s1"><span class="pl-pds">'</span>path/to/second/image<span class="pl-pds">'</span></span>, <span class="pl-c"><span class="pl-pdc">//</span> Use file-path to select image</span>
+  <span class="pl-s">var</span> diff <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">BlinkDiff</span>({
+      imageA<span class="pl-k">:</span> srcImage, <span class="pl-c">// Use already loaded image for first image</span>
+      imageBPath<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>path/to/second/image<span class="pl-pds">'</span></span>, <span class="pl-c">// Use file-path to select image</span>
 
-      delta<span class="pl-ko">:</span> <span class="pl-cn">50</span>, <span class="pl-c"><span class="pl-pdc">//</span> Make comparison more tolerant</span>
+      delta<span class="pl-k">:</span> <span class="pl-c1">50</span>, <span class="pl-c">// Make comparison more tolerant</span>
 
-      outputMaskRed<span class="pl-ko">:</span> <span class="pl-cn">0</span>,
-      outputMaskBlue<span class="pl-ko">:</span> <span class="pl-cn">255</span>, <span class="pl-c"><span class="pl-pdc">//</span> Use blue for highlighting differences</span>
+      outputMaskRed<span class="pl-k">:</span> <span class="pl-c1">0</span>,
+      outputMaskBlue<span class="pl-k">:</span> <span class="pl-c1">255</span>, <span class="pl-c">// Use blue for highlighting differences</span>
 
-      hideShift<span class="pl-ko">:</span> <span class="pl-c1">true</span> <span class="pl-c"><span class="pl-pdc">//</span> Hide anti-aliasing differences - will still determine but not showing it</span>
+      hideShift<span class="pl-k">:</span> <span class="pl-c1">true</span> <span class="pl-c">// Hide anti-aliasing differences - will still determine but not showing it</span>
 
-      outputPath<span class="pl-ko">:</span> <span class="pl-s1"><span class="pl-pds">'</span>path/to/output/image<span class="pl-pds">'</span></span>
+      outputPath<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>path/to/output/image<span class="pl-pds">'</span></span>
   });
 
-  diff.run(<span class="pl-s">function</span> (<span class="pl-vpf">error</span>) {
-      console<span class="pl-sf">.log</span>(error <span class="pl-ko">?</span> <span class="pl-s1"><span class="pl-pds">'</span>Failed<span class="pl-pds">'</span></span> <span class="pl-ko">:</span> <span class="pl-s1"><span class="pl-pds">'</span>Passed<span class="pl-pds">'</span></span>);
+  diff.run(<span class="pl-st">function</span> (<span class="pl-vpf">error</span>) {
+      <span class="pl-en">console</span><span class="pl-s3">.log</span>(error <span class="pl-k">?</span> <span class="pl-s1"><span class="pl-pds">'</span>Failed<span class="pl-pds">'</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>Passed<span class="pl-pds">'</span></span>);
   });
 });</pre></div>
+
+<h4>
+<a id="cropping" class="anchor" href="#cropping" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cropping</h4>
+
+<p>Images can be cropped before they are compared by using the <code>cropImageA</code> or <code>cropImageB</code> parameters. Single values can be left off, and the system will calculate the correct dimensions. However, <code>x</code>/<code>y</code> coordinates have priority over <code>width</code>/<code>height</code> as the position are usually more important than the dimensions - image will also be clipped by the system when needed.</p>
+
+<h4>
+<a id="perceptual-comparison" class="anchor" href="#perceptual-comparison" aria-hidden="true"><span class="octicon octicon-link"></span></a>Perceptual Comparison</h4>
+
+<p>The perceptual comparison mode considers the perception of colors in the human brain. It transforms all the colors into a human perception color-space, which is quite different to the typical physical bound RGB color-space. There, in the perceptual color-space, the distance between colors is according to the human perception and should therefore closer resemble the differences a human would perceive seeing the images.</p>
 
 <h4>
 <a id="logging" class="anchor" href="#logging" aria-hidden="true"><span class="octicon octicon-link"></span></a>Logging</h4>
 
 <p>By default, the logger doesn't log events anywhere, but you can change this behavior by overwriting <code>blinkDiff.log</code>:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> blinkDiff <span class="pl-ko">=</span> <span class="pl-ko">new</span> <span class="pl-enti">BlinkDiff</span>({
+<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> blinkDiff <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">BlinkDiff</span>({
     ...
 });
 
-<span class="pl-sc">blinkDiff</span>.<span class="pl-enf">log</span> <span class="pl-ko">=</span> <span class="pl-s">function</span> (<span class="pl-vpf">text</span>) {
-    <span class="pl-c"><span class="pl-pdc">//</span> Do whatever you want to do</span>
+<span class="pl-s3">blinkDiff</span>.<span class="pl-en">log</span> <span class="pl-k">=</span> <span class="pl-st">function</span> (<span class="pl-vpf">text</span>) {
+    <span class="pl-c">// Do whatever you want to do</span>
 };
 
 ...</pre></div>
@@ -300,14 +329,58 @@ Each of the regression has the screenshot and the output result, highlighting th
 
 <p>Run the tests with the following command:</p>
 
-<div class="highlight highlight-shell"><pre>npm run <span class="pl-sf">test</span></pre></div>
+<div class="highlight highlight-shell"><pre>npm run <span class="pl-s3">test</span></pre></div>
 
 <p>The code-coverage will be written to the <code>coverage</code> folder in the module root.</p>
+
+<h2>
+<a id="project-focus" class="anchor" href="#project-focus" aria-hidden="true"><span class="octicon octicon-link"></span></a>Project Focus</h2>
+
+<p>There are three types of image comparisons:</p>
+
+<ul>
+<li>Pixel-by-pixel - Used to compare low-frequency images like screenshots from web-sites, making sure that small styling differences trigger</li>
+<li>Perceptual - Used to compare image creation applications, for example rendering engines and photo manipulation applications that are taking the human perception into account, ignoring differences a human probably would not see</li>
+<li>Context - Used to see if parts of images are missing or are severely distorted, but accepts smaller and/or perceptual differences</li>
+</ul>
+
+<p>Blink-Diff was initially created to compare screenshots. These images are generally low-frequency, meaning larger areas with the same color and less gradients than in photos. The pixel-by-pixel comparison was chosen as it will trigger for differences that a human might not be able to see. We believe that a bug is still a bug even if a human won't see it - a regression might have happened that wasn't intended.
+A perceptual comparison would not trigger small differences, possibly missing problems that could get worse down the road.
+Pixel-by-pixel comparisons have the reputation of triggering too often, adding manual labor, checking images by hand. Blink-Diff was created to keep this in mind and was optimized to reduce false-positives by taking sub-pixeling and anti-aliasing into account. Additional features like thresholds and the pythagorean distance calculation in the four dimensional color-space makes sure that this won't happen too often. Additionally, filters can be applied to the images, for example to compare luminosity of pixels and not the saturation thereof.
+Blink-Diff also supports partially the perceptual comparison that can be turned on when supplying <code>perceptual=true</code>. Then, the colors will be compared in accordance with the human perception and not according to the physical world. High-frequency filters, however, are not yet supported.</p>
 
 <h2>
 <a id="project-naming" class="anchor" href="#project-naming" aria-hidden="true"><span class="octicon octicon-link"></span></a>Project Naming</h2>
 
 <p>The name comes from the Blink comparator that was used in Astronomy to recognize differences in multiple photos, taking a picture of the same area in the sky over consecutive days, months, or years. Most notably, it was used to discover Pluto.</p>
+
+<h2>
+<a id="contributions" class="anchor" href="#contributions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributions</h2>
+
+<p>Feel free to create an issue or create a pull-request if you have an idea on how to improve blink-diff. We are pretty relaxed on the contribution rules; add tests for your pull-requests when possible, but it is also ok if there are none - we'll add them for you. We are trying to improve blink-diff as much as possible, and this can only be done by contributions from the community.</p>
+
+<p>Also, even if you simply gave us an idea for a feature and did not actually write the code, we will still add you as the Contributor down below since it probably wouldn't be there without you. So, keep them coming!</p>
+
+<h2>
+<a id="contributors" class="anchor" href="#contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributors</h2>
+
+<ul>
+<li>
+<a href="https://github.com/sarbbottam">sarbbottam</a>
+
+<ul>
+<li>Documentation</li>
+</ul>
+</li>
+<li>
+<a href="https://github.com/koola">koola</a>
+
+<ul>
+<li>Image loading from Buffer</li>
+<li>Input image cropping</li>
+</ul>
+</li>
+</ul>
 
 <h2>
 <a id="third-party-libraries" class="anchor" href="#third-party-libraries" aria-hidden="true"><span class="octicon octicon-link"></span></a>Third-party libraries</h2>
