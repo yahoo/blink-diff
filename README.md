@@ -116,6 +116,7 @@ All the parameters that were available in the command-line tool are also availab
 * ```imageBPath``` Defines the path to the second image that should be compared (required; imageBPath or imageB is required - see example below)
 * ```imageB``` Supplies second image that should be compared (required; imageBPath or imageB is required - see example below) - This can be a PNGImage instance or a Buffer instance with PNG data
 * ```imageOutputPath``` Defines the path to the output-file. If you leaves this one off, then this feature is turned-off.
+* ```imageOutputLimit``` Defines when an image output should be created. This can be for different images, similar or different images, or all comparisons. (default: BlinkDiff.OUTPUT_ALL)
 * ```verbose``` Verbose output (default: false)
 * ```thresholdType``` Type of threshold check. This can be BlinkDiff.THRESHOLD_PIXEL and BlinkDiff.THRESHOLD_PERCENT (default: BlinkDiff.THRESHOLD_PIXEL)
 * ```threshold``` Number of pixels/percent p below which differences are ignored (default: 500)
@@ -262,6 +263,7 @@ Also, even if you simply gave us an idea for a feature and did not actually writ
 * [koola](https://github.com/koola)
   * Image loading from Buffer
   * Input image cropping
+  * Image output limit
 
 ##Third-party libraries
 

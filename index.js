@@ -16,6 +16,7 @@ var assert = require('assert'),
  * @param {PNGImage|Buffer} options.imageB Image object of second image
  * @param {string} options.imageBPath Path to second image
  * @param {string} [options.imageOutputPath=undefined] Path to output image file
+ * @param {int} [options.imageOutputLimit=BlinkDiff.OUTPUT_ALL] Determines when an image output is created
  * @param {string} [options.thresholdType=BlinkDiff.THRESHOLD_PIXEL] Defines the threshold of the comparison
  * @param {int} [options.threshold=500] Threshold limit according to the comparison limit.
  * @param {number} [options.delta=20] Distance between the color coordinates in the 4 dimensional color-space that will not trigger a difference.
@@ -68,6 +69,7 @@ var assert = require('assert'),
  * @property {string} _imageBPath
  * @property {PNGImage} _imageOutput
  * @property {string} _imageOutputPath
+ * @property {int} _imageOutputLimit
  * @property {string} _thresholdType
  * @property {int} _threshold
  * @property {number} _delta
@@ -124,6 +126,7 @@ function BlinkDiff (options) {
 
     this._imageOutput = null;
     this._imageOutputPath = options.imageOutputPath;
+    this._imageOutputLimit = options.imageOutputLimit || BlinkDiff.OUTPUT_ALL;
 
     // Pixel or Percent
     this._thresholdType = options.thresholdType || BlinkDiff.THRESHOLD_PIXEL;
@@ -237,6 +240,15 @@ BlinkDiff.RESULT_UNKNOWN = 0;
 BlinkDiff.RESULT_DIFFERENT = 1;
 
 /**
+ * The images are very similar, but still below the threshold
+ *
+ * @static
+ * @property RESULT_SIMILAR
+ * @type {int}
+ */
+BlinkDiff.RESULT_SIMILAR = 7;
+
+/**
  * The images are identical (or near identical)
  *
  * @static
@@ -245,14 +257,33 @@ BlinkDiff.RESULT_DIFFERENT = 1;
  */
 BlinkDiff.RESULT_IDENTICAL = 5;
 
+
 /**
- * The images are very similar, but still below the threshold
+ * Create output when images are different
  *
  * @static
- * @property RESULT_SIMILAR
+ * @property OUTPUT_DIFFERENT
  * @type {int}
  */
-BlinkDiff.RESULT_SIMILAR = 7;
+BlinkDiff.OUTPUT_DIFFERENT = 10;
+
+/**
+ * Create output when images are similar or different
+ *
+ * @static
+ * @property OUTPUT_SIMILAR
+ * @type {int}
+ */
+BlinkDiff.OUTPUT_SIMILAR = 20;
+
+/**
+ * Force output of all comparisons
+ *
+ * @static
+ * @property OUTPUT_ALL
+ * @type {int}
+ */
+BlinkDiff.OUTPUT_ALL = 100;
 
 
 BlinkDiff.prototype = {
@@ -374,7 +405,7 @@ BlinkDiff.prototype = {
             this._imageOutput = this._createComposition(this._imageACompare, this._imageBCompare, this._imageOutput);
 
             // Need to write to the filesystem?
-            if (this._imageOutputPath) {
+            if (this._imageOutputPath && this._withinOutputLimit(result.code, this._imageOutputLimit)) {
                 this._imageOutput.writeImage(this._imageOutputPath, function (err) {
                     if (err) {
                         fn(err);
@@ -391,6 +422,39 @@ BlinkDiff.prototype = {
             console.error(err.stack);
             fn(err);
         });
+    },
+
+    /**
+     * Determines if result is within the output limit
+     *
+     * @method _withinOutputLimit
+     * @param {int} resultCode
+     * @param {int} outputLimit
+     * @return {boolean}
+     * @private
+     */
+    _withinOutputLimit: function (resultCode, outputLimit) {
+        return this._convertResultCodeToRelativeValue(resultCode) <= outputLimit;
+    },
+
+    /**
+     * Converts the result-code to a relative value
+     *
+     * @method _convertResultCodeToRelativeValue
+     * @param {int} resultCode
+     * @return {int}
+     * @private
+     */
+    _convertResultCodeToRelativeValue: function (resultCode) {
+
+        var valueMap = {
+            0: 0,
+            1: 10,
+            7: 20,
+            5: 30
+        };
+
+        return valueMap[resultCode] !== undefined ? valueMap[resultCode] : 0;
     },
 
     /**
