@@ -19,6 +19,7 @@ A lightweight image comparison tool
 * [Usage](#usage)
     * [Command-Line Usage](#command-line-usage)
     * [Object Usage](#object-usage)
+    * [Cropping](#cropping)
     * [Logging](#logging)
 * [Examples](#examples)
 * [Results](#results)
@@ -143,6 +144,8 @@ All the parameters that were available in the command-line tool are also availab
 * ```hShift``` Horizontal shift for possible antialiasing (default: 2) Set to 0 to turn this off.
 * ```vShift``` Vertical shift for possible antialiasing (default: 2) Set to 0 to turn this off.
 * ```hideShift``` Uses the background color for "highlighting" shifts. (default: false)
+* ```cropImageA``` Cropping for first image (default: no cropping) - Format: { x:<int>, y:<int>, width:<int>, height:<int> }
+* ```cropImageB``` Cropping for second image (default: no cropping) - Format: { x:<int>, y:<int>, width:<int>, height:<int> }
 
 **Example:**
 ```javascript
@@ -171,6 +174,9 @@ var firstImage = PNGImage.readImage('path/to/first/image', function (err) {
   });
 });
 ```
+
+####Cropping
+Images can be cropped before they are compared by using the ```cropImageA``` or ```cropImageB``` parameters. Single values can be left off, and the system will calculate the correct dimensions. However, ```x```/```y``` coordinates have priority over ```width```/```height``` as the position are usually more important than the dimensions - image will also be clipped by the system when needed.
 
 ####Logging
 
@@ -246,6 +252,7 @@ Also, even if you simply gave us an idea for a feature and did not actually writ
   * Documentation
 * [koola](https://github.com/koola)
   * Image loading from Buffer
+  * Input image cropping
 
 ##Third-party libraries
 
