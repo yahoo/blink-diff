@@ -20,6 +20,7 @@ A lightweight image comparison tool
     * [Command-Line Usage](#command-line-usage)
     * [Object Usage](#object-usage)
     * [Cropping](#cropping)
+    * [Perceptual Comparison](#perceptual-comparison)
     * [Logging](#logging)
 * [Examples](#examples)
 * [Results](#results)
@@ -146,6 +147,7 @@ All the parameters that were available in the command-line tool are also availab
 * ```hideShift``` Uses the background color for "highlighting" shifts. (default: false)
 * ```cropImageA``` Cropping for first image (default: no cropping) - Format: { x:<int>, y:<int>, width:<int>, height:<int> }
 * ```cropImageB``` Cropping for second image (default: no cropping) - Format: { x:<int>, y:<int>, width:<int>, height:<int> }
+* ```perceptual``` Turn the perceptual comparison mode on. See below for more information.
 
 **Example:**
 ```javascript
@@ -177,6 +179,9 @@ var firstImage = PNGImage.readImage('path/to/first/image', function (err) {
 
 ####Cropping
 Images can be cropped before they are compared by using the ```cropImageA``` or ```cropImageB``` parameters. Single values can be left off, and the system will calculate the correct dimensions. However, ```x```/```y``` coordinates have priority over ```width```/```height``` as the position are usually more important than the dimensions - image will also be clipped by the system when needed.
+
+####Perceptual Comparison
+The perceptual comparison mode considers the perception of colors in the human brain. It transforms all the colors into a human perception color-space, which is quite different to the typical physical bound RGB color-space. There, in the perceptual color-space, the distance between colors is according to the human perception and should therefore closer resemble the differences a human would perceive seeing the images.
 
 ####Logging
 
@@ -237,7 +242,7 @@ There are three types of image comparisons:
 Blink-Diff was initially created to compare screenshots. These images are generally low-frequency, meaning larger areas with the same color and less gradients than in photos. The pixel-by-pixel comparison was chosen as it will trigger for differences that a human might not be able to see. We believe that a bug is still a bug even if a human won't see it - a regression might have happened that wasn't intended.
 A perceptual comparison would not trigger small differences, possibly missing problems that could get worse down the road.
 Pixel-by-pixel comparisons have the reputation of triggering too often, adding manual labor, checking images by hand. Blink-Diff was created to keep this in mind and was optimized to reduce false-positives by taking sub-pixeling and anti-aliasing into account. Additional features like thresholds and the pythagorean distance calculation in the four dimensional color-space makes sure that this won't happen too often. Additionally, filters can be applied to the images, for example to compare luminosity of pixels and not the saturation thereof.
-In the future, we want to add support for perceptual comparison that can be used to compare photos and high-frequency images; this will be available through a flag, and one can toggle between these two modes. However, currently, we are still optimizing Blink-Diff for pixel-by-pixel comparisons, and perceptual comparison will therefore be not available in the near future.
+Blink-Diff also supports partially the perceptual comparison that can be turned on when supplying ```perceptual=true```. Then, the colors will be compared in accordance with the human perception and not according to the physical world. High-frequency filters, however, are not yet supported.
 
 ##Project Naming
 The name comes from the Blink comparator that was used in Astronomy to recognize differences in multiple photos, taking a picture of the same area in the sky over consecutive days, months, or years. Most notably, it was used to discover Pluto.

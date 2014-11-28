@@ -242,16 +242,16 @@ describe('Blink-Diff', function () {
         describe('_colorDelta', function () {
             it('should calculate the delta', function () {
                 var color1 = {
-                        red: 23,
-                        green: 87,
-                        blue: 89,
-                        alpha: 234
+                        c1: 23,
+                        c2: 87,
+                        c3: 89,
+                        c4: 234
                     },
                     color2 = {
-                        red: 84,
-                        green: 92,
-                        blue: 50,
-                        alpha: 21
+                        c1: 84,
+                        c2: 92,
+                        c3: 50,
+                        c4: 21
                     };
 
                 expect(this.instance._colorDelta(color1, color2)).to.be.within(225.02, 225.03);
@@ -1040,6 +1040,33 @@ describe('Blink-Diff', function () {
                 }).then(null, function (err) {
                     done(err);
                 });
+            });
+        });
+
+        describe('Color-Conversion', function () {
+
+            it('should convert RGB to XYZ', function () {
+                var color = this.instance._convertRgbToXyz({ c1:92/255, c2:255/255, c3:162/255, c4:1 });
+
+                expect(color.c1).to.be.closeTo(0.6144431682352941, 0.0001);
+                expect(color.c2).to.be.closeTo(0.8834245847058824, 0.0001);
+                expect(color.c3).to.be.closeTo(0.6390158682352941, 0.0001);
+                expect(color.c4).to.be.closeTo(1, 0.0001);
+            });
+
+            it('should convert RGB to XYZ', function () {
+                var color = this.instance._convertXyzToCieLab(
+                    {
+                        c1:0.6144431682352941,
+                        c2:0.8834245847058824,
+                        c3:0.6390158682352941,
+                        c4:1
+                    });
+
+                expect(color.c1).to.be.closeTo(95.30495102757038, 0.0001);
+                expect(color.c2).to.be.closeTo(-54.68933740774734, 0.0001);
+                expect(color.c3).to.be.closeTo(19.63870174748623, 0.0001);
+                expect(color.c4).to.be.closeTo(1, 0.0001);
             });
         });
     });
