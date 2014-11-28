@@ -148,6 +148,10 @@ All the parameters that were available in the command-line tool are also availab
 * ```cropImageA``` Cropping for first image (default: no cropping) - Format: { x:<int>, y:<int>, width:<int>, height:<int> }
 * ```cropImageB``` Cropping for second image (default: no cropping) - Format: { x:<int>, y:<int>, width:<int>, height:<int> }
 * ```perceptual``` Turn the perceptual comparison mode on. See below for more information.
+* ```gamma``` Gamma correction for all colors (will be used as base) (default: none) - Any value here will turn the perceptual comparison mode on
+* ```gammaR``` Gamma correction for red - Any value here will turn the perceptual comparison mode on
+* ```gammaG``` Gamma correction for green - Any value here will turn the perceptual comparison mode on
+* ```gammaB``` Gamma correction for blue - Any value here will turn the perceptual comparison mode on
 
 **Example:**
 ```javascript

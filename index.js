@@ -55,6 +55,10 @@ var assert = require('assert'),
  * @param {int} [options.cropImageB.width] Width of cropping region (default: Width that is left)
  * @param {int} [options.cropImageB.height] Height of cropping region (default: Height that is left)
  * @param {boolean} [options.perceptual=false] Turns perceptual comparison on
+ * @param {float} [options.gamma] Gamma correction for all colors
+ * @param {float} [options.gammaR] Gamma correction for red
+ * @param {float} [options.gammaG] Gamma correction for green
+ * @param {float} [options.gammaB] Gamma correction for blue
  *
  * @property {PNGImage} _imageA
  * @property {PNGImage} _imageACompare
@@ -103,6 +107,10 @@ var assert = require('assert'),
  * @property {int} _cropImageB.height
  * @property {object} _refWhite
  * @property {boolean} _perceptual
+ * @property {float} _gamma
+ * @property {float} _gammaR
+ * @property {float} _gammaG
+ * @property {float} _gammaB
  */
 function BlinkDiff (options) {
 
@@ -173,6 +181,11 @@ function BlinkDiff (options) {
     this._refWhite = this._convertRgbToXyz({ c1:1, c2:1, c3:1, c4:1 });
 
     this._perceptual = options.perceptual || false;
+
+    this._gamma = options.gamma;
+    this._gammaR = options.gammaR;
+    this._gammaG = options.gammaG;
+    this._gammaB = options.gammaB;
 }
 
 
@@ -293,6 +306,8 @@ BlinkDiff.prototype = {
             return this._loadImage(this._imageBPath, this._imageB);
 
         }.bind(this)).then(function (imageB) {
+            var gamma;
+
             this._imageB = imageB;
 
             // Crop images if requested
@@ -319,6 +334,14 @@ BlinkDiff.prototype = {
             this._imageACompare = this._imageA.applyFilters(this._filter, !this._debug);
             this._imageBCompare = this._imageB.applyFilters(this._filter, !this._debug);
 
+            if (this._gamma || this._gammaR || this._gammaG || this._gammaB) {
+                gamma = {
+                    r: this._gammaR || this._gamma,
+                    g: this._gammaG || this._gamma,
+                    b: this._gammaB || this._gamma
+                };
+            }
+
             result = this._compare(this._imageACompare, this._imageBCompare, this._imageOutput, this._delta,
                 { // Output-Mask color
                     red: this._outputMaskRed,
@@ -343,7 +366,8 @@ BlinkDiff.prototype = {
                 },
                 this._hShift,
                 this._vShift,
-                this._perceptual
+                this._perceptual,
+                gamma
             );
 
             // Create composition if requested
@@ -614,10 +638,11 @@ BlinkDiff.prototype = {
      * @param {PNGImage} image Image
      * @param {int} idx Index of pixel in image
      * @param {boolean} [perceptual=false]
+     * @param {object} [gamma]
      * @return {object} Color
      * @private
      */
-    _getColor: function (image, idx, perceptual) {
+    _getColor: function (image, idx, perceptual, gamma) {
 
         var color;
 
@@ -628,7 +653,8 @@ BlinkDiff.prototype = {
             c4: image.getAlpha(idx)
         };
 
-        if (perceptual) {
+        if (perceptual || gamma) {
+            color = this._correctGamma(color, gamma);
             color = this._convertRgbToXyz(color);
             color = this._convertXyzToCieLab(color);
         }
@@ -636,6 +662,39 @@ BlinkDiff.prototype = {
         return color;
     },
 
+    /**
+     * Correct gamma and return color in [0, 1] range
+     *
+     * @method _correctGamma
+     * @param {object} color
+     * @param {object} [gamma]
+     * @return {{c1: number, c2: number, c3: number, c4: number}}
+     * @private
+     */
+    _correctGamma: function (color, gamma) {
+
+        // Convert to range [0, 1]
+        var result = {
+            c1: color.c1 / 255,
+            c2: color.c2 / 255,
+            c3: color.c3 / 255,
+            c4: color.c4
+        };
+
+        if (gamma || gamma.R !== undefined || gamma.G !== undefined || gamma.B !== undefined) {
+            if (gamma.R !== undefined) {
+                result.c1 = Math.pow(result.c1, gamma.R);
+            }
+            if (gamma.G !== undefined) {
+                result.c2 = Math.pow(result.c2, gamma.G);
+            }
+            if (gamma.B !== undefined) {
+                result.c3 = Math.pow(result.c3, gamma.B);
+            }
+        }
+
+        return result;
+    },
 
     /**
      * Converts the color from RGB to XYZ
@@ -724,10 +783,11 @@ BlinkDiff.prototype = {
      * @param {int} hShift
      * @param {int} vShift
      * @param {boolean} [perceptual=false]
+     * @param {object} [gamma]
      * @return {boolean} Is pixel within delta found in surrounding?
      * @private
      */
-    _shiftCompare: function (x, y, color, deltaThreshold, imageA, imageB, width, height, hShift, vShift, perceptual) {
+    _shiftCompare: function (x, y, color, deltaThreshold, imageA, imageB, width, height, hShift, vShift, perceptual, gamma) {
 
         var i,
             xOffset, xLow, xHigh,
@@ -752,10 +812,10 @@ BlinkDiff.prototype = {
 
                         i = imageB.getIndex(x + xOffset, y + yOffset);
 
-                        color1 = this._getColor(imageA, i, perceptual);
+                        color1 = this._getColor(imageA, i, perceptual, gamma);
                         localDeltaThreshold = this._colorDelta(color, color1);
 
-                        color2 = this._getColor(imageB, i, perceptual);
+                        color2 = this._getColor(imageB, i, perceptual, gamma);
                         delta = this._colorDelta(color, color2);
 
                         if ((Math.abs(delta - localDeltaThreshold) < deltaThreshold) && (localDeltaThreshold > deltaThreshold)) {
@@ -800,10 +860,11 @@ BlinkDiff.prototype = {
      * @param {int} [hShift=0] Horizontal shift
      * @param {int} [vShift=0] Vertical shift
      * @param {boolean} [perceptual=false]
+     * @param {object} [gamma]
      * @return {int} Number of pixel differences
      * @private
      */
-    _pixelCompare: function (imageA, imageB, imageOutput, deltaThreshold, width, height, outputMaskColor, outputShiftColor, backgroundColor, hShift, vShift, perceptual) {
+    _pixelCompare: function (imageA, imageB, imageOutput, deltaThreshold, width, height, outputMaskColor, outputShiftColor, backgroundColor, hShift, vShift, perceptual, gamma) {
         var difference = 0,
             i,
             x, y,
@@ -814,15 +875,15 @@ BlinkDiff.prototype = {
             for (y = 0; y < height; y++) {
                 i = imageA.getIndex(x, y);
 
-                color1 = this._getColor(imageA, i, perceptual);
-                color2 = this._getColor(imageB, i, perceptual);
+                color1 = this._getColor(imageA, i, perceptual, gamma);
+                color2 = this._getColor(imageB, i, perceptual, gamma);
 
                 delta = this._colorDelta(color1, color2);
 
                 if (delta > deltaThreshold) {
 
-                    if (this._shiftCompare(x, y, color1, deltaThreshold, imageA, imageB, width, height, hShift, vShift, perceptual) &&
-                        this._shiftCompare(x, y, color2, deltaThreshold, imageB, imageA, width, height, hShift, vShift, perceptual)) {
+                    if (this._shiftCompare(x, y, color1, deltaThreshold, imageA, imageB, width, height, hShift, vShift, perceptual, gamma) &&
+                        this._shiftCompare(x, y, color2, deltaThreshold, imageB, imageA, width, height, hShift, vShift, perceptual, gamma)) {
                         imageOutput.setAtIndex(i, outputShiftColor);
                     } else {
                         difference++;
@@ -867,10 +928,11 @@ BlinkDiff.prototype = {
      * @param {int} [hShift=0] Horizontal shift
      * @param {int} [vShift=0] Vertical shift
      * @param {boolean} [perceptual=false]
+     * @param {object} [gamma]
      * @return {object}
      * @private
      */
-    _compare: function (imageA, imageB, imageOutput, deltaThreshold, outputMaskColor, outputShiftColor, backgroundColor, hShift, vShift, perceptual) {
+    _compare: function (imageA, imageB, imageOutput, deltaThreshold, outputMaskColor, outputShiftColor, backgroundColor, hShift, vShift, perceptual, gamma) {
 
         var result = {
                 code: BlinkDiff.RESULT_UNKNOWN,
@@ -897,7 +959,8 @@ BlinkDiff.prototype = {
             outputShiftColor,
             backgroundColor,
             hShift, vShift,
-            perceptual
+            perceptual,
+            gamma
         );
 
         // Result
