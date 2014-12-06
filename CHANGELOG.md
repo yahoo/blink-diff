@@ -1,6 +1,9 @@
 Changelog
 =========
 
+v1.0.5 - 12/05/14
+* Bugfix: Using image as default instead of string when loading image
+
 v1.0.4 - 11/28/14
 * Added limit for image output, being able to determine when an output should be created
 
