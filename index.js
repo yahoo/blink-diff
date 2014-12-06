@@ -505,12 +505,15 @@ BlinkDiff.prototype = {
      * @private
      */
     _loadImage: function (path, image) {
-        if (image instanceof PNGImage) {
-            return image;
-        } else if (image instanceof Buffer) {
+
+        if (image instanceof Buffer) {
             return Promise.denodeify(PNGImage.loadImage)(image);
-        } else {
+
+        } else if ((typeof path === 'string') && !image) {
             return Promise.denodeify(PNGImage.readImage)(path);
+
+        } else {
+            return image;
         }
     },
 

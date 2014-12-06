@@ -1,7 +1,7 @@
 Changelog
 =========
 
-v1.0.5 - 12/05/14
+v1.0.6 - 12/05/14
 * Bugfix: Using image as default instead of string when loading image
 
 v1.0.4 - 11/28/14

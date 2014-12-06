@@ -264,7 +264,7 @@ describe('Blink-Diff', function () {
                 this.image = generateImage('medium-2');
             });
 
-            describe('from Path', function () {
+            describe('from Image', function () {
 
                 it('should use already loaded image', function () {
                     var result = this.instance._loadImage("pathToFile", this.image);
@@ -274,7 +274,7 @@ describe('Blink-Diff', function () {
                 });
             });
 
-            describe('from Image', function () {
+            describe('from Path', function () {
 
                 it('should load image when only path given', function (done) {
                     var result = this.instance._loadImage(__dirname + '/test2.png');
