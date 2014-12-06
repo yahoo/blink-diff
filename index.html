@@ -58,6 +58,7 @@
 <li><a href="#cropping">Cropping</a></li>
 <li><a href="#perceptual-comparison">Perceptual Comparison</a></li>
 <li><a href="#logging">Logging</a></li>
+<li><a href="#block-out">Block-Out</a></li>
 </ul>
 </li>
 <li><a href="#examples">Examples</a></li>
@@ -109,23 +110,26 @@ Only PNGs are supported at this point.</p>
 
 <p>The command-line tool exposes a couple of flags and parameters for the comparison:</p>
 
-<div class="highlight highlight-shell"><pre>--verbose           Turn on verbose mode
---threshold p       Number of pixels/percent <span class="pl-s1"><span class="pl-pds">'</span>p<span class="pl-pds">'</span></span> below which differences are ignored
---threshold-type t  <span class="pl-s1"><span class="pl-pds">'</span>pixel<span class="pl-pds">'</span></span> and <span class="pl-s1"><span class="pl-pds">'</span>percent<span class="pl-pds">'</span></span> as <span class="pl-s3">type</span> of threshold. (default: pixel)
---delta p           Max. distance colors <span class="pl-k">in</span> the 4 dimensional color-space without triggering a difference. (default: 20)
---copyImageA        Copies first image to output as base. (default: <span class="pl-s3">true</span>)
+<pre><code>--verbose           Turn on verbose mode
+--debug             Turn on debug mode - leaving all filters and modifications on the result
+--threshold p       Number of pixels/percent 'p' below which differences are ignored
+--threshold-type t  'pixel' and 'percent' as type of threshold. (default: pixel)
+--delta p           Max. distance colors in the 4 dimensional color-space without triggering a difference. (default: 20)
+--copyImageA        Copies first image to output as base. (default: true)
 --copyImageB        Copies second image to output as base.
---no-copy           Doesn<span class="pl-s1"><span class="pl-pds">'</span>t copy anything to output as base.</span>
-<span class="pl-s1">--output o          Write difference to the file <span class="pl-pds">'</span></span>o<span class="pl-s1"><span class="pl-pds">'</span></span>
-<span class="pl-s1">--filter f          Filters f (separated with comma) that will be applied before the comparison.</span>
-<span class="pl-s1">--no-composition    Turns the composition feature off</span>
-<span class="pl-s1">--compose-ltr       Compose output image from left to right</span>
-<span class="pl-s1">--compose-ttb       Compose output image from top to bottom</span>
-<span class="pl-s1">--hide-shift        Hides shift highlighting (default: false)</span>
-<span class="pl-s1">--h-shift           Acceptable horizontal shift of pixel. (default: 0)</span>
-<span class="pl-s1">--v-shift           Acceptable vertical shift of pixel. (default: 0)</span>
-<span class="pl-s1">--version           Print version</span>
-<span class="pl-s1">--help              This help</span></pre></div>
+--no-copy           Doesn't copy anything to output as base.
+--output o          Write difference to the file 'o'
+--filter f          Filters f (separated with comma) that will be applied before the comparison.
+--no-composition    Turns the composition feature off
+--compose-ltr       Compose output image from left to right
+--compose-ttb       Compose output image from top to bottom
+--hide-shift        Hides shift highlighting (default: false)
+--h-shift           Acceptable horizontal shift of pixel. (default: 0)
+--v-shift           Acceptable vertical shift of pixel. (default: 0)
+--block-out x,y,w,h Block-out area. Can be repeated multiple times.
+--version           Print version
+--help              This help
+</code></pre>
 
 <h3>
 <a id="object-usage" class="anchor" href="#object-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Object usage</h3>
@@ -161,6 +165,8 @@ diff.run(<span class="pl-st">function</span> (<span class="pl-vpf">error</span>)
 <code>imageB</code> Supplies second image that should be compared (required; imageBPath or imageB is required - see example below) - This can be a PNGImage instance or a Buffer instance with PNG data</li>
 <li>
 <code>imageOutputPath</code> Defines the path to the output-file. If you leaves this one off, then this feature is turned-off.</li>
+<li>
+<code>imageOutputLimit</code> Defines when an image output should be created. This can be for different images, similar or different images, or all comparisons. (default: BlinkDiff.OUTPUT_ALL)</li>
 <li>
 <code>verbose</code> Verbose output (default: false)</li>
 <li>
@@ -198,7 +204,19 @@ diff.run(<span class="pl-st">function</span> (<span class="pl-vpf">error</span>)
 <li>
 <code>outputBackgroundAlpha</code> Alpha intensity for the background in the output file (default: undefined)</li>
 <li>
-<code>outputMaskOpacity</code> Opacity of the pixel for the background in the output file (default: 0.6 - transparent)</li>
+<code>outputBackgroundOpacity</code> Opacity of the pixel for the background in the output file (default: 0.6 - transparent)</li>
+<li>
+<code>blockOut</code> Object or list of objects with coordinates that should be blocked before testing.</li>
+<li>
+<code>blockOutRed</code> Red intensity for the block-out in the output file (default: 0) This color will only be visible in the result when debug-mode is turned on.</li>
+<li>
+<code>blockOutGreen</code> Green intensity for the block-out in the output file (default: 0) This color will only be visible in the result when debug-mode is turned on.</li>
+<li>
+<code>blockOutBlue</code> Blue intensity for the block-out in the output file (default: 0) This color will only be visible in the result when debug-mode is turned on.</li>
+<li>
+<code>blockOutAlpha</code> Alpha intensity for the block-out in the output file (default: 255)</li>
+<li>
+<code>blockOutOpacity</code> Opacity of the pixel for the block-out in the output file (default: 1.0)</li>
 <li>
 <code>copyImageAToOutput</code> Copies the first image to the output image before the comparison begins. This will make sure that the output image will highlight the differences on the first image. (default)</li>
 <li>
@@ -287,6 +305,13 @@ diff.run(<span class="pl-st">function</span> (<span class="pl-vpf">error</span>)
 
 ...</pre></div>
 
+<h4>
+<a id="block-out" class="anchor" href="#block-out" aria-hidden="true"><span class="octicon octicon-link"></span></a>Block-Out</h4>
+
+<p>Sometimes, it is necessary to block-out some specific areas in an image that should be ignored for comparisons. For example, this can be IDs or even time-labels that change with the time. Adding block-outs to images may decrease false positives and therefore stabilizes these comparisons.</p>
+
+<p>The color of the block-outs can be selected by the API parameters. However, the block-out areas will not be visible by default - they are hidden even though they are used. To make them visible, turn the debug-mode on.</p>
+
 <h2>
 <a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h2>
 
@@ -301,19 +326,18 @@ You can find examples for:</p>
 </li>
 <li>Disrupted sorting in <code>YDN_Sort</code>
 </li>
-<li>Swapped items in <code>YDN_Swap</code>
-</li>
+<li>Swapped items in <code>YDN_Swap</code> (including block-out areas)</li>
 <li>Text capitalization in <code>YDN_Upper</code>
 </li>
 </ul>
 
 <p>All screenshots were compared to <code>YDN.png</code>, a previously approved screenshot without a regression.
-Each of the regression has the screenshot and the output result, highlighting the differences.</p>
+Each of the regressions has the screenshot and the output result, highlighting the differences.</p>
 
 <h2>
 <a id="results" class="anchor" href="#results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Results</h2>
 
-<p><img src="https://raw.githubusercontent.com/yahoo/blink-diff/master/images/conversion.png" alt="Conversion"></p>
+<p><img src="https://raw.githubusercontent.com/yahoo/blink-diff/master/images/composition.png" alt="Composition"></p>
 
 <h2>
 <a id="api-documentation" class="anchor" href="#api-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>API-Documentation</h2>
@@ -378,6 +402,8 @@ Blink-Diff also supports partially the perceptual comparison that can be turned 
 <ul>
 <li>Image loading from Buffer</li>
 <li>Input image cropping</li>
+<li>Image output limit</li>
+<li>Block-out areas</li>
 </ul>
 </li>
 </ul>
