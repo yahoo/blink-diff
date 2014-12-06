@@ -70,6 +70,7 @@ Only PNGs are supported at this point.
 The command-line tool exposes a couple of flags and parameters for the comparison:
 ```
 --verbose           Turn on verbose mode
+--debug             Turn on debug mode - leaving all filters and modifications on the result
 --threshold p       Number of pixels/percent 'p' below which differences are ignored
 --threshold-type t  'pixel' and 'percent' as type of threshold. (default: pixel)
 --delta p           Max. distance colors in the 4 dimensional color-space without triggering a difference. (default: 20)
@@ -84,6 +85,7 @@ The command-line tool exposes a couple of flags and parameters for the compariso
 --hide-shift        Hides shift highlighting (default: false)
 --h-shift           Acceptable horizontal shift of pixel. (default: 0)
 --v-shift           Acceptable vertical shift of pixel. (default: 0)
+--block-out x,y,w,h Block-out area. Can be repeated multiple times.
 --version           Print version
 --help              This help
 ```
@@ -135,7 +137,13 @@ All the parameters that were available in the command-line tool are also availab
 * ```outputBackgroundGreen``` Green intensity for the background in the output file (default: 0)
 * ```outputBackgroundBlue``` Blue intensity for the background in the output file (default: 0)
 * ```outputBackgroundAlpha``` Alpha intensity for the background in the output file (default: undefined)
-* ```outputMaskOpacity``` Opacity of the pixel for the background in the output file (default: 0.6 - transparent)
+* ```outputBackgroundOpacity``` Opacity of the pixel for the background in the output file (default: 0.6 - transparent)
+* ```blockOut``` Object or list of objects with coordinates that should be blocked before testing.
+* ```blockOutRed``` Red intensity for the block-out in the output file (default: 0) This color will only be visible in the result when debug-mode is turned on.
+* ```blockOutGreen``` Green intensity for the block-out in the output file (default: 0) This color will only be visible in the result when debug-mode is turned on.
+* ```blockOutBlue``` Blue intensity for the block-out in the output file (default: 0) This color will only be visible in the result when debug-mode is turned on.
+* ```blockOutAlpha``` Alpha intensity for the block-out in the output file (default: 255)
+* ```blockOutOpacity``` Opacity of the pixel for the block-out in the output file (default: 1.0)
 * ```copyImageAToOutput``` Copies the first image to the output image before the comparison begins. This will make sure that the output image will highlight the differences on the first image. (default)
 * ```copyImageBToOutput``` Copies the second image to the output image before the comparison begins. This will make sure that the output image will highlight the differences on the second image.
 * ```filter``` Filters that will be applied before the comparison. Available filters are: blur, grayScale, lightness, luma, luminosity, sepia
@@ -204,6 +212,10 @@ blinkDiff.log = function (text) {
 ...
 ```
 
+####Block-Out
+Sometimes, it is necessary to block-out some specific areas in an image that should be ignored for comparisons. For example, this can be IDs or even time-labels that change with the time. Adding block-outs to images may decrease false positives and therefore stabilizes these comparisons.
+
+The color of the block-outs can be selected by the API parameters. However, the block-out areas will not be visible by default - they are hidden even though they are used. To make them visible, turn the debug-mode on.
 
 ##Examples
 
@@ -213,14 +225,14 @@ You can find examples for:
 * Missing DOM elements in ```YDN_Missing``` (including some anti-aliasing)
 * Multiple differences in ```YDN_Multi```
 * Disrupted sorting in ```YDN_Sort```
-* Swapped items in ```YDN_Swap```
+* Swapped items in ```YDN_Swap``` (including block-out areas)
 * Text capitalization in ```YDN_Upper```
 
 All screenshots were compared to ```YDN.png```, a previously approved screenshot without a regression.
-Each of the regression has the screenshot and the output result, highlighting the differences.
+Each of the regressions has the screenshot and the output result, highlighting the differences.
 
 ##Results
-![Conversion](https://raw.githubusercontent.com/yahoo/blink-diff/master/images/conversion.png)
+![Composition](https://raw.githubusercontent.com/yahoo/blink-diff/master/images/composition.png)
 
 ##API-Documentation
 
@@ -264,6 +276,7 @@ Also, even if you simply gave us an idea for a feature and did not actually writ
   * Image loading from Buffer
   * Input image cropping
   * Image output limit
+  * Block-out areas
 
 ##Third-party libraries
 

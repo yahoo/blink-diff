@@ -24,17 +24,23 @@ var assert = require('assert'),
  * @param {int} [options.outputMaskGreen=0] Value to set for green on difference pixel. 'Undefined' will not change the value.
  * @param {int} [options.outputMaskBlue=0] Value to set for blue on difference pixel. 'Undefined' will not change the value.
  * @param {int} [options.outputMaskAlpha=255] Value to set for the alpha channel on difference pixel. 'Undefined' will not change the value.
- * @param {int} [options.outputMaskOpacity=0.7] Strength of masking the pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.
+ * @param {float} [options.outputMaskOpacity=0.7] Strength of masking the pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.
  * @param {int} [options.outputShiftRed=255] Value to set for red on shifted pixel. 'Undefined' will not change the value.
  * @param {int} [options.outputShiftGreen=165] Value to set for green on shifted pixel. 'Undefined' will not change the value.
  * @param {int} [options.outputShiftBlue=0] Value to set for blue on shifted pixel. 'Undefined' will not change the value.
  * @param {int} [options.outputShiftAlpha=255] Value to set for the alpha channel on shifted pixel. 'Undefined' will not change the value.
- * @param {int} [options.outputShiftOpacity=0.7] Strength of masking the shifted pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.
+ * @param {float} [options.outputShiftOpacity=0.7] Strength of masking the shifted pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.
  * @param {int} [options.outputBackgroundRed=0] Value to set for red as background. 'Undefined' will not change the value.
  * @param {int} [options.outputBackgroundGreen=0] Value to set for green as background. 'Undefined' will not change the value.
  * @param {int} [options.outputBackgroundBlue=0] Value to set for blue as background. 'Undefined' will not change the value.
  * @param {int} [options.outputBackgroundAlpha=undefined] Value to set for the alpha channel as background. 'Undefined' will not change the value.
- * @param {int} [options.outputBackgroundOpacity=0.6] Strength of masking the pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.
+ * @param {float} [options.outputBackgroundOpacity=0.6] Strength of masking the pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.
+ * @param {object|object[]} [options.blockOut] Object or list of objects with coordinates of blocked-out areas.
+ * @param {int} [options.blockOutRed=0] Value to set for red on blocked-out pixel. 'Undefined' will not change the value.
+ * @param {int} [options.blockOutGreen=0] Value to set for green on blocked-out pixel. 'Undefined' will not change the value.
+ * @param {int} [options.blockOutBlue=0] Value to set for blue on blocked-out pixel. 'Undefined' will not change the value.
+ * @param {int} [options.blockOutAlpha=255] Value to set for the alpha channel on blocked-out pixel. 'Undefined' will not change the value.
+ * @param {float} [options.blockOutOpacity=1.0] Strength of masking the blocked-out pixel. 1.0 means that the full color will be used; anything less will mix-in the original pixel.
  * @param {boolean} [options.copyImageAToOutput=true]  Copies the first image to the output image before the comparison begins. This will make sure that the output image will highlight the differences on the first image.
  * @param {boolean} [options.copyImageBToOutput=false] Copies the second image to the output image before the comparison begins. This will make sure that the output image will highlight the differences on the second image.
  * @param {string[]} [options.filter=[]] Filters that will be applied before the comparison. Available filters are: blur, grayScale, lightness, luma, luminosity, sepia
@@ -77,17 +83,23 @@ var assert = require('assert'),
  * @property {int} _outputMaskGreen
  * @property {int} _outputMaskBlue
  * @property {int} _outputMaskAlpha
- * @property {int} _outputMaskOpacity
+ * @property {float} _outputMaskOpacity
  * @property {int} _outputShiftRed
  * @property {int} _outputShiftGreen
  * @property {int} _outputShiftBlue
  * @property {int} _outputShiftAlpha
- * @property {int} _outputShiftOpacity
+ * @property {float} _outputShiftOpacity
  * @property {int} _outputBackgroundRed
  * @property {int} _outputBackgroundGreen
  * @property {int} _outputBackgroundBlue
  * @property {int} _outputBackgroundAlpha
- * @property {int} _outputBackgroundOpacity
+ * @property {float} _outputBackgroundOpacity
+ * @property {object[]} _blockOut
+ * @property {int} _blockOutRed
+ * @property {int} _blockOutGreen
+ * @property {int} _blockOutBlue
+ * @property {int} _blockOutAlpha
+ * @property {float} _blockOutOpacity
  * @property {boolean} _copyImageAToOutput
  * @property {boolean} _copyImageBToOutput
  * @property {string[]} _filter
@@ -162,6 +174,17 @@ function BlinkDiff (options) {
         this._outputShiftAlpha = options.outputShiftAlpha || 255;
         this._outputShiftOpacity = options.outputShiftOpacity || 0.7;
     }
+
+    this._blockOut = options.blockOut || [];
+    if (typeof this._blockOut != 'object' && (this._blockOut.length !== undefined)) {
+        this._blockOut = [this._blockOut];
+    }
+
+    this._blockOutRed = options.blockOutRed || 0;
+    this._blockOutGreen = options.blockOutGreen || 0;
+    this._blockOutBlue = options.blockOutBlue || 0;
+    this._blockOutAlpha = options.blockOutAlpha || 255;
+    this._blockOutOpacity = options.blockOutOpacity || 1.0;
 
     this._copyImageAToOutput = options.copyImageAToOutput || true;
     this._copyImageBToOutput = options.copyImageBToOutput || false;
@@ -337,17 +360,21 @@ BlinkDiff.prototype = {
             return this._loadImage(this._imageBPath, this._imageB);
 
         }.bind(this)).then(function (imageB) {
-            var gamma;
+
+            var gamma,
+                i, len,
+                rect,
+                color;
 
             this._imageB = imageB;
 
             // Crop images if requested
             if (this._cropImageA) {
-                this._cropDimensions(this._imageA.getWidth(), this._imageA.getHeight(), this._cropImageA);
+                this._correctDimensions(this._imageA.getWidth(), this._imageA.getHeight(), this._cropImageA);
                 this._crop("Image-A", this._imageA, this._cropImageA);
             }
             if (this._cropImageB) {
-                this._cropDimensions(this._imageB.getWidth(), this._imageB.getHeight(), this._cropImageB);
+                this._correctDimensions(this._imageB.getWidth(), this._imageB.getHeight(), this._cropImageB);
                 this._crop("Image-B", this._imageB, this._cropImageB);
             }
 
@@ -356,15 +383,45 @@ BlinkDiff.prototype = {
 
             this._imageOutput = PNGImage.createImage(this._imageA.getWidth(), this._imageA.getHeight());
 
-            if (this._copyImageAToOutput) {
-                this._copyImage(this._imageA, this._imageOutput);
-            } else if (this._copyImageBToOutput) {
-                this._copyImage(this._imageB, this._imageOutput);
+            // Make a copy when not in debug mode
+            if (this._debug) {
+                this._imageACompare = this._imageA;
+                this._imageBCompare = this._imageB;
+            } else {
+                this._imageACompare = PNGImage.copyImage(this._imageA);
+                this._imageBCompare = PNGImage.copyImage(this._imageB);
             }
 
-            this._imageACompare = this._imageA.applyFilters(this._filter, !this._debug);
-            this._imageBCompare = this._imageB.applyFilters(this._filter, !this._debug);
+            // Block-out
+            color = {
+                red: this._blockOutRed,
+                green: this._blockOutGreen,
+                blue: this._blockOutBlue,
+                alpha: this._blockOutAlpha,
+                opacity: this._blockOutOpacity
+            };
+            for (i = 0, len = this._blockOut.length; i < len; i++) {
+                rect = this._blockOut[i];
 
+                // Make sure the block-out parameters fit
+                this._correctDimensions(this._imageACompare.getWidth(), this._imageACompare.getHeight(), rect);
+
+                this._imageACompare.fillRect(rect.x, rect.y, rect.width, rect.height, color);
+                this._imageBCompare.fillRect(rect.x, rect.y, rect.width, rect.height, color);
+            }
+
+            // Copy image to composition
+            if (this._copyImageAToOutput) {
+                this._copyImage(this._debug ? this._imageACompare : this._imageA, this._imageOutput);
+            } else if (this._copyImageBToOutput) {
+                this._copyImage(this._debug ? this._imageBCompare : this._imageB, this._imageOutput);
+            }
+
+            // Apply all filters
+            this._imageACompare.applyFilters(this._filter);
+            this._imageBCompare.applyFilters(this._filter);
+
+            // Gamma correction
             if (this._gamma || this._gammaR || this._gammaG || this._gammaB) {
                 gamma = {
                     r: this._gammaR || this._gamma,
@@ -373,6 +430,7 @@ BlinkDiff.prototype = {
                 };
             }
 
+            // Comparison
             result = this._compare(this._imageACompare, this._imageBCompare, this._imageOutput, this._delta,
                 { // Output-Mask color
                     red: this._outputMaskRed,
@@ -402,7 +460,11 @@ BlinkDiff.prototype = {
             );
 
             // Create composition if requested
-            this._imageOutput = this._createComposition(this._imageACompare, this._imageBCompare, this._imageOutput);
+            if (this._debug) {
+                this._imageOutput = this._createComposition(this._imageACompare, this._imageBCompare, this._imageOutput);
+            } else {
+                this._imageOutput = this._createComposition(this._imageA, this._imageB, this._imageOutput);
+            }
 
             // Need to write to the filesystem?
             if (this._imageOutputPath && this._withinOutputLimit(result.code, this._imageOutputLimit)) {
@@ -633,12 +695,12 @@ BlinkDiff.prototype = {
     },
 
     /**
-     * Correcting cropping dimensions if necessary
+     * Correcting area dimensions if necessary
      *
      * Note:
-     *  Priority is on the x/y coordinates, and not on the dimensions since the dimensions will then be clipped anyways.
+     *  Priority is on the x/y coordinates, and not on the size since the size will then be removed anyways.
      *
-     * @method _cropDimensions
+     * @method _correctDimensions
      * @param {int} width
      * @param {int} height
      * @param {object} rect Values for rect
@@ -648,9 +710,9 @@ BlinkDiff.prototype = {
      * @param {int} rect.height Height value of rect
      * @private
      */
-    _cropDimensions: function (width, height, rect) {
+    _correctDimensions: function (width, height, rect) {
 
-        // Add values if not given
+        // Set values if none given
         rect.x = rect.x || 0;
         rect.y = rect.y || 0;
         rect.width = rect.width || width;
@@ -911,19 +973,19 @@ BlinkDiff.prototype = {
      * @param {int} [outputMaskColor.green]
      * @param {int} [outputMaskColor.blue]
      * @param {int} [outputMaskColor.alpha]
-     * @param {int} [outputMaskColor.opacity]
+     * @param {float} [outputMaskColor.opacity]
      * @param {object} outputShiftColor
      * @param {int} [outputShiftColor.red]
      * @param {int} [outputShiftColor.green]
      * @param {int} [outputShiftColor.blue]
      * @param {int} [outputShiftColor.alpha]
-     * @param {int} [outputShiftColor.opacity]
+     * @param {float} [outputShiftColor.opacity]
      * @param {object} backgroundColor
      * @param {int} [backgroundColor.red]
      * @param {int} [backgroundColor.green]
      * @param {int} [backgroundColor.blue]
      * @param {int} [backgroundColor.alpha]
-     * @param {int} [backgroundColor.opacity]
+     * @param {float} [backgroundColor.opacity]
      * @param {int} [hShift=0] Horizontal shift
      * @param {int} [vShift=0] Vertical shift
      * @param {boolean} [perceptual=false]
@@ -979,19 +1041,19 @@ BlinkDiff.prototype = {
      * @param {int} [outputMaskColor.green]
      * @param {int} [outputMaskColor.blue]
      * @param {int} [outputMaskColor.alpha]
-     * @param {int} [outputMaskColor.opacity]
+     * @param {float} [outputMaskColor.opacity]
      * @param {object} outputShiftColor
      * @param {int} [outputShiftColor.red]
      * @param {int} [outputShiftColor.green]
      * @param {int} [outputShiftColor.blue]
      * @param {int} [outputShiftColor.alpha]
-     * @param {int} [outputShiftColor.opacity]
+     * @param {float} [outputShiftColor.opacity]
      * @param {object} backgroundColor
      * @param {int} [backgroundColor.red]
      * @param {int} [backgroundColor.green]
      * @param {int} [backgroundColor.blue]
      * @param {int} [backgroundColor.alpha]
-     * @param {int} [backgroundColor.opacity]
+     * @param {float} [backgroundColor.opacity]
      * @param {int} [hShift=0] Horizontal shift
      * @param {int} [vShift=0] Vertical shift
      * @param {boolean} [perceptual=false]

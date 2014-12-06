@@ -1,6 +1,9 @@
 Changelog
 =========
 
+v1.0.7 - 12/06/14
+* Block-out areas + color definition
+
 v1.0.6 - 12/05/14
 * Bugfix: Using image as default instead of string when loading image
 

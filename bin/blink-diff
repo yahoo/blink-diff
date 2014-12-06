@@ -76,6 +76,7 @@ function printHelp () {
     console.log("");
     console.log("  Options:");
     console.log("    --verbose           Turn on verbose mode");
+    console.log("    --debug             Turn on debug mode - leaving all filters and modifications on the result");
     console.log("    --threshold p       Number of pixels/percent 'p' below which differences are ignored");
     console.log("    --threshold-type t  'pixel' and 'percent' as type of threshold. (default: pixel)");
     console.log("    --delta p           Max. distance colors in the 4 dimensional color-space without triggering a difference. (default: 20)");
@@ -90,6 +91,7 @@ function printHelp () {
     console.log("    --hide-shift        Hides shift highlighting (default: false)");
     console.log("    --h-shift           Acceptable horizontal shift of pixel. (default: 0)");
     console.log("    --v-shift           Acceptable vertical shift of pixel. (default: 0)");
+    console.log("    --block-out x,y,w,h Block-out area. Can be repeated multiple times.");
     console.log("    --version           Print version");
     console.log("    --help              This help");
     console.log("");
@@ -110,6 +112,8 @@ function parseArgs (argv) {
         process.exit(1);
     }
 
+    options.blockOut = [];
+
     for (i = 1; i < argLength; i++) {
 
         try {
@@ -120,6 +124,9 @@ function parseArgs (argv) {
 
             } else if (argv[i] == "--verbose") {
                 options.verbose = true;
+
+            } else if (argv[i] == "--debug") {
+                options.debug = true;
 
             } else if (argv[i] == "--no-composition") {
                 options.composition = false;
@@ -196,6 +203,21 @@ function parseArgs (argv) {
                         throw new Error("--delta must be positive");
                     }
                     options.delta = temporary;
+                }
+
+            } else if (argv[i] == "--block-out") {
+                if (++i < argLength) {
+
+                    temporary = argv[i].split(',');
+                    if (temporary.length < 2) {
+                        throw new Error("--block-out should at least have the x and y coordinate");
+                    }
+                    options.blockOut.push({
+                        x: parseInt(temporary[0], 10),
+                        y: parseInt(temporary[1], 10),
+                        width: parseInt(temporary[2], 10),
+                        height: parseInt(temporary[3], 10)
+                    });
                 }
 
             } else if (argv[i] == "--filter") {

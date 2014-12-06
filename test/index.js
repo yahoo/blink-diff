@@ -328,14 +328,14 @@ describe('Blink-Diff', function () {
             });
         });
 
-        describe('_cropDimensions', function () {
+        describe('_correctDimensions', function () {
 
             describe('Missing Values', function () {
 
                 it('should correct missing x values', function () {
                     var rect = { y:23, width:42, height:57 };
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(0);
                     expect(rect.y).to.be.equal(23);
@@ -346,7 +346,7 @@ describe('Blink-Diff', function () {
                 it('should correct missing y values', function () {
                     var rect = { x:10, width:42, height:57 };
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(10);
                     expect(rect.y).to.be.equal(0);
@@ -357,7 +357,7 @@ describe('Blink-Diff', function () {
                 it('should correct missing width values', function () {
                     var rect = { x:10, y:23, height:57 };
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(10);
                     expect(rect.y).to.be.equal(23);
@@ -368,7 +368,7 @@ describe('Blink-Diff', function () {
                 it('should correct missing height values', function () {
                     var rect = { x:10, y:23, width:42 };
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(10);
                     expect(rect.y).to.be.equal(23);
@@ -379,7 +379,7 @@ describe('Blink-Diff', function () {
                 it('should correct all missing values', function () {
                     var rect = {};
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(0);
                     expect(rect.y).to.be.equal(0);
@@ -393,7 +393,7 @@ describe('Blink-Diff', function () {
                 it('should correct negative x values', function () {
                     var rect = { x:-10, y:23, width:42, height:57 };
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(0);
                     expect(rect.y).to.be.equal(23);
@@ -404,7 +404,7 @@ describe('Blink-Diff', function () {
                 it('should correct negative y values', function () {
                     var rect = { x:10, y:-23, width:42, height:57 };
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(10);
                     expect(rect.y).to.be.equal(0);
@@ -415,7 +415,7 @@ describe('Blink-Diff', function () {
                 it('should correct negative width values', function () {
                     var rect = { x:10, y:23, width:-42, height:57 };
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(10);
                     expect(rect.y).to.be.equal(23);
@@ -426,7 +426,7 @@ describe('Blink-Diff', function () {
                 it('should correct negative height values', function () {
                     var rect = { x:10, y:23, width:42, height:-57 };
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(10);
                     expect(rect.y).to.be.equal(23);
@@ -437,7 +437,7 @@ describe('Blink-Diff', function () {
                 it('should correct all negative values', function () {
                     var rect = { x:-10, y:-23, width:-42, height:-57 };
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(0);
                     expect(rect.y).to.be.equal(0);
@@ -451,7 +451,7 @@ describe('Blink-Diff', function () {
                 it('should correct too big x values', function () {
                     var rect = { x:1000, y:23, width:42, height:57 };
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(299);
                     expect(rect.y).to.be.equal(23);
@@ -462,7 +462,7 @@ describe('Blink-Diff', function () {
                 it('should correct too big y values', function () {
                     var rect = { x:10, y:2300, width:42, height:57 };
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(10);
                     expect(rect.y).to.be.equal(199);
@@ -473,7 +473,7 @@ describe('Blink-Diff', function () {
                 it('should correct too big width values', function () {
                     var rect = { x:11, y:23, width:4200, height:57 };
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(11);
                     expect(rect.y).to.be.equal(23);
@@ -484,7 +484,7 @@ describe('Blink-Diff', function () {
                 it('should correct too big height values', function () {
                     var rect = { x:11, y:23, width:42, height:5700 };
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(11);
                     expect(rect.y).to.be.equal(23);
@@ -495,7 +495,7 @@ describe('Blink-Diff', function () {
                 it('should correct too big width and height values', function () {
                     var rect = { x:11, y:23, width:420, height:570 };
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(11);
                     expect(rect.y).to.be.equal(23);
@@ -509,7 +509,7 @@ describe('Blink-Diff', function () {
                 it('should correct too big x values', function () {
                     var rect = { x:300, y:23, width:42, height:57 };
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(299);
                     expect(rect.y).to.be.equal(23);
@@ -520,7 +520,7 @@ describe('Blink-Diff', function () {
                 it('should correct too big y values', function () {
                     var rect = { x:10, y:200, width:42, height:57 };
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(10);
                     expect(rect.y).to.be.equal(199);
@@ -531,7 +531,7 @@ describe('Blink-Diff', function () {
                 it('should correct too big width values', function () {
                     var rect = { x:11, y:23, width:289, height:57 };
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(11);
                     expect(rect.y).to.be.equal(23);
@@ -542,7 +542,7 @@ describe('Blink-Diff', function () {
                 it('should correct too big height values', function () {
                     var rect = { x:11, y:23, width:42, height:177 };
 
-                    this.instance._cropDimensions(300, 200, rect);
+                    this.instance._correctDimensions(300, 200, rect);
 
                     expect(rect.x).to.be.equal(11);
                     expect(rect.y).to.be.equal(23);
