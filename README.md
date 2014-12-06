@@ -22,6 +22,7 @@ A lightweight image comparison tool
     * [Cropping](#cropping)
     * [Perceptual Comparison](#perceptual-comparison)
     * [Logging](#logging)
+    * [Block-Out](#block-out)
 * [Examples](#examples)
 * [Results](#results)
 * [API-Documentation](#api-documentation)
