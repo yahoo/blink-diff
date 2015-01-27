@@ -105,7 +105,7 @@ var diff = new BlinkDiff({
     thresholdType: BlinkDiff.THRESHOLD_PERCENT,
     threshold: 0.01,
 
-    outputPath: 'path/to/output/image'
+    imageOutputPath: 'path/to/output/image'
 });
 
 diff.run(function (error) {
@@ -278,6 +278,8 @@ Also, even if you simply gave us an idea for a feature and did not actually writ
   * Input image cropping
   * Image output limit
   * Block-out areas
+* [jeffposnick](https://github.com/jeffposnick)
+  * Documentation
 
 ##Third-party libraries
 
