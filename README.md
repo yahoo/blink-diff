@@ -7,6 +7,7 @@ A lightweight image comparison tool
 [![npm version](https://badge.fury.io/js/blink-diff.svg)](http://badge.fury.io/js/blink-diff)
 
 [![NPM](https://nodei.co/npm/blink-diff.png?downloads=true)](https://nodei.co/npm/blink-diff/)
+[![NPM](https://nodei.co/npm-dl/blink-diff.png?months=3&height=2)](https://nodei.co/npm/blink-diff/)
 
 
 [API-Documentation](http://yahoo.github.io/blink-diff/docs/)
