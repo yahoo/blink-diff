@@ -875,6 +875,7 @@ BlinkDiff.prototype = {
     /**
      * Calculates the lower limit
      *
+     * @method _calculateLowerLimit
      * @param {int} value
      * @param {int} min
      * @param {int} shift
@@ -888,6 +889,7 @@ BlinkDiff.prototype = {
     /**
      * Calculates the upper limit
      *
+     * @method _calculateUpperLimit
      * @param {int} value
      * @param {int} max
      * @param {int} shift
@@ -901,6 +903,7 @@ BlinkDiff.prototype = {
     /**
      * Checks if any pixel in the shift surrounding has a comparable color
      *
+     * @method _shiftCompare
      * @param {int} x
      * @param {int} y
      * @param {object} color
