@@ -130,11 +130,11 @@ function BlinkDiff (options) {
 
     this._imageA = options.imageA;
     this._imageAPath = options.imageAPath;
-    assert.ok(options.imageAPath || options.imageA, "Path to image A not given.");
+    assert.ok(options.imageAPath || options.imageA, "Image A not given.");
 
     this._imageB = options.imageB;
     this._imageBPath = options.imageBPath;
-    assert.ok(options.imageBPath || options.imageB, "Path to image B not given.");
+    assert.ok(options.imageBPath || options.imageB, "Image B not given.");
 
     this._imageOutput = null;
     this._imageOutputPath = options.imageOutputPath;
