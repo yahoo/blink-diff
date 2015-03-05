@@ -1,9 +1,10 @@
 language: node_js
 
 node_js:
-  - "0.8"
   - "0.10"
   - "0.11"
+  - "0.12"
+  - "iojs"
 
 branches:
   except:
@@ -15,4 +16,10 @@ script:
 after_script:
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 
-
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/5ba2780eb32dc366def2
+    on_success: change  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: false     # default: false
