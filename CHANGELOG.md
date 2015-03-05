@@ -1,4 +1,4 @@
-Changelog
+CHANGELOG
 =========
 
 v1.0.7 - 12/06/14

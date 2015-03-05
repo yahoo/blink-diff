@@ -1,45 +1,48 @@
 {
-  "name": "blink-diff",
-  "version": "1.0.7",
-  "description": "A lightweight image comparison tool",
-  "license": "MIT",
-  "main": "index.js",
-  "bugs": "https://github.com/yahoo/blink-diff/issues",
-  "homepage": "https://github.com/yahoo/blink-diff",
-  "bin": {
-    "blink-diff": "bin/blink-diff"
-  },
-  "author": {
-    "name": "Marcel Erz",
-    "email": "erz@yahoo-inc.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/yahoo/blink-diff.git"
-  },
-  "scripts": {
-    "test": "istanbul cover -- _mocha --reporter spec",
-    "docs": "yuidoc ."
-  },
-  "keywords": [
-    "image-diff",
-    "visual-diff",
-    "diff",
-    "testing",
-    "blink",
-    "image",
-    "difference",
-    "compare"
-  ],
-  "dependencies": {
-    "promise": "6.0.0",
-    "pngjs-image": "0.9.3"
-  },
-  "devDependencies": {
-    "chai": "1.9.1",
-    "coveralls": "2.11.2",
-    "istanbul": "0.3.2",
-    "mocha": "1.21.4",
-    "yuidocjs": "0.3.50"
-  }
+	"name": "blink-diff",
+	"version": "1.1.0",
+	"description": "A lightweight image comparison tool",
+	"license": "MIT",
+	"main": "index.js",
+	"bugs": "https://github.com/yahoo/blink-diff/issues",
+	"homepage": "https://github.com/yahoo/blink-diff",
+	"bin": {
+		"blink-diff": "bin/blink-diff"
+	},
+	"author": {
+		"name": "Marcel Erz",
+		"email": "erz@yahoo-inc.com",
+		"url": "http://www.marcelerz.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/yahoo/blink-diff.git"
+	},
+	"keywords": [
+		"image-diff",
+		"visual-diff",
+		"diff",
+		"testing",
+		"blink",
+		"image",
+		"difference",
+		"compare"
+	],
+	"scripts": {
+		"test": "istanbul cover -- _mocha --reporter spec",
+		"docs": "yuidoc ."
+	},
+	"dependencies": {
+		"promise": "6.0.0",
+		"pngjs-image": "0.9.3"
+	},
+	"devDependencies": {
+		"chai": "1.9.2",
+		"coveralls": "2.11.2",
+		"istanbul": "0.3.2",
+		"mocha": "1.21.4",
+		"sinon": "1.12.2",
+		"sinon-chai": "2.7.0",
+		"yuidocjs": "0.3.50"
+	}
 }

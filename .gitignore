@@ -10,5 +10,5 @@ CVS/
 .svn
 *~
 .com.apple.timemachine.supported
-.idea
+.idea/
 docs/

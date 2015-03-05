@@ -291,6 +291,7 @@ The following third-party libraries are used by this module:
 
 ###Dev-Dependencies
 * chai: http://chaijs.com
+* coveralls: https://github.com/cainus/node-coveralls
 * istanbul: https://github.com/gotwarlost/istanbul
 * mocha: https://github.com/visionmedia/mocha
 * yuidocjs: https://github.com/yui/yuidoc
@@ -299,4 +300,4 @@ The following third-party libraries are used by this module:
 
 The MIT License
 
-Copyright 2014 Yahoo Inc.
+Copyright 2014-2015 Yahoo Inc.
