@@ -113,8 +113,13 @@ var diff = new BlinkDiff({
     imageOutputPath: 'path/to/output/image'
 });
 
-diff.run(function (error) {
-    console.log(error ? 'Failed' : 'Passed');
+diff.run(function (error, result) {
+   if (error) {
+      throw error;
+   } else {
+      console.log(diff.hasPassed(result.code) ? 'Passed' : 'Failed');
+      console.log('Found ' + result.differences + ' differences.');
+   }
 });
 ```
 
@@ -190,8 +195,13 @@ var firstImage = PNGImage.readImage('path/to/first/image', function (err) {
       outputPath: 'path/to/output/image'
   });
 
-  diff.run(function (error) {
-      console.log(error ? 'Failed' : 'Passed');
+  diff.run(function (error, result) {
+    if (error) {
+      throw error;
+    } else {
+      console.log(diff.hasPassed(result.code) ? 'Passed' : 'Failed');
+      console.log('Found ' + result.differences + ' differences.');
+    }
   });
 });
 ```
@@ -284,6 +294,8 @@ Also, even if you simply gave us an idea for a feature and did not actually writ
   * Image output limit
   * Block-out areas
 * [jeffposnick](https://github.com/jeffposnick)
+  * Documentation
+* [a-nwhitmont](https://github.com/a-nwhitmont)
   * Documentation
 
 ##Third-party libraries
