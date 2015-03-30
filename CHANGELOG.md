@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+v1.0.8 - 03/29/15
+* Cleanup
+* Added code-Climate, coveralls, and others
+
 v1.0.7 - 12/06/14
 * Block-out areas + color definition
 
