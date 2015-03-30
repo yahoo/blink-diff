@@ -36,14 +36,20 @@
 
 <p>A lightweight image comparison tool</p>
 
-<p><a href="http://travis-ci.org/yahoo/blink-diff"><img src="https://secure.travis-ci.org/yahoo/blink-diff.png" alt="Build Status"></a>
-<a href="http://badge.fury.io/js/blink-diff"><img src="https://badge.fury.io/js/blink-diff.svg" alt="npm version"></a></p>
+<p><a href="http://travis-ci.org/yahoo/blink-diff"><img src="https://img.shields.io/travis/yahoo/blink-diff.svg" alt="Build Status"></a>
+<a href="https://coveralls.io/r/yahoo/blink-diff"><img src="https://img.shields.io/coveralls/yahoo/blink-diff.svg" alt="Coveralls Coverage"></a>
+<a href="https://codeclimate.com/github/yahoo/blink-diff"><img src="https://img.shields.io/codeclimate/github/yahoo/blink-diff.svg" alt="Code Climate Grade"></a></p>
 
-<p><a href="https://nodei.co/npm/blink-diff/"><img src="https://nodei.co/npm/blink-diff.png?downloads=true" alt="NPM"></a></p>
+<p><a href="https://www.npmjs.com/package/blink-diff"><img src="https://badge.fury.io/js/blink-diff.svg" alt="NPM version"></a>
+<a href="https://www.npmjs.com/package/blink-diff"><img src="https://img.shields.io/npm/l/blink-diff.svg" alt="NPM License"></a></p>
 
-<p><a href="http://yahoo.github.io/blink-diff/docs/">API-Documentation</a></p>
+<p><a href="https://www.npmjs.com/package/blink-diff"><img src="https://nodei.co/npm/blink-diff.png?downloads=true&amp;stars=true" alt="NPM"></a>
+<a href="https://www.npmjs.com/package/blink-diff"><img src="https://nodei.co/npm-dl/blink-diff.png?months=3&amp;height=2" alt="NPM"></a></p>
 
-<p><a href="http://yahoo.github.io/blink-diff/coverage/lcov-report/">Coverage Report</a></p>
+<p><a href="http://yahoo.github.io/blink-diff/coverage/lcov-report/"><img src="https://img.shields.io/badge/Coverage_Report-Available-blue.svg" alt="Coverage Report"></a>
+<a href="http://yahoo.github.io/blink-diff/docs/"><img src="https://img.shields.io/badge/API_Documentation-Available-blue.svg" alt="API Documentation"></a></p>
+
+<p><a href="https://gitter.im/preceptorjs/support"><img src="https://img.shields.io/badge/Support-Gitter_IM-yellow.svg" alt="Gitter Support"></a></p>
 
 <p><strong>Table of Contents</strong></p>
 
@@ -62,7 +68,6 @@
 </ul>
 </li>
 <li><a href="#examples">Examples</a></li>
-<li><a href="#results">Results</a></li>
 <li><a href="#api-documentation">API-Documentation</a></li>
 <li><a href="#tests">Tests</a></li>
 <li><a href="#project-focus">Project Focus</a></li>
@@ -72,6 +77,11 @@
 <li><a href="#third-party-libraries">Third-party libraries</a></li>
 <li><a href="#license">License</a></li>
 </ul>
+
+<h2>
+<a id="image-comparison-and-result" class="anchor" href="#image-comparison-and-result" aria-hidden="true"><span class="octicon octicon-link"></span></a>Image Comparison and Result</h2>
+
+<p><img src="https://raw.githubusercontent.com/yahoo/blink-diff/master/images/composition.png" alt="Composition"></p>
 
 <h2>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
@@ -138,18 +148,23 @@ Only PNGs are supported at this point.</p>
 
 <p><strong>Example:</strong></p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> diff <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">BlinkDiff</span>({
-    imageAPath<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>path/to/first/image<span class="pl-pds">'</span></span>, <span class="pl-c">// Use file-path</span>
-    imageBPath<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>path/to/second/image<span class="pl-pds">'</span></span>,
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> diff <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">BlinkDiff</span>({
+    imageAPath<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>path/to/first/image<span class="pl-pds">'</span></span>, <span class="pl-c">// Use file-path</span>
+    imageBPath<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>path/to/second/image<span class="pl-pds">'</span></span>,
 
     thresholdType<span class="pl-k">:</span> BlinkDiff.THRESHOLD_PERCENT,
     threshold<span class="pl-k">:</span> <span class="pl-c1">0.01</span>,
 
-    imageOutputPath<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>path/to/output/image<span class="pl-pds">'</span></span>
+    imageOutputPath<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>path/to/output/image<span class="pl-pds">'</span></span>
 });
 
-diff.run(<span class="pl-st">function</span> (<span class="pl-vpf">error</span>) {
-    <span class="pl-en">console</span><span class="pl-s3">.log</span>(error <span class="pl-k">?</span> <span class="pl-s1"><span class="pl-pds">'</span>Failed<span class="pl-pds">'</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>Passed<span class="pl-pds">'</span></span>);
+diff.run(<span class="pl-k">function</span> (<span class="pl-smi">error</span>, <span class="pl-smi">result</span>) {
+   <span class="pl-k">if</span> (error) {
+      <span class="pl-k">throw</span> error;
+   } <span class="pl-k">else</span> {
+      <span class="pl-en">console</span><span class="pl-c1">.log</span>(diff.hasPassed(result.<span class="pl-c1">code</span>) <span class="pl-k">?</span> <span class="pl-s"><span class="pl-pds">'</span>Passed<span class="pl-pds">'</span></span> <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Failed<span class="pl-pds">'</span></span>);
+      <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>Found <span class="pl-pds">'</span></span> <span class="pl-k">+</span> result.differences <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span> differences.<span class="pl-pds">'</span></span>);
+   }
 });</pre></div>
 
 <p>All the parameters that were available in the command-line tool are also available through the class constructor, however they might use slightly different wording. The class exposes additional parameters that are not available from the command-line:</p>
@@ -255,15 +270,15 @@ diff.run(<span class="pl-st">function</span> (<span class="pl-vpf">error</span>)
 
 <p><strong>Example:</strong></p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> firstImage <span class="pl-k">=</span> PNGImage.readImage(<span class="pl-s1"><span class="pl-pds">'</span>path/to/first/image<span class="pl-pds">'</span></span>, <span class="pl-st">function</span> (<span class="pl-vpf">err</span>) {
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> firstImage <span class="pl-k">=</span> PNGImage.readImage(<span class="pl-s"><span class="pl-pds">'</span>path/to/first/image<span class="pl-pds">'</span></span>, <span class="pl-k">function</span> (<span class="pl-smi">err</span>) {
 
   <span class="pl-k">if</span> (err) {
     <span class="pl-k">throw</span> err;
   }
 
-  <span class="pl-s">var</span> diff <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">BlinkDiff</span>({
+  <span class="pl-k">var</span> diff <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">BlinkDiff</span>({
       imageA<span class="pl-k">:</span> srcImage, <span class="pl-c">// Use already loaded image for first image</span>
-      imageBPath<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>path/to/second/image<span class="pl-pds">'</span></span>, <span class="pl-c">// Use file-path to select image</span>
+      imageBPath<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>path/to/second/image<span class="pl-pds">'</span></span>, <span class="pl-c">// Use file-path to select image</span>
 
       delta<span class="pl-k">:</span> <span class="pl-c1">50</span>, <span class="pl-c">// Make comparison more tolerant</span>
 
@@ -272,11 +287,16 @@ diff.run(<span class="pl-st">function</span> (<span class="pl-vpf">error</span>)
 
       hideShift<span class="pl-k">:</span> <span class="pl-c1">true</span> <span class="pl-c">// Hide anti-aliasing differences - will still determine but not showing it</span>
 
-      outputPath<span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>path/to/output/image<span class="pl-pds">'</span></span>
+      outputPath<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>path/to/output/image<span class="pl-pds">'</span></span>
   });
 
-  diff.run(<span class="pl-st">function</span> (<span class="pl-vpf">error</span>) {
-      <span class="pl-en">console</span><span class="pl-s3">.log</span>(error <span class="pl-k">?</span> <span class="pl-s1"><span class="pl-pds">'</span>Failed<span class="pl-pds">'</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">'</span>Passed<span class="pl-pds">'</span></span>);
+  diff.run(<span class="pl-k">function</span> (<span class="pl-smi">error</span>, <span class="pl-smi">result</span>) {
+    <span class="pl-k">if</span> (error) {
+      <span class="pl-k">throw</span> error;
+    } <span class="pl-k">else</span> {
+      <span class="pl-en">console</span><span class="pl-c1">.log</span>(diff.hasPassed(result.<span class="pl-c1">code</span>) <span class="pl-k">?</span> <span class="pl-s"><span class="pl-pds">'</span>Passed<span class="pl-pds">'</span></span> <span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>Failed<span class="pl-pds">'</span></span>);
+      <span class="pl-en">console</span><span class="pl-c1">.log</span>(<span class="pl-s"><span class="pl-pds">'</span>Found <span class="pl-pds">'</span></span> <span class="pl-k">+</span> result.differences <span class="pl-k">+</span> <span class="pl-s"><span class="pl-pds">'</span> differences.<span class="pl-pds">'</span></span>);
+    }
   });
 });</pre></div>
 
@@ -295,11 +315,11 @@ diff.run(<span class="pl-st">function</span> (<span class="pl-vpf">error</span>)
 
 <p>By default, the logger doesn't log events anywhere, but you can change this behavior by overwriting <code>blinkDiff.log</code>:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="pl-s">var</span> blinkDiff <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">BlinkDiff</span>({
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> blinkDiff <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">BlinkDiff</span>({
     ...
 });
 
-<span class="pl-s3">blinkDiff</span>.<span class="pl-en">log</span> <span class="pl-k">=</span> <span class="pl-st">function</span> (<span class="pl-vpf">text</span>) {
+<span class="pl-c1">blinkDiff</span>.<span class="pl-en">log</span> <span class="pl-k">=</span> <span class="pl-k">function</span> (<span class="pl-smi">text</span>) {
     <span class="pl-c">// Do whatever you want to do</span>
 };
 
@@ -335,11 +355,6 @@ You can find examples for:</p>
 Each of the regressions has the screenshot and the output result, highlighting the differences.</p>
 
 <h2>
-<a id="results" class="anchor" href="#results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Results</h2>
-
-<p><img src="https://raw.githubusercontent.com/yahoo/blink-diff/master/images/composition.png" alt="Composition"></p>
-
-<h2>
 <a id="api-documentation" class="anchor" href="#api-documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>API-Documentation</h2>
 
 <p>Generate the documentation with following command:</p>
@@ -353,7 +368,7 @@ Each of the regressions has the screenshot and the output result, highlighting t
 
 <p>Run the tests with the following command:</p>
 
-<div class="highlight highlight-shell"><pre>npm run <span class="pl-s3">test</span></pre></div>
+<div class="highlight highlight-shell"><pre>npm run <span class="pl-c1">test</span></pre></div>
 
 <p>The code-coverage will be written to the <code>coverage</code> folder in the module root.</p>
 
@@ -413,6 +428,13 @@ Blink-Diff also supports partially the perceptual comparison that can be turned 
 <li>Documentation</li>
 </ul>
 </li>
+<li>
+<a href="https://github.com/a-nwhitmont">a-nwhitmont</a>
+
+<ul>
+<li>Documentation</li>
+</ul>
+</li>
 </ul>
 
 <h2>
@@ -436,9 +458,17 @@ Blink-Diff also supports partially the perceptual comparison that can be turned 
 <ul>
 <li>chai: <a href="http://chaijs.com">http://chaijs.com</a>
 </li>
+<li>coveralls: <a href="https://github.com/cainus/node-coveralls">https://github.com/cainus/node-coveralls</a>
+</li>
+<li>codeclimate-test-reporter: <a href="https://github.com/codeclimate/javascript-test-reporter">https://github.com/codeclimate/javascript-test-reporter</a>
+</li>
 <li>istanbul: <a href="https://github.com/gotwarlost/istanbul">https://github.com/gotwarlost/istanbul</a>
 </li>
 <li>mocha: <a href="https://github.com/visionmedia/mocha">https://github.com/visionmedia/mocha</a>
+</li>
+<li>sinon: <a href="http://sinonjs.org">http://sinonjs.org</a>
+</li>
+<li>sinon-chai: <a href="https://github.com/domenic/sinon-chai">https://github.com/domenic/sinon-chai</a>
 </li>
 <li>yuidocjs: <a href="https://github.com/yui/yuidoc">https://github.com/yui/yuidoc</a>
 </li>
@@ -449,7 +479,7 @@ Blink-Diff also supports partially the perceptual comparison that can be turned 
 
 <p>The MIT License</p>
 
-<p>Copyright 2014 Yahoo Inc.</p>
+<p>Copyright 2014-2015 Yahoo Inc.</p>
       </section>
     </div>
 
@@ -457,7 +487,7 @@ Blink-Diff also supports partially the perceptual comparison that can be turned 
     <div id="footer_wrap" class="outer">
       <footer class="inner">
         <p class="copyright">Blink-diff maintained by <a href="https://github.com/yahoo">yahoo</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
 
