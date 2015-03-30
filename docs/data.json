@@ -2,7 +2,7 @@
     "project": {
         "name": "blink-diff",
         "description": "A lightweight image comparison tool",
-        "version": "1.0.7"
+        "version": "1.0.8"
     },
     "files": {
         "index.js": {
@@ -550,7 +550,7 @@
         },
         {
             "file": "index.js",
-            "line": 489,
+            "line": 475,
             "description": "Determines if result is within the output limit",
             "itemtype": "method",
             "name": "_withinOutputLimit",
@@ -576,7 +576,7 @@
         },
         {
             "file": "index.js",
-            "line": 502,
+            "line": 488,
             "description": "Converts the result-code to a relative value",
             "itemtype": "method",
             "name": "_convertResultCodeToRelativeValue",
@@ -597,7 +597,7 @@
         },
         {
             "file": "index.js",
-            "line": 522,
+            "line": 505,
             "description": "Creates a comparison image",
             "itemtype": "method",
             "name": "_createComposition",
@@ -628,7 +628,7 @@
         },
         {
             "file": "index.js",
-            "line": 560,
+            "line": 541,
             "description": "Loads the image or uses the already available image",
             "itemtype": "method",
             "name": "_loadImage",
@@ -654,7 +654,7 @@
         },
         {
             "file": "index.js",
-            "line": 582,
+            "line": 563,
             "description": "Copies one image into another image",
             "itemtype": "method",
             "name": "_copyImage",
@@ -676,7 +676,7 @@
         },
         {
             "file": "index.js",
-            "line": 601,
+            "line": 576,
             "description": "Is the difference above the set threshold?",
             "itemtype": "method",
             "name": "isAboveThreshold",
@@ -701,7 +701,7 @@
         },
         {
             "file": "index.js",
-            "line": 622,
+            "line": 597,
             "description": "Log method that can be overwritten to modify the logging behavior.",
             "itemtype": "method",
             "name": "log",
@@ -716,7 +716,7 @@
         },
         {
             "file": "index.js",
-            "line": 633,
+            "line": 608,
             "description": "Has comparison passed?",
             "itemtype": "method",
             "name": "hasPassed",
@@ -735,7 +735,7 @@
         },
         {
             "file": "index.js",
-            "line": 645,
+            "line": 620,
             "description": "Clips the images to the lower resolution of both",
             "access": "private",
             "tagname": "",
@@ -757,7 +757,7 @@
         },
         {
             "file": "index.js",
-            "line": 677,
+            "line": 651,
             "description": "Crops the source image to the bounds of rect",
             "itemtype": "method",
             "name": "_crop",
@@ -806,7 +806,7 @@
         },
         {
             "file": "index.js",
-            "line": 697,
+            "line": 671,
             "description": "Correcting area dimensions if necessary\n\nNote:\n Priority is on the x/y coordinates, and not on the size since the size will then be removed anyways.",
             "itemtype": "method",
             "name": "_correctDimensions",
@@ -855,7 +855,7 @@
         },
         {
             "file": "index.js",
-            "line": 735,
+            "line": 709,
             "description": "Calculates the distance of colors in the 4 dimensional color space",
             "itemtype": "method",
             "name": "_colorDelta",
@@ -925,7 +925,7 @@
         },
         {
             "file": "index.js",
-            "line": 763,
+            "line": 737,
             "description": "Gets the color of an image by the index",
             "itemtype": "method",
             "name": "_getColor",
@@ -964,7 +964,7 @@
         },
         {
             "file": "index.js",
-            "line": 794,
+            "line": 765,
             "description": "Correct gamma and return color in [0, 1] range",
             "itemtype": "method",
             "name": "_correctGamma",
@@ -991,7 +991,7 @@
         },
         {
             "file": "index.js",
-            "line": 828,
+            "line": 796,
             "description": "Converts the color from RGB to XYZ",
             "itemtype": "method",
             "name": "_convertRgbToXyz",
@@ -1012,7 +1012,7 @@
         },
         {
             "file": "index.js",
-            "line": 847,
+            "line": 815,
             "description": "Converts the color from XYZ to CieLab",
             "itemtype": "method",
             "name": "_convertXyzToCieLab",
@@ -1033,8 +1033,10 @@
         },
         {
             "file": "index.js",
-            "line": 875,
+            "line": 842,
             "description": "Calculates the lower limit",
+            "itemtype": "method",
+            "name": "_calculateLowerLimit",
             "params": [
                 {
                     "name": "value",
@@ -1062,8 +1064,10 @@
         },
         {
             "file": "index.js",
-            "line": 888,
+            "line": 856,
             "description": "Calculates the upper limit",
+            "itemtype": "method",
+            "name": "_calculateUpperLimit",
             "params": [
                 {
                     "name": "value",
@@ -1091,8 +1095,10 @@
         },
         {
             "file": "index.js",
-            "line": 901,
+            "line": 870,
             "description": "Checks if any pixel in the shift surrounding has a comparable color",
+            "itemtype": "method",
+            "name": "_shiftCompare",
             "params": [
                 {
                     "name": "x",
@@ -1168,7 +1174,7 @@
         },
         {
             "file": "index.js",
-            "line": 961,
+            "line": 925,
             "description": "Does a quick comparison between the supplied images",
             "itemtype": "method",
             "name": "_pixelCompare",
@@ -1352,7 +1358,7 @@
         },
         {
             "file": "index.js",
-            "line": 1031,
+            "line": 990,
             "description": "Compares the two images supplied",
             "itemtype": "method",
             "name": "_compare",
@@ -1525,18 +1531,5 @@
             "class": "BlinkDiff"
         }
     ],
-    "warnings": [
-        {
-            "message": "Missing item type\nCalculates the lower limit",
-            "line": " index.js:875"
-        },
-        {
-            "message": "Missing item type\nCalculates the upper limit",
-            "line": " index.js:888"
-        },
-        {
-            "message": "Missing item type\nChecks if any pixel in the shift surrounding has a comparable color",
-            "line": " index.js:901"
-        }
-    ]
+    "warnings": []
 }

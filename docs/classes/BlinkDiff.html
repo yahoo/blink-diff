@@ -19,7 +19,7 @@
             
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 1.0.7</em>
+            <em>API Docs for: 1.0.8</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -1032,6 +1032,20 @@
                     <ul class="index-list methods">
                         
                             <li class="index-item method private">
+                                <a href="#method__calculateLowerLimit">_calculateLowerLimit</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__calculateUpperLimit">_calculateUpperLimit</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
                                 <a href="#method__clip">_clip</a>
 
                                 
@@ -1124,6 +1138,13 @@
                         
                             <li class="index-item method private">
                                 <a href="#method__pixelCompare">_pixelCompare</a>
+
+                                
+                                
+                            </li>
+                        
+                            <li class="index-item method private">
+                                <a href="#method__shiftCompare">_shiftCompare</a>
 
                                 
                                 
@@ -1285,6 +1306,302 @@
                 <h2 class="off-left">Methods</h2>
 
                 
+                    <div id="method__calculateLowerLimit" class="method item private">
+    <h3 class="name"><code>_calculateLowerLimit</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>value</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>min</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>shift</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Int</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/index.js.html#l842"><code>index.js:842</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Calculates the lower limit</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">value</code>
+                        <span class="type">Int</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">min</code>
+                        <span class="type">Int</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">shift</code>
+                        <span class="type">Int</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Int</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
+                    <div id="method__calculateUpperLimit" class="method item private">
+    <h3 class="name"><code>_calculateUpperLimit</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>value</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>max</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>shift</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type">Int</span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/index.js.html#l856"><code>index.js:856</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Calculates the upper limit</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">value</code>
+                        <span class="type">Int</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">max</code>
+                        <span class="type">Int</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">shift</code>
+                        <span class="type">Int</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type">Int</span>:
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method__clip" class="method item private">
     <h3 class="name"><code>_clip</code></h3>
 
@@ -1335,7 +1652,7 @@
             
         
         
-        <a href="../files/index.js.html#l645"><code>index.js:645</code></a>
+        <a href="../files/index.js.html#l620"><code>index.js:620</code></a>
         
         </p>
 
@@ -1452,7 +1769,7 @@
             
         
         
-        <a href="../files/index.js.html#l735"><code>index.js:735</code></a>
+        <a href="../files/index.js.html#l709"><code>index.js:709</code></a>
         
         </p>
 
@@ -1757,7 +2074,7 @@
             
         
         
-        <a href="../files/index.js.html#l1031"><code>index.js:1031</code></a>
+        <a href="../files/index.js.html#l990"><code>index.js:990</code></a>
         
         </p>
 
@@ -2241,7 +2558,7 @@
             
         
         
-        <a href="../files/index.js.html#l502"><code>index.js:502</code></a>
+        <a href="../files/index.js.html#l488"><code>index.js:488</code></a>
         
         </p>
 
@@ -2347,7 +2664,7 @@
             
         
         
-        <a href="../files/index.js.html#l828"><code>index.js:828</code></a>
+        <a href="../files/index.js.html#l796"><code>index.js:796</code></a>
         
         </p>
 
@@ -2453,7 +2770,7 @@
             
         
         
-        <a href="../files/index.js.html#l847"><code>index.js:847</code></a>
+        <a href="../files/index.js.html#l815"><code>index.js:815</code></a>
         
         </p>
 
@@ -2561,7 +2878,7 @@
             
         
         
-        <a href="../files/index.js.html#l582"><code>index.js:582</code></a>
+        <a href="../files/index.js.html#l563"><code>index.js:563</code></a>
         
         </p>
 
@@ -2678,7 +2995,7 @@
             
         
         
-        <a href="../files/index.js.html#l697"><code>index.js:697</code></a>
+        <a href="../files/index.js.html#l671"><code>index.js:671</code></a>
         
         </p>
 
@@ -2871,7 +3188,7 @@
             
         
         
-        <a href="../files/index.js.html#l794"><code>index.js:794</code></a>
+        <a href="../files/index.js.html#l765"><code>index.js:765</code></a>
         
         </p>
 
@@ -3007,7 +3324,7 @@
             
         
         
-        <a href="../files/index.js.html#l522"><code>index.js:522</code></a>
+        <a href="../files/index.js.html#l505"><code>index.js:505</code></a>
         
         </p>
 
@@ -3151,7 +3468,7 @@
             
         
         
-        <a href="../files/index.js.html#l677"><code>index.js:677</code></a>
+        <a href="../files/index.js.html#l651"><code>index.js:651</code></a>
         
         </p>
 
@@ -3356,7 +3673,7 @@
             
         
         
-        <a href="../files/index.js.html#l763"><code>index.js:763</code></a>
+        <a href="../files/index.js.html#l737"><code>index.js:737</code></a>
         
         </p>
 
@@ -3519,7 +3836,7 @@
             
         
         
-        <a href="../files/index.js.html#l560"><code>index.js:560</code></a>
+        <a href="../files/index.js.html#l541"><code>index.js:541</code></a>
         
         </p>
 
@@ -3712,7 +4029,7 @@
             
         
         
-        <a href="../files/index.js.html#l961"><code>index.js:961</code></a>
+        <a href="../files/index.js.html#l925"><code>index.js:925</code></a>
         
         </p>
 
@@ -4182,6 +4499,347 @@
 </div>
 
                 
+                    <div id="method__shiftCompare" class="method item private">
+    <h3 class="name"><code>_shiftCompare</code></h3>
+
+    
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+            
+                <li class="arg">
+                    
+                        <code>x</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>y</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>color</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>deltaThreshold</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>imageA</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>imageB</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>width</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>height</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>hShift</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code>vShift</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[perceptual=false]</code>
+                    
+                </li>
+            
+                <li class="arg">
+                    
+                        <code class="optional">[gamma]</code>
+                    
+                </li>
+            
+            </ul><span class="paren">)</span>
+        </div>
+    
+
+    
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+        </span>
+    
+
+    
+
+    
+        <span class="flag private">private</span>
+    
+
+    
+
+    
+
+    
+
+    
+
+    <div class="meta">
+        
+            
+                
+                <p>
+                
+                Defined in
+                
+            
+        
+        
+        <a href="../files/index.js.html#l870"><code>index.js:870</code></a>
+        
+        </p>
+
+
+        
+
+        
+    </div>
+
+    <div class="description">
+        <p>Checks if any pixel in the shift surrounding has a comparable color</p>
+
+    </div>
+
+    
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+            
+                <li class="param">
+                    
+                        <code class="param-name">x</code>
+                        <span class="type">Int</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">y</code>
+                        <span class="type">Int</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">color</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">deltaThreshold</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">imageA</code>
+                        <span class="type">PNGImage</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">imageB</code>
+                        <span class="type">PNGImage</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">width</code>
+                        <span class="type">Int</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">height</code>
+                        <span class="type">Int</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">hShift</code>
+                        <span class="type">Int</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name">vShift</code>
+                        <span class="type">Int</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[perceptual=false]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+                <li class="param">
+                    
+                        <code class="param-name optional">[gamma]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+                    
+
+                    
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                    
+                </li>
+            
+            </ul>
+        </div>
+    
+
+    
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                
+                    
+                        <span class="type"><a href="https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>:
+                    
+                    <p>Is pixel within delta found in surrounding?</p>
+
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+                
                     <div id="method__withinOutputLimit" class="method item private">
     <h3 class="name"><code>_withinOutputLimit</code></h3>
 
@@ -4236,7 +4894,7 @@
             
         
         
-        <a href="../files/index.js.html#l489"><code>index.js:489</code></a>
+        <a href="../files/index.js.html#l475"><code>index.js:475</code></a>
         
         </p>
 
@@ -4355,7 +5013,7 @@
             
         
         
-        <a href="../files/index.js.html#l633"><code>index.js:633</code></a>
+        <a href="../files/index.js.html#l608"><code>index.js:608</code></a>
         
         </p>
 
@@ -4466,7 +5124,7 @@
             
         
         
-        <a href="../files/index.js.html#l601"><code>index.js:601</code></a>
+        <a href="../files/index.js.html#l576"><code>index.js:576</code></a>
         
         </p>
 
@@ -4582,7 +5240,7 @@
             
         
         
-        <a href="../files/index.js.html#l622"><code>index.js:622</code></a>
+        <a href="../files/index.js.html#l597"><code>index.js:597</code></a>
         
         </p>
 
