@@ -18,6 +18,8 @@ A lightweight image comparison tool
 
 [![Gitter Support](https://img.shields.io/badge/Support-Gitter_IM-yellow.svg)](https://gitter.im/preceptorjs/support)
 
+##Image Comparison and Result
+![Composition](https://raw.githubusercontent.com/yahoo/blink-diff/master/images/composition.png)
 
 **Table of Contents**
 * [Installation](#installation)
@@ -29,7 +31,6 @@ A lightweight image comparison tool
     * [Logging](#logging)
     * [Block-Out](#block-out)
 * [Examples](#examples)
-* [Results](#results)
 * [API-Documentation](#api-documentation)
 * [Tests](#tests)
 * [Project Focus](#project-focus)
@@ -246,9 +247,6 @@ You can find examples for:
 
 All screenshots were compared to ```YDN.png```, a previously approved screenshot without a regression.
 Each of the regressions has the screenshot and the output result, highlighting the differences.
-
-##Results
-![Composition](https://raw.githubusercontent.com/yahoo/blink-diff/master/images/composition.png)
 
 ##API-Documentation
 
