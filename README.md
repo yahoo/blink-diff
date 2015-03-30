@@ -309,8 +309,11 @@ The following third-party libraries are used by this module:
 ###Dev-Dependencies
 * chai: http://chaijs.com
 * coveralls: https://github.com/cainus/node-coveralls
+* codeclimate-test-reporter: https://github.com/codeclimate/javascript-test-reporter
 * istanbul: https://github.com/gotwarlost/istanbul
 * mocha: https://github.com/visionmedia/mocha
+* sinon: http://sinonjs.org
+* sinon-chai: https://github.com/domenic/sinon-chai
 * yuidocjs: https://github.com/yui/yuidoc
 
 ##License

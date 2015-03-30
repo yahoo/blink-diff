@@ -39,6 +39,7 @@
 	"devDependencies": {
 		"chai": "1.9.2",
 		"coveralls": "2.11.2",
+		"codeclimate-test-reporter": "0.0.4",
 		"istanbul": "0.3.2",
 		"mocha": "1.21.4",
 		"sinon": "1.12.2",
