@@ -18,9 +18,6 @@ A lightweight image comparison tool
 
 [![Gitter Support](https://img.shields.io/badge/Support-Gitter_IM-yellow.svg)](https://gitter.im/preceptorjs/support)
 
-##Image Comparison and Result
-![Composition](https://raw.githubusercontent.com/yahoo/blink-diff/master/images/composition.png)
-
 **Table of Contents**
 * [Installation](#installation)
 * [Usage](#usage)
@@ -40,6 +37,9 @@ A lightweight image comparison tool
 * [Third-party libraries](#third-party-libraries)
 * [License](#license)
 
+
+##Image Comparison and Result
+![Composition](https://raw.githubusercontent.com/yahoo/blink-diff/master/images/composition.png)
 
 ##Installation
 
