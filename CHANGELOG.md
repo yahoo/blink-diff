@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+v1.0.9 - 03/29/15
+* Update dependencies
+
 v1.0.8 - 03/29/15
 * Cleanup
 * Added code-Climate, coveralls, and others

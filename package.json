@@ -1,6 +1,6 @@
 {
 	"name": "blink-diff",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"description": "A lightweight image comparison tool",
 	"license": "MIT",
 	"main": "index.js",
@@ -34,7 +34,7 @@
 	},
 	"dependencies": {
 		"promise": "6.0.0",
-		"pngjs-image": "0.9.3"
+		"pngjs-image": "0.10.0"
 	},
 	"devDependencies": {
 		"chai": "1.9.2",
