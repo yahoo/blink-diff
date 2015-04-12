@@ -295,6 +295,8 @@ Also, even if you simply gave us an idea for a feature and did not actually writ
   * Documentation
 * [a-nwhitmont](https://github.com/a-nwhitmont)
   * Documentation
+* [azu](https://github.com/azu)
+  * Documentation
 
 ##Third-party libraries
 
