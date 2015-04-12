@@ -191,9 +191,9 @@ var firstImage = PNGImage.readImage('path/to/first/image', function (err) {
       outputMaskRed: 0,
       outputMaskBlue: 255, // Use blue for highlighting differences
       
-      hideShift: true // Hide anti-aliasing differences - will still determine but not showing it
+      hideShift: true, // Hide anti-aliasing differences - will still determine but not showing it
 
-      outputPath: 'path/to/output/image'
+      imageOutputPath: 'path/to/output/image'
   });
 
   diff.run(function (error, result) {
