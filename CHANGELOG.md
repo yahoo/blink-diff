@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+v1.1.0 - 04/21/15
+* Update PNGjs-Image (with additional synchronous behavior)
+* Add runSync for synchronous comparison
+
 v1.0.9 - 03/29/15
 * Update dependencies
 
