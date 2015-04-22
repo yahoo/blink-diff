@@ -473,6 +473,132 @@ BlinkDiff.prototype = {
 	},
 
 	/**
+	 * Runs the comparison synchronously
+	 *
+	 * @method runSync
+	 * @return {Object} Result of comparison { code, differences, dimension, width, height }
+	 */
+	runSync: function () {
+
+		var result, gamma, i, len, rect, color;
+
+		PNGImage.log = function (text) {
+			this.log('ERROR: ' + text);
+			throw new Error('ERROR: ' + text);
+		}.bind(this);
+
+		try {
+			this._imageA = this._loadImageSync(this._imageAPath, this._imageA);
+			this._imageB = this._loadImageSync(this._imageBPath, this._imageB);
+
+			// Crop images if requested
+			if (this._cropImageA) {
+				this._correctDimensions(this._imageA.getWidth(), this._imageA.getHeight(), this._cropImageA);
+				this._crop("Image-A", this._imageA, this._cropImageA);
+			}
+			if (this._cropImageB) {
+				this._correctDimensions(this._imageB.getWidth(), this._imageB.getHeight(), this._cropImageB);
+				this._crop("Image-B", this._imageB, this._cropImageB);
+			}
+
+			// Always clip
+			this._clip(this._imageA, this._imageB);
+
+			this._imageOutput = PNGImage.createImage(this._imageA.getWidth(), this._imageA.getHeight());
+
+			// Make a copy when not in debug mode
+			if (this._debug) {
+				this._imageACompare = this._imageA;
+				this._imageBCompare = this._imageB;
+			} else {
+				this._imageACompare = PNGImage.copyImage(this._imageA);
+				this._imageBCompare = PNGImage.copyImage(this._imageB);
+			}
+
+			// Block-out
+			color = {
+				red: this._blockOutRed,
+				green: this._blockOutGreen,
+				blue: this._blockOutBlue,
+				alpha: this._blockOutAlpha,
+				opacity: this._blockOutOpacity
+			};
+			for (i = 0, len = this._blockOut.length; i < len; i++) {
+				rect = this._blockOut[i];
+
+				// Make sure the block-out parameters fit
+				this._correctDimensions(this._imageACompare.getWidth(), this._imageACompare.getHeight(), rect);
+
+				this._imageACompare.fillRect(rect.x, rect.y, rect.width, rect.height, color);
+				this._imageBCompare.fillRect(rect.x, rect.y, rect.width, rect.height, color);
+			}
+
+			// Copy image to composition
+			if (this._copyImageAToOutput) {
+				this._copyImage(this._debug ? this._imageACompare : this._imageA, this._imageOutput);
+			} else if (this._copyImageBToOutput) {
+				this._copyImage(this._debug ? this._imageBCompare : this._imageB, this._imageOutput);
+			}
+
+			// Apply all filters
+			this._imageACompare.applyFilters(this._filter);
+			this._imageBCompare.applyFilters(this._filter);
+
+			// Gamma correction
+			if (this._gamma || this._gammaR || this._gammaG || this._gammaB) {
+				gamma = {
+					r: this._gammaR || this._gamma, g: this._gammaG || this._gamma, b: this._gammaB || this._gamma
+				};
+			}
+
+			// Comparison
+			result = this._compare(this._imageACompare, this._imageBCompare, this._imageOutput, this._delta,
+				{ // Output-Mask color
+					red: this._outputMaskRed,
+					green: this._outputMaskGreen,
+					blue: this._outputMaskBlue,
+					alpha: this._outputMaskAlpha,
+					opacity: this._outputMaskOpacity
+				}, { // Output-Shift color
+					red: this._outputShiftRed,
+					green: this._outputShiftGreen,
+					blue: this._outputShiftBlue,
+					alpha: this._outputShiftAlpha,
+					opacity: this._outputShiftOpacity
+				}, { // Background color
+					red: this._outputBackgroundRed,
+					green: this._outputBackgroundGreen,
+					blue: this._outputBackgroundBlue,
+					alpha: this._outputBackgroundAlpha,
+					opacity: this._outputBackgroundOpacity
+				},
+				this._hShift, this._vShift,
+				this._perceptual,
+				gamma
+			);
+
+			// Create composition if requested
+			if (this._debug) {
+				this._imageOutput = this._createComposition(this._imageACompare, this._imageBCompare, this._imageOutput);
+			} else {
+				this._imageOutput = this._createComposition(this._imageA, this._imageB, this._imageOutput);
+			}
+
+			// Need to write to the filesystem?
+			if (this._imageOutputPath && this._withinOutputLimit(result.code, this._imageOutputLimit)) {
+				this._imageOutput.writeImageSync(this._imageOutputPath);
+				this.log("Wrote differences to " + this._imageOutputPath);
+			}
+
+			return result;
+
+		} catch (err) {
+			console.error(err.stack);
+			throw err;
+		}
+	},
+
+	/**
 	 * Determines if result is within the output limit
 	 *
 	 * @method _withinOutputLimit
@@ -536,6 +662,28 @@ BlinkDiff.prototype = {
 		}
 
 		return image;
+	},
+
+	/**
+	 * Loads the image or uses the already available image
+	 *
+	 * @method _loadImageSync
+	 * @param {string} path
+	 * @param {PNGImage} image
+	 * @return {PNGImage}
+	 * @private
+	 */
+	_loadImageSync: function (path, image) {
+
+		if (image instanceof Buffer) {
+			return PNGImage.loadImageSync(image);
+
+		} else if ((typeof path === 'string') && !image) {
+			return PNGImage.readImageSync(path);
+
+		} else {
+			return image;
+		}
 	},
 
 	/**
