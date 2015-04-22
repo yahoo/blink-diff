@@ -276,7 +276,7 @@ Pixel-by-pixel comparisons have the reputation of triggering too often, adding m
 Blink-Diff also supports partially the perceptual comparison that can be turned on when supplying ```perceptual=true```. Then, the colors will be compared in accordance with the human perception and not according to the physical world. High-frequency filters, however, are not yet supported.
 
 ##Project Naming
-The name comes from the Blink comparator that was used in Astronomy to recognize differences in multiple photos, taking a picture of the same area in the sky over consecutive days, months, or years. Most notably, it was used to discover Pluto.
+The name comes from the [Blink comparator](http://en.wikipedia.org/wiki/Blink_comparator) that was used in Astronomy to recognize differences in multiple photos, taking a picture of the same area in the sky over consecutive days, months, or years. Most notably, it was used to discover Pluto.
 
 ##Contributions
 Feel free to create an issue or create a pull-request if you have an idea on how to improve blink-diff. We are pretty relaxed on the contribution rules; add tests for your pull-requests when possible, but it is also ok if there are none - we'll add them for you. We are trying to improve blink-diff as much as possible, and this can only be done by contributions from the community.
@@ -285,18 +285,10 @@ Also, even if you simply gave us an idea for a feature and did not actually writ
 
 ##Contributors
 * [sarbbottam](https://github.com/sarbbottam)
-  * Documentation
 * [koola](https://github.com/koola)
-  * Image loading from Buffer
-  * Input image cropping
-  * Image output limit
-  * Block-out areas
 * [jeffposnick](https://github.com/jeffposnick)
-  * Documentation
 * [a-nwhitmont](https://github.com/a-nwhitmont)
-  * Documentation
 * [azu](https://github.com/azu)
-  * Documentation
 
 ##Third-party libraries
 
