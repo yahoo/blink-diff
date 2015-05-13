@@ -1,37 +1,25 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Blink-diff : A lightweight image comparison tool">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Blink-diff</title>
+    <meta charset="UTF-8">
+    <title>Blink-diff by yahoo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
+    <section class="page-header">
+      <h1 class="project-name">Blink-diff</h1>
+      <h2 class="project-tagline">A lightweight image comparison tool</h2>
+      <a href="https://github.com/yahoo/blink-diff" class="btn">View on GitHub</a>
+      <a href="https://github.com/yahoo/blink-diff/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/yahoo/blink-diff/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/yahoo/blink-diff">View on GitHub</a>
-
-          <h1 id="project_title">Blink-diff</h1>
-          <h2 id="project_tagline">A lightweight image comparison tool</h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/yahoo/blink-diff/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/yahoo/blink-diff/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>
+    <section class="main-content">
+      <h1>
 <a id="blink-diff" class="anchor" href="#blink-diff" aria-hidden="true"><span class="octicon octicon-link"></span></a>Blink-Diff</h1>
 
 <p>A lightweight image comparison tool</p>
@@ -153,7 +141,7 @@ Only PNGs are supported at this point.</p>
     imageBPath<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>path/to/second/image<span class="pl-pds">'</span></span>,
 
     thresholdType<span class="pl-k">:</span> BlinkDiff.THRESHOLD_PERCENT,
-    threshold<span class="pl-k">:</span> <span class="pl-c1">0.01</span>,
+    threshold<span class="pl-k">:</span> <span class="pl-c1">0.01</span>, <span class="pl-c">// 1% threshold</span>
 
     imageOutputPath<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>path/to/output/image<span class="pl-pds">'</span></span>
 });
@@ -187,7 +175,7 @@ diff.run(<span class="pl-k">function</span> (<span class="pl-smi">error</span>, 
 <li>
 <code>thresholdType</code> Type of threshold check. This can be BlinkDiff.THRESHOLD_PIXEL and BlinkDiff.THRESHOLD_PERCENT (default: BlinkDiff.THRESHOLD_PIXEL)</li>
 <li>
-<code>threshold</code> Number of pixels/percent p below which differences are ignored (default: 500)</li>
+<code>threshold</code> Number of pixels/percent p below which differences are ignored (default: 500) - For percentage thresholds: 1 = 100%, 0.2 = 20%</li>
 <li>
 <code>delta</code> Distance between the color coordinates in the 4 dimensional color-space that will not trigger a difference. (default: 20)</li>
 <li>
@@ -285,9 +273,9 @@ diff.run(<span class="pl-k">function</span> (<span class="pl-smi">error</span>, 
       outputMaskRed<span class="pl-k">:</span> <span class="pl-c1">0</span>,
       outputMaskBlue<span class="pl-k">:</span> <span class="pl-c1">255</span>, <span class="pl-c">// Use blue for highlighting differences</span>
 
-      hideShift<span class="pl-k">:</span> <span class="pl-c1">true</span> <span class="pl-c">// Hide anti-aliasing differences - will still determine but not showing it</span>
+      hideShift<span class="pl-k">:</span> <span class="pl-c1">true</span>, <span class="pl-c">// Hide anti-aliasing differences - will still determine but not showing it</span>
 
-      outputPath<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>path/to/output/image<span class="pl-pds">'</span></span>
+      imageOutputPath<span class="pl-k">:</span> <span class="pl-s"><span class="pl-pds">'</span>path/to/output/image<span class="pl-pds">'</span></span>
   });
 
   diff.run(<span class="pl-k">function</span> (<span class="pl-smi">error</span>, <span class="pl-smi">result</span>) {
@@ -391,7 +379,7 @@ Blink-Diff also supports partially the perceptual comparison that can be turned 
 <h2>
 <a id="project-naming" class="anchor" href="#project-naming" aria-hidden="true"><span class="octicon octicon-link"></span></a>Project Naming</h2>
 
-<p>The name comes from the Blink comparator that was used in Astronomy to recognize differences in multiple photos, taking a picture of the same area in the sky over consecutive days, months, or years. Most notably, it was used to discover Pluto.</p>
+<p>The name comes from the <a href="http://en.wikipedia.org/wiki/Blink_comparator">Blink comparator</a> that was used in Astronomy to recognize differences in multiple photos, taking a picture of the same area in the sky over consecutive days, months, or years. Most notably, it was used to discover Pluto.</p>
 
 <h2>
 <a id="contributions" class="anchor" href="#contributions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributions</h2>
@@ -404,37 +392,11 @@ Blink-Diff also supports partially the perceptual comparison that can be turned 
 <a id="contributors" class="anchor" href="#contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributors</h2>
 
 <ul>
-<li>
-<a href="https://github.com/sarbbottam">sarbbottam</a>
-
-<ul>
-<li>Documentation</li>
-</ul>
-</li>
-<li>
-<a href="https://github.com/koola">koola</a>
-
-<ul>
-<li>Image loading from Buffer</li>
-<li>Input image cropping</li>
-<li>Image output limit</li>
-<li>Block-out areas</li>
-</ul>
-</li>
-<li>
-<a href="https://github.com/jeffposnick">jeffposnick</a>
-
-<ul>
-<li>Documentation</li>
-</ul>
-</li>
-<li>
-<a href="https://github.com/a-nwhitmont">a-nwhitmont</a>
-
-<ul>
-<li>Documentation</li>
-</ul>
-</li>
+<li><a href="https://github.com/sarbbottam">sarbbottam</a></li>
+<li><a href="https://github.com/koola">koola</a></li>
+<li><a href="https://github.com/jeffposnick">jeffposnick</a></li>
+<li><a href="https://github.com/a-nwhitmont">a-nwhitmont</a></li>
+<li><a href="https://github.com/azu">azu</a></li>
 </ul>
 
 <h2>
@@ -480,18 +442,16 @@ Blink-Diff also supports partially the perceptual comparison that can be turned 
 <p>The MIT License</p>
 
 <p>Copyright 2014-2015 Yahoo Inc.</p>
-      </section>
-    </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Blink-diff maintained by <a href="https://github.com/yahoo">yahoo</a></p>
-        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/yahoo/blink-diff">Blink-diff</a> is maintained by <a href="https://github.com/yahoo">yahoo</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
 
-              <script type="text/javascript">
+    </section>
+
+            <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
@@ -502,6 +462,6 @@ Blink-Diff also supports partially the perceptual comparison that can be turned 
             } catch(err) {}
           </script>
 
-
   </body>
 </html>
+
