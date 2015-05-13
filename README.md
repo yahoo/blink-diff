@@ -109,7 +109,7 @@ var diff = new BlinkDiff({
     imageBPath: 'path/to/second/image',
 
     thresholdType: BlinkDiff.THRESHOLD_PERCENT,
-    threshold: 0.01,
+    threshold: 0.01, // 1% threshold
 
     imageOutputPath: 'path/to/output/image'
 });
@@ -133,7 +133,7 @@ All the parameters that were available in the command-line tool are also availab
 * ```imageOutputLimit``` Defines when an image output should be created. This can be for different images, similar or different images, or all comparisons. (default: BlinkDiff.OUTPUT_ALL)
 * ```verbose``` Verbose output (default: false)
 * ```thresholdType``` Type of threshold check. This can be BlinkDiff.THRESHOLD_PIXEL and BlinkDiff.THRESHOLD_PERCENT (default: BlinkDiff.THRESHOLD_PIXEL)
-* ```threshold``` Number of pixels/percent p below which differences are ignored (default: 500)
+* ```threshold``` Number of pixels/percent p below which differences are ignored (default: 500) - For percentage thresholds: 1 = 100%, 0.2 = 20%
 * ```delta``` Distance between the color coordinates in the 4 dimensional color-space that will not trigger a difference. (default: 20)
 * ```outputMaskRed``` Red intensity for the difference highlighting in the output file (default: 255)
 * ```outputMaskGreen``` Green intensity for the difference highlighting in the output file (default: 0)
