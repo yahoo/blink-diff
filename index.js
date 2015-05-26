@@ -698,10 +698,10 @@ BlinkDiff.prototype = {
 	_loadImage: function (path, image) {
 
 		if (image instanceof Buffer) {
-			return Promise.denodeify(PNGImage.loadImage)(image);
+			return Promise.denodeify(PNGImage.loadImage).call(PNGImage, image);
 
 		} else if ((typeof path === 'string') && !image) {
-			return Promise.denodeify(PNGImage.readImage)(path);
+			return Promise.denodeify(PNGImage.readImage).call(PNGImage, path);
 
 		} else {
 			return image;

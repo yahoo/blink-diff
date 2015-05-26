@@ -1,6 +1,6 @@
 {
 	"name": "blink-diff",
-	"version": "1.0.10",
+	"version": "1.0.11",
 	"description": "A lightweight image comparison tool",
 	"license": "MIT",
 	"main": "index.js",
