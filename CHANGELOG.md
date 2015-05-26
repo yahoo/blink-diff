@@ -1,7 +1,10 @@
 CHANGELOG
 =========
 
-v1.1.0 - 04/21/15
+v1.0.11 - 05/26/15
+* Bugfix when calling PNGImage.readImage - scope was missing
+
+v1.0.10 - 04/21/15
 * Update PNGjs-Image (with additional synchronous behavior)
 * Add runSync for synchronous comparison
 
