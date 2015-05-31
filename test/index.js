@@ -959,7 +959,7 @@ describe('Blink-Diff', function () {
 				expect(color.c4).to.be.closeTo(1, 0.0001);
 			});
 
-			it('should convert RGB to XYZ', function () {
+			it('should convert Xyz to CIELab', function () {
 				var color = this.instance._convertXyzToCieLab({
 						c1: 0.6144431682352941, c2: 0.8834245847058824, c3: 0.6390158682352941, c4: 1
 					});
