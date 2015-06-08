@@ -160,9 +160,9 @@ All the parameters that were available in the command-line tool are also availab
 * ```copyImageBToOutput``` Copies the second image to the output image before the comparison begins. This will make sure that the output image will highlight the differences on the second image.
 * ```filter``` Filters that will be applied before the comparison. Available filters are: blur, grayScale, lightness, luma, luminosity, sepia
 * ```debug``` When set, then the applied filters will be shown on the output image. (default: false)
-* ```createComparison``` Creates a composition of all three images as output (default: true)
-* ```compareLeftToRight``` Creates comparison-composition from left to right, otherwise it lets decide the app on what is best
-* ```compareTopToBottom``` Creates comparison-composition from top to bottom, otherwise it lets decide the app on what is best
+* ```composition``` Creates as output a composition of all three images (approved, highlight, and build) (default: true)
+* ```composeLeftToRight``` Creates comparison-composition from left to right, otherwise it lets decide the app on what is best
+* ```composeTopToBottom``` Creates comparison-composition from top to bottom, otherwise it lets decide the app on what is best
 * ```hShift``` Horizontal shift for possible antialiasing (default: 2) Set to 0 to turn this off.
 * ```vShift``` Vertical shift for possible antialiasing (default: 2) Set to 0 to turn this off.
 * ```hideShift``` Uses the background color for "highlighting" shifts. (default: false)
@@ -289,6 +289,7 @@ Also, even if you simply gave us an idea for a feature and did not actually writ
 * [jeffposnick](https://github.com/jeffposnick)
 * [a-nwhitmont](https://github.com/a-nwhitmont)
 * [azu](https://github.com/azu)
+* [bradex](https://github.com/bradex)
 
 ##Third-party libraries
 
