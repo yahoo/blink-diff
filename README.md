@@ -289,6 +289,7 @@ Also, even if you simply gave us an idea for a feature and did not actually writ
 * [jeffposnick](https://github.com/jeffposnick)
 * [a-nwhitmont](https://github.com/a-nwhitmont)
 * [azu](https://github.com/azu)
+* [bradex](https://github.com/bradex)
 
 ##Third-party libraries
 
