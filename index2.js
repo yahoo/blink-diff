@@ -14,6 +14,8 @@ var PNGImage = require('pngjs-image'),
  * @constructor
  *
  * @property {Config} _configuration
+ * @property {PNGImage} _outputImage
+ * @property {PNGImage} _highlightImage
  */
 function BlinkDiff (options) {
 	this._configuration = new Config(options);
@@ -39,6 +41,38 @@ BlinkDiff.prototype = {
 		return this._configuration;
 	},
 
+	/**
+	 * Gets the output image
+	 *
+	 * @method getOutputImage
+	 * @return {PNGImage}
+	 */
+	getOutputImage: function () {
+		return this._outputImage;
+	},
+
+	/**
+	 * Gets the highlight image
+	 *
+	 * @method getHighlightImage
+	 * @return {PNGImage}
+	 */
+	getHighlightImage: function () {
+		return this._highlightImage;
+	},
+
+
+	/**
+	 * Logs events to the console
+	 *
+	 * @method log
+	 * @param {string} text
+	 */
+	log: function (text) {
+		if (this._configuration.isVerboseMode()) {
+			console.log(text);
+		}
+	},
 
 	/**
 	 * Clips the images to the lower resolution of both, if needed
@@ -56,6 +90,8 @@ BlinkDiff.prototype = {
 
 			minWidth = Math.min(imageA.getWidth(), imageB.getWidth());
 			minHeight = Math.min(imageA.getHeight(), imageB.getHeight());
+
+			this.log("Clipping to " + minWidth + " x " + minHeight);
 
 			imageA.clip(0, 0, minWidth, minHeight);
 			imageB.clip(0, 0, minWidth, minHeight);
@@ -76,10 +112,16 @@ BlinkDiff.prototype = {
 	/**
 	 * Runs the comparison synchronously
 	 *
-	 * @method runSync
+	 * @method process
 	 * @return {Object} Result of comparison { code, differences, dimension, width, height }
 	 */
-	runSync: function () {
+	process: function () {
+
+		// Catch all image errors
+		PNGImage.log = function (text) {
+			this.log('ERROR: ' + text);
+			throw new Error('ERROR: ' + text);
+		}.bind(this);
 
 		var config = this.getConfig(),
 
@@ -87,11 +129,14 @@ BlinkDiff.prototype = {
 			flagField,
 			imageA = config.getImageA().getProcessedImage(),
 			imageB = config.getImageB().getProcessedImage(),
+			compareImageA, compareImageB,
 
-			imageOutput,
+			highlightImage,
+			outputImage,
 			differences = 0,
 			shifts = 0,
 			i, index, color,
+			exported = false,
 			code = constants.RESULT_UNKNOWN;
 
 		this._clip(imageA, imageB);
@@ -100,21 +145,28 @@ BlinkDiff.prototype = {
 		flagField = new Buffer(dimension);
 		flagField.fill(0);
 
-		config.getComparisons().forEach(function (comparison) {
+		config.getComparisons().forEach(function (comparison, index) {
 
-			var compareImageA = PNGImage.copyImage(imageA),
-				compareImageB = PNGImage.copyImage(imageB),
-				pixelCompare;
+			this.log('Apply comparison #' + index);
 
-			compareImageA = Image.processImage(compareImageA, comparison);
-			compareImageB = Image.processImage(compareImageB, comparison);
+			compareImageA = Image.processImage(PNGImage.copyImage(imageA), comparison);
+			compareImageB = Image.processImage(PNGImage.copyImage(imageB), comparison);
 
-			pixelCompare = new PixelComparator(compareImageA, compareImageB, config);
+			var pixelCompare = new PixelComparator(compareImageA, compareImageB, config);
 			pixelCompare.compare(comparison, flagField);
-		});
+		}.bind(this));
 
-		imageOutput = PNGImage.createImage(imageA.getWidth(), imageA.getHeight());
-		config.getOutput().copyImage(imageA, imageB, imageOutput);
+		if (config.isDebugMode()) { // In debug-mode? Export comparison image
+			this.log('In debug-mode');
+
+			imageA = compareImageA || imageA;
+			imageB = compareImageB || imageB;
+		}
+
+		highlightImage = PNGImage.createImage(imageA.getWidth(), imageA.getHeight());
+
+		outputImage = PNGImage.createImage(imageA.getWidth(), imageA.getHeight());
+		config.getOutput().copyImage(imageA, imageB, outputImage);
 
 		// Draw and count flag-field
 		for(i = 0; i < dimension; i++) {
@@ -139,11 +191,13 @@ BlinkDiff.prototype = {
 				color = config.getBackgroundColor();
 			}
 
-			imageOutput.setAtIndex(index, color);
+			outputImage.setAtIndex(index, color.getColor(true, true));
+			highlightImage.setAtIndex(index, color.getColor(false, false));
 		}
 
 		// Create composition if requested
-		this._imageOutput = config.getOutput().createComposition(imageA, imageB, imageOutput);
+		this._highlightImage = highlightImage;
+		this._outputImage = config.getOutput().createComposition(imageA, imageB, outputImage);
 
 		// Result
 		if (differences == 0) {
@@ -163,7 +217,10 @@ BlinkDiff.prototype = {
 
 		// Need to write to the filesystem?
 		if (config.getOutput().withinOutputLimit(code)) {
-			config.getOutput().writeImage(this._imageOutput);
+			if (config.getOutput().writeImage(this._outputImage)) {
+				this.log("Wrote differences to " + config.getOutput().getImagePath());
+				exported = true;
+			}
 		}
 
 		return {
@@ -172,7 +229,10 @@ BlinkDiff.prototype = {
 			shifts: shifts,
 			dimension: dimension,
 			width: imageA.getWidth(),
-			height: imageA.getWidth()
+			height: imageA.getWidth(),
+			highlightImage: highlightImage,
+			outputImage: outputImage,
+			exported: exported
 		};
 	}
 };
