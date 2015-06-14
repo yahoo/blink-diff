@@ -18,6 +18,7 @@ var PNGImage = require('pngjs-image'),
  * @property {PNGImage} _highlightImage
  */
 function BlinkDiff (options) {
+	options.blinkDiff = this;
 	this._configuration = new Config(options);
 }
 
