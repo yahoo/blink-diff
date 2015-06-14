@@ -4,7 +4,8 @@
 var PNGImage = require('pngjs-image'),
 	Config = require('./lib/configuration/config'),
 	Image = require('./lib/image'),
-	PixelComparator = require('./lib/pixelComparator');
+	PixelComparator = require('./lib/pixelComparator'),
+	constants = require('./lib/constants');
 
 
 /**
@@ -61,6 +62,16 @@ BlinkDiff.prototype = {
 		}
 	},
 
+	/**
+	 * Has comparison passed?
+	 *
+	 * @method hasPassed
+	 * @param {int} result Comparison result-code
+	 * @return {boolean}
+	 */
+	hasPassed: function (result) {
+		return ((result !== constants.RESULT_DIFFERENT) && (result !== constants.RESULT_UNKNOWN));
+	},
 
 	/**
 	 * Runs the comparison synchronously
@@ -72,17 +83,21 @@ BlinkDiff.prototype = {
 
 		var config = this.getConfig(),
 
-			dimensions,
+			dimension,
 			flagField,
-			imageA = config.getImageA().getCroppedImage(),
-			imageB = config.getImageB().getCroppedImage(),
+			imageA = config.getImageA().getProcessedImage(),
+			imageB = config.getImageB().getProcessedImage(),
 
-			imageOutput;
+			imageOutput,
+			differences = 0,
+			shifts = 0,
+			i, index, color,
+			code = constants.RESULT_UNKNOWN;
 
 		this._clip(imageA, imageB);
 
-		dimensions = imageA.getWidth() * imageB.getWidth();
-		flagField = new Buffer(dimensions);
+		dimension = imageA.getWidth() * imageB.getWidth();
+		flagField = new Buffer(dimension);
 		flagField.fill(0);
 
 		config.getComparisons().forEach(function (comparison) {
@@ -94,11 +109,71 @@ BlinkDiff.prototype = {
 			compareImageA = Image.processImage(compareImageA, comparison);
 			compareImageB = Image.processImage(compareImageB, comparison);
 
-			pixelCompare = new PixelComparator(compareImageA, compareImageB, comparison);
-			pixelCompare.compare(flagField);
+			pixelCompare = new PixelComparator(compareImageA, compareImageB, config);
+			pixelCompare.compare(comparison, flagField);
 		});
 
 		imageOutput = PNGImage.createImage(imageA.getWidth(), imageA.getHeight());
+		config.getOutput().copyImage(imageA, imageB, imageOutput);
+
+		// Draw and count flag-field
+		for(i = 0; i < dimension; i++) {
+			index = i * 4;
+
+			// Count
+			if (flagField[i] & 1 == 1) {
+				differences++;
+			}
+			if (flagField[i] & 2 == 2) {
+				shifts++;
+			}
+
+			// Draw
+			if (flagField[i] & 1 == 1) {
+				color = config.getDiffColor();
+
+			} else if (flagField[i] & 2 == 2) {
+				color = config.getIgnoreColor();
+
+			} else {
+				color = config.getBackgroundColor();
+			}
+
+			imageOutput.setAtIndex(index, color);
+		}
+
+		// Create composition if requested
+		this._imageOutput = config.getOutput().createComposition(imageA, imageB, imageOutput);
+
+		// Result
+		if (differences == 0) {
+			this.log("Images are identical or near identical");
+			code = constants.RESULT_IDENTICAL;
+
+		} else if (config.getThreshold().isAboveThreshold(differences, dimension)) {
+			this.log("Images are visibly different");
+			this.log(differences + " pixels are different");
+			code = constants.RESULT_DIFFERENT;
+
+		} else {
+			this.log("Images are similar");
+			this.log(differences + " pixels are different");
+			code = constants.RESULT_SIMILAR;
+		}
+
+		// Need to write to the filesystem?
+		if (config.getOutput().withinOutputLimit(code)) {
+			config.getOutput().writeImage(this._imageOutput);
+		}
+
+		return {
+			code: code,
+			differences: differences,
+			shifts: shifts,
+			dimension: dimension,
+			width: imageA.getWidth(),
+			height: imageA.getWidth()
+		};
 	}
 };
 
