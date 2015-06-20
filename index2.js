@@ -158,9 +158,11 @@ var BlinkDiff = Base.extend(
 
 				var pixelCompare = new PixelComparator(compareImageA, compareImageB, config);
 				pixelCompare.compare(comparison, flagField);
+
 			}.bind(this));
 
 			if (config.isDebugMode()) { // In debug-mode? Export comparison image
+
 				this.log('In debug-mode');
 
 				imageA = compareImageA || imageA;
@@ -174,6 +176,7 @@ var BlinkDiff = Base.extend(
 
 			// Draw and count flag-field
 			for(i = 0; i < dimension; i++) {
+
 				index = i * 4;
 
 				// Count
