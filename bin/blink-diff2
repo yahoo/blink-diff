@@ -1,0 +1,256 @@
+#!/usr/bin/env node
+
+// Copyright 2014-2015 Yahoo! Inc.
+// Copyrights licensed under the Mit License. See the accompanying LICENSE file for terms.
+
+var BlinkDiff = require('../index2');
+var Compatibility = require('../lib/compatibility');
+
+try {
+
+	printLicense();
+
+	var options = parseArgs(process.argv.slice(1));
+
+	var compatibility = new Compatibility(options);
+
+	var diff = new BlinkDiff(compatibility.generate());
+	if (options.verbose) {
+		diff.verbose = true;
+	}
+
+	// Setup console logger
+	diff.log = function (text) {
+		if (this.verbose) {
+			console.log(text);
+		}
+	};
+
+	if (diff.verbose) {
+		console.time('Time');
+	}
+	var result = diff.process();
+
+	var passed = diff.hasPassed(result.code);
+
+	if (diff.verbose) {
+		console.timeEnd('Time');
+
+		console.log('Differences:', result.differences, '(' + Math.round((result.differences / result.dimension) * 10000) / 100 + '%)');
+	}
+
+	if (passed) {
+		if (diff.verbose) {
+			console.log("PASS");
+		}
+	} else {
+		console.log("FAIL");
+	}
+
+	process.exit(passed ? 0 : 1);
+
+} catch (exception) {
+	console.error(exception.message);
+	process.exit(1);
+}
+
+/**
+ * Prints the license
+ */
+function printLicense () {
+	console.log("Blink-Diff " + BlinkDiff.version);
+	console.log("Copyright (C) 2014 Yahoo! Inc.");
+}
+
+/**
+ * Prints the help info
+ */
+function printHelp () {
+	console.log("Usage: blink-diff <image1> <image2>");
+	console.log("");
+	console.log("  Compares image1 and image2.");
+	console.log("");
+	console.log("  Options:");
+	console.log("    --verbose           Turn on verbose mode");
+	console.log("    --debug             Turn on debug mode - leaving all filters and modifications on the result");
+	console.log("    --threshold p       Number of pixels/percent 'p' below which differences are ignored");
+	console.log("    --threshold-type t  'pixel' and 'percent' as type of threshold. (default: pixel)");
+	console.log("    --delta p           Max. distance colors in the 4 dimensional color-space without triggering a difference. (default: 20)");
+	console.log("    --copyImageA        Copies first image to output as base. (default: true)");
+	console.log("    --copyImageB        Copies second image to output as base.");
+	console.log("    --no-copy           Doesn't copy anything to output as base.");
+	console.log("    --output o          Write difference to the file 'o'");
+	console.log("    --filter f          Filters f (separated with comma) that will be applied before the comparison.");
+	console.log("    --no-composition    Turns the composition feature off");
+	console.log("    --compose-ltr       Compose output image from left to right");
+	console.log("    --compose-ttb       Compose output image from top to bottom");
+	console.log("    --hide-shift        Hides shift highlighting (default: false)");
+	console.log("    --h-shift           Acceptable horizontal shift of pixel. (default: 0)");
+	console.log("    --v-shift           Acceptable vertical shift of pixel. (default: 0)");
+	console.log("    --block-out x,y,w,h Block-out area. Can be repeated multiple times.");
+	console.log("    --version           Print version");
+	console.log("    --help              This help");
+	console.log("");
+}
+
+/**
+ * Parses the arguments and returns an option list
+ *
+ * @param {string[]} argv
+ * @return {object}
+ */
+function parseArgs (argv) {
+
+	var i, temporary, imageCount = 0, argLength = argv.length, options = {};
+
+	if (argLength <= 1) {
+		printHelp();
+		process.exit(1);
+	}
+
+	options.blockOut = [];
+
+	for (i = 1; i < argLength; i++) {
+
+		try {
+
+			if (argv[i] == "--help") {
+				printHelp();
+				process.exit(0);
+
+			} else if (argv[i] == "--verbose") {
+				options.verbose = true;
+
+			} else if (argv[i] == "--debug") {
+				options.debug = true;
+
+			} else if (argv[i] == "--no-composition") {
+				options.composition = false;
+
+			} else if (argv[i] == "--compose-ltr") {
+				options.composeLeftToRight = true;
+
+			} else if (argv[i] == "--compose-ttb") {
+				options.composeTopToBottom = true;
+
+			} else if (argv[i] == "--no-copy") {
+				options.copyImageAToOutput = false;
+				options.copyImageBToOutput = false;
+
+			} else if (argv[i] == "--hide-shift") {
+				options.hideShift = true;
+
+			} else if (argv[i] == "--copyImageA") {
+				options.copyImageAToOutput = true;
+				options.copyImageBToOutput = false;
+
+			} else if (argv[i] == "--copyImageB") {
+				options.copyImageAToOutput = false;
+				options.copyImageBToOutput = true;
+
+			} else if (argv[i] == "--threshold-type") {
+				if (++i < argLength) {
+					if (argv[i] === 'pixel') {
+						options.thresholdType = BlinkDiff.THRESHOLD_PIXEL;
+
+					} else if (argv[i] === 'percent') {
+						options.thresholdType = BlinkDiff.THRESHOLD_PERCENT;
+
+					} else {
+						throw new Error("--threshold-type can be either 'pixel' or 'percent'");
+					}
+				}
+
+			} else if (argv[i] == "--threshold") {
+				if (++i < argLength) {
+
+					temporary = parseFloat(argv[i]);
+					if (temporary < 0) {
+						throw new Error("--threshold must be positive");
+					}
+					options.threshold = temporary;
+				}
+
+			} else if (argv[i] == "--h-shift") {
+				if (++i < argLength) {
+
+					temporary = parseInt(argv[i], 10);
+					if (temporary < 0) {
+						throw new Error("--h-shift must be positive");
+					}
+					options.hShift = temporary;
+				}
+
+			} else if (argv[i] == "--v-shift") {
+				if (++i < argLength) {
+
+					temporary = parseInt(argv[i], 10);
+					if (temporary < 0) {
+						throw new Error("--v-shift must be positive");
+					}
+					options.vShift = temporary;
+				}
+
+			} else if (argv[i] == "--delta") {
+				if (++i < argLength) {
+
+					temporary = parseFloat(argv[i]);
+					if (temporary < 0) {
+						throw new Error("--delta must be positive");
+					}
+					options.delta = temporary;
+				}
+
+			} else if (argv[i] == "--block-out") {
+				if (++i < argLength) {
+
+					temporary = argv[i].split(',');
+					if (temporary.length < 2) {
+						throw new Error("--block-out should at least have the x and y coordinate");
+					}
+					options.blockOut.push({
+						x: parseInt(temporary[0], 10),
+						y: parseInt(temporary[1], 10),
+						width: parseInt(temporary[2], 10),
+						height: parseInt(temporary[3], 10)
+					});
+				}
+
+			} else if (argv[i] == "--filter") {
+				if (++i < argLength) {
+					options.filter = argv[i].split(',');
+				}
+
+			} else if (argv[i] == "--output") {
+				if (++i < argLength) {
+					options.imageOutputPath = argv[i];
+				}
+
+			} else if (argv[i] == "--version") {
+				console.log("Blink-Diff " + BlinkDiff.version);
+
+			} else if (imageCount < 2) {
+
+				++imageCount;
+				if (imageCount == 1) {
+					options.imageAPath = argv[i];
+				} else {
+					options.imageBPath = argv[i];
+				}
+
+			} else {
+				console.log('Warning: parameter "' + argv[i] + '" ignored. Unknown.');
+			}
+
+		} catch (exception) {
+			var reason = (exception.message !== '') ? "; " + exception.message : '';
+			throw new Error("Invalid argument '" + argv[i] + "' for " + argv[i - 1] + reason);
+		}
+	}
+
+	if (!options.imageAPath || !options.imageBPath) {
+		throw new Error("Please specify two images.");
+	}
+
+	return options;
+}
