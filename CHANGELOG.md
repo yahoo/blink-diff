@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+v1.0.12 - 07/24/15
+* Bugfix for composition to accept false as possible value
+
 v1.0.11 - 05/26/15
 * Bugfix when calling PNGImage.readImage - scope was missing
 
