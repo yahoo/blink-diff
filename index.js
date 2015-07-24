@@ -193,7 +193,10 @@ function BlinkDiff (options) {
 
 	this._debug = options.debug || false;
 
-	this._composition = options.composition || true;
+	this._composition = options.composition;
+	if (options.composition === undefined) {
+		this._composition = true;
+	}
 	this._composeLeftToRight = options.composeLeftToRight || false;
 	this._composeTopToBottom = options.composeTopToBottom || false;
 
