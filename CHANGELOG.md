@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+v1.0.11
+* Bugfix option loading for issues #27 & #28
+
 v1.0.11 - 05/26/15
 * Bugfix when calling PNGImage.readImage - scope was missing
 
