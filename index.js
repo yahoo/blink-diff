@@ -5,6 +5,10 @@ var assert = require('assert'),
 	PNGImage = require('pngjs-image'),
 	Promise = require('promise');
 
+function load(value, defaultValue) {
+	return (value == null) ? defaultValue : value;
+}
+
 /**
  * Blink-diff comparison class
  *
@@ -138,27 +142,27 @@ function BlinkDiff (options) {
 
 	this._imageOutput = null;
 	this._imageOutputPath = options.imageOutputPath;
-	this._imageOutputLimit = options.imageOutputLimit || BlinkDiff.OUTPUT_ALL;
+	this._imageOutputLimit = load(options.imageOutputLimit, BlinkDiff.OUTPUT_ALL);
 
 	// Pixel or Percent
-	this._thresholdType = options.thresholdType || BlinkDiff.THRESHOLD_PIXEL;
+	this._thresholdType = load(options.thresholdType, BlinkDiff.THRESHOLD_PIXEL);
 
 	// How many pixels different to ignore.
-	this._threshold = options.threshold || 500;
+	this._threshold = load(options.threshold, 500);
 
-	this._delta = options.delta || 20;
+	this._delta = load(options.delta, 20);
 
-	this._outputMaskRed = options.outputMaskRed || 255;
-	this._outputMaskGreen = options.outputMaskGreen || 0;
-	this._outputMaskBlue = options.outputMaskBlue || 0;
-	this._outputMaskAlpha = options.outputMaskAlpha || 255;
-	this._outputMaskOpacity = options.outputMaskOpacity || 0.7;
+	this._outputMaskRed = load(options.outputMaskRed, 255);
+	this._outputMaskGreen = load(options.outputMaskGreen, 0);
+	this._outputMaskBlue = load(options.outputMaskBlue, 0);
+	this._outputMaskAlpha = load(options.outputMaskAlpha, 255);
+	this._outputMaskOpacity = load(options.outputMaskOpacity, 0.7);
 
-	this._outputBackgroundRed = options.outputBackgroundRed || 0;
-	this._outputBackgroundGreen = options.outputBackgroundGreen || 0;
-	this._outputBackgroundBlue = options.outputBackgroundBlue || 0;
+	this._outputBackgroundRed = load(options.outputBackgroundRed, 0);
+	this._outputBackgroundGreen = load(options.outputBackgroundGreen, 0);
+	this._outputBackgroundBlue = load(options.outputBackgroundBlue, 0);
 	this._outputBackgroundAlpha = options.outputBackgroundAlpha;
-	this._outputBackgroundOpacity = options.outputBackgroundOpacity || 0.6;
+	this._outputBackgroundOpacity = load(options.outputBackgroundOpacity, 0.6);
 
 	if (options.hideShift) {
 		this._outputShiftRed = this._outputBackgroundRed;
@@ -168,37 +172,37 @@ function BlinkDiff (options) {
 		this._outputShiftOpacity = this._outputBackgroundOpacity;
 
 	} else {
-		this._outputShiftRed = options.outputShiftRed || 200;
-		this._outputShiftGreen = options.outputShiftGreen || 100;
-		this._outputShiftBlue = options.outputShiftBlue || 0;
-		this._outputShiftAlpha = options.outputShiftAlpha || 255;
-		this._outputShiftOpacity = options.outputShiftOpacity || 0.7;
+		this._outputShiftRed = load(options.outputShiftRed, 200);
+		this._outputShiftGreen = load(options.outputShiftGreen, 100);
+		this._outputShiftBlue = load(options.outputShiftBlue, 0);
+		this._outputShiftAlpha = load(options.outputShiftAlpha, 255);
+		this._outputShiftOpacity = load(options.outputShiftOpacity, 0.7);
 	}
 
-	this._blockOut = options.blockOut || [];
+	this._blockOut = load(options.blockOut, []);
 	if (typeof this._blockOut != 'object' && (this._blockOut.length !== undefined)) {
 		this._blockOut = [this._blockOut];
 	}
 
-	this._blockOutRed = options.blockOutRed || 0;
-	this._blockOutGreen = options.blockOutGreen || 0;
-	this._blockOutBlue = options.blockOutBlue || 0;
-	this._blockOutAlpha = options.blockOutAlpha || 255;
-	this._blockOutOpacity = options.blockOutOpacity || 1.0;
+	this._blockOutRed = load(options.blockOutRed, 0);
+	this._blockOutGreen = load(options.blockOutGreen, 0);
+	this._blockOutBlue = load(options.blockOutBlue, 0);
+	this._blockOutAlpha = load(options.blockOutAlpha, 255);
+	this._blockOutOpacity = load(options.blockOutOpacity, 1.0);
 
-	this._copyImageAToOutput = options.copyImageAToOutput || true;
-	this._copyImageBToOutput = options.copyImageBToOutput || false;
+	this._copyImageAToOutput = load(options.copyImageAToOutput, true);
+	this._copyImageBToOutput = load(options.copyImageBToOutput, false);
 
-	this._filter = options.filter || [];
+	this._filter = load(options.filter, []);
 
-	this._debug = options.debug || false;
+	this._debug = load(options.debug, false);
 
-	this._composition = options.composition || true;
-	this._composeLeftToRight = options.composeLeftToRight || false;
-	this._composeTopToBottom = options.composeTopToBottom || false;
+	this._composition = load(options.composition, true);
+	this._composeLeftToRight = load(options.composeLeftToRight, false);
+	this._composeTopToBottom = load(options.composeTopToBottom, false);
 
-	this._hShift = options.hShift || 2;
-	this._vShift = options.vShift || 2;
+	this._hShift = load(options.hShift, 2);
+	this._vShift = load(options.vShift, 2);
 
 	this._cropImageA = options.cropImageA;
 	this._cropImageB = options.cropImageB;
@@ -206,7 +210,7 @@ function BlinkDiff (options) {
 	// Prepare reference white
 	this._refWhite = this._convertRgbToXyz({c1: 1, c2: 1, c3: 1, c4: 1});
 
-	this._perceptual = options.perceptual || false;
+	this._perceptual = load(options.perceptual, false);
 
 	this._gamma = options.gamma;
 	this._gammaR = options.gammaR;
