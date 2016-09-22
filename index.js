@@ -930,15 +930,15 @@ BlinkDiff.prototype = {
 			c1: color.c1 / 255, c2: color.c2 / 255, c3: color.c3 / 255, c4: color.c4
 		};
 
-		if (gamma || gamma.R !== undefined || gamma.G !== undefined || gamma.B !== undefined) {
-			if (gamma.R !== undefined) {
-				result.c1 = Math.pow(result.c1, gamma.R);
+		if (gamma && (gamma.r !== undefined || gamma.g !== undefined || gamma.b !== undefined)) {
+			if (gamma && gamma.r !== undefined) {
+				result.c1 = Math.pow(result.c1, gamma.r);
 			}
-			if (gamma.G !== undefined) {
-				result.c2 = Math.pow(result.c2, gamma.G);
+			if (gamma && gamma.g !== undefined) {
+				result.c2 = Math.pow(result.c2, gamma.g);
 			}
-			if (gamma.B !== undefined) {
-				result.c3 = Math.pow(result.c3, gamma.B);
+			if (gamma && gamma.b !== undefined) {
+				result.c3 = Math.pow(result.c3, gamma.b);
 			}
 		}
 

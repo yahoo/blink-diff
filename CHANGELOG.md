@@ -1,7 +1,10 @@
 CHANGELOG
 =========
 
-v1.0.11
+v1.0.14
+* Bugfix gamma correction - used without specified (issue #30)
+
+v1.0.13 - 07/13/16
 * Bugfix option loading for issues #27 & #28
 
 v1.0.11 - 05/26/15
