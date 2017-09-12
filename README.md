@@ -33,15 +33,15 @@ A lightweight image comparison tool
 * [Project Focus](#project-focus)
 * [Project Naming](#project-naming)
 * [Contributions](#contributions)
-* [Contributors](#contributers)
+* [Contributors](#contributors)
 * [Third-party libraries](#third-party-libraries)
 * [License](#license)
 
 
-##Image Comparison and Result
+## Image Comparison and Result
 ![Composition](https://raw.githubusercontent.com/yahoo/blink-diff/master/images/composition.png)
 
-##Installation
+## Installation
 
 Install this module with the following command:
 ```shell
@@ -57,13 +57,13 @@ Add the module to your ```package.json``` dev-dependencies:
 npm install --save-dev blink-diff
 ```
 
-##Usage
+## Usage
 
 The package can be used in two different ways:
  * per command line
  * through an object
 
-###Command-Line usage
+### Command-Line usage
 
 The command-line tool can be found in the ```bin``` directory. You can run the application with
 
@@ -98,7 +98,7 @@ The command-line tool exposes a couple of flags and parameters for the compariso
 ```
 
 
-###Object usage
+### Object usage
 
 The package can also be used directly in code, without going through the command-line.
 
@@ -207,13 +207,13 @@ var firstImage = PNGImage.readImage('path/to/first/image', function (err) {
 });
 ```
 
-####Cropping
+#### Cropping
 Images can be cropped before they are compared by using the ```cropImageA``` or ```cropImageB``` parameters. Single values can be left off, and the system will calculate the correct dimensions. However, ```x```/```y``` coordinates have priority over ```width```/```height``` as the position are usually more important than the dimensions - image will also be clipped by the system when needed.
 
-####Perceptual Comparison
+#### Perceptual Comparison
 The perceptual comparison mode considers the perception of colors in the human brain. It transforms all the colors into a human perception color-space, which is quite different to the typical physical bound RGB color-space. There, in the perceptual color-space, the distance between colors is according to the human perception and should therefore closer resemble the differences a human would perceive seeing the images.
 
-####Logging
+#### Logging
 
 By default, the logger doesn't log events anywhere, but you can change this behavior by overwriting ```blinkDiff.log```:
 
@@ -229,12 +229,12 @@ blinkDiff.log = function (text) {
 ...
 ```
 
-####Block-Out
+#### Block-Out
 Sometimes, it is necessary to block-out some specific areas in an image that should be ignored for comparisons. For example, this can be IDs or even time-labels that change with the time. Adding block-outs to images may decrease false positives and therefore stabilizes these comparisons.
 
 The color of the block-outs can be selected by the API parameters. However, the block-out areas will not be visible by default - they are hidden even though they are used. To make them visible, turn the debug-mode on.
 
-##Examples
+## Examples
 
 There are some examples in the ```examples``` folder, in which I used screenshots of YDN to check for visual regressions (and made some manual modifications to the dom to make differences appear ;-)).
 You can find examples for:
@@ -248,7 +248,7 @@ You can find examples for:
 All screenshots were compared to ```YDN.png```, a previously approved screenshot without a regression.
 Each of the regressions has the screenshot and the output result, highlighting the differences.
 
-##API-Documentation
+## API-Documentation
 
 Generate the documentation with following command:
 ```shell
@@ -256,7 +256,7 @@ npm run docs
 ```
 The documentation will be generated in the ```docs``` folder of the module root.
 
-##Tests
+## Tests
 
 Run the tests with the following command:
 ```shell
@@ -264,7 +264,7 @@ npm run test
 ```
 The code-coverage will be written to the ```coverage``` folder in the module root.
 
-##Project Focus
+## Project Focus
 There are three types of image comparisons:
 * Pixel-by-pixel - Used to compare low-frequency images like screenshots from web-sites, making sure that small styling differences trigger
 * Perceptual - Used to compare image creation applications, for example rendering engines and photo manipulation applications that are taking the human perception into account, ignoring differences a human probably would not see
@@ -275,15 +275,15 @@ A perceptual comparison would not trigger small differences, possibly missing pr
 Pixel-by-pixel comparisons have the reputation of triggering too often, adding manual labor, checking images by hand. Blink-Diff was created to keep this in mind and was optimized to reduce false-positives by taking sub-pixeling and anti-aliasing into account. Additional features like thresholds and the pythagorean distance calculation in the four dimensional color-space makes sure that this won't happen too often. Additionally, filters can be applied to the images, for example to compare luminosity of pixels and not the saturation thereof.
 Blink-Diff also supports partially the perceptual comparison that can be turned on when supplying ```perceptual=true```. Then, the colors will be compared in accordance with the human perception and not according to the physical world. High-frequency filters, however, are not yet supported.
 
-##Project Naming
+## Project Naming
 The name comes from the [Blink comparator](http://en.wikipedia.org/wiki/Blink_comparator) that was used in Astronomy to recognize differences in multiple photos, taking a picture of the same area in the sky over consecutive days, months, or years. Most notably, it was used to discover Pluto.
 
-##Contributions
+## Contributions
 Feel free to create an issue or create a pull-request if you have an idea on how to improve blink-diff. We are pretty relaxed on the contribution rules; add tests for your pull-requests when possible, but it is also ok if there are none - we'll add them for you. We are trying to improve blink-diff as much as possible, and this can only be done by contributions from the community.
 
 Also, even if you simply gave us an idea for a feature and did not actually write the code, we will still add you as the Contributor down below since it probably wouldn't be there without you. So, keep them coming!
 
-##Contributors
+## Contributors
 * [sarbbottam](https://github.com/sarbbottam)
 * [koola](https://github.com/koola)
 * [jeffposnick](https://github.com/jeffposnick)
@@ -291,15 +291,15 @@ Also, even if you simply gave us an idea for a feature and did not actually writ
 * [azu](https://github.com/azu)
 * [bradex](https://github.com/bradex)
 
-##Third-party libraries
+## Third-party libraries
 
 The following third-party libraries are used by this module:
 
-###Dependencies
+### Dependencies
 * promise: https://github.com/then/promise
 * pngjs-image: https://github.com/yahoo/pngjs-image
 
-###Dev-Dependencies
+### Dev-Dependencies
 * chai: http://chaijs.com
 * coveralls: https://github.com/cainus/node-coveralls
 * codeclimate-test-reporter: https://github.com/codeclimate/javascript-test-reporter
@@ -309,7 +309,7 @@ The following third-party libraries are used by this module:
 * sinon-chai: https://github.com/domenic/sinon-chai
 * yuidocjs: https://github.com/yui/yuidoc
 
-##License
+## License
 
 The MIT License
 
