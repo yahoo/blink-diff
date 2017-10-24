@@ -142,6 +142,7 @@ function BlinkDiff (options) {
 
 	this._imageOutput = null;
 	this._imageOutputPath = options.imageOutputPath;
+	this._imageOutputBuffer = options.imageOutputBuffer;
 	this._imageOutputLimit = load(options.imageOutputLimit, BlinkDiff.OUTPUT_ALL);
 
 	// Pixel or Percent
@@ -466,6 +467,11 @@ BlinkDiff.prototype = {
 						fn(undefined, result);
 					}
 				}.bind(this));
+			} else if(this._imageOutputBuffer === true) {
+				this._imageOutput.toBlob(function( err, blob ){
+					result.buffer = blob;
+					fn(undefined, result);
+				});
 			} else {
 				fn(undefined, result);
 			}
