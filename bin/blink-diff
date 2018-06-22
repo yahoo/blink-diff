@@ -92,6 +92,7 @@ function printHelp () {
 	console.log("    --h-shift           Acceptable horizontal shift of pixel. (default: 0)");
 	console.log("    --v-shift           Acceptable vertical shift of pixel. (default: 0)");
 	console.log("    --block-out x,y,w,h Block-out area. Can be repeated multiple times.");
+	console.log("    --bockOutOpacity d  Block-out opacity. (default: 1)")
 	console.log("    --version           Print version");
 	console.log("    --help              This help");
 	console.log("");
@@ -143,6 +144,16 @@ function parseArgs (argv) {
 
 			} else if (argv[i] == "--hide-shift") {
 				options.hideShift = true;
+
+			} else if (argv[i] == "--blockOutOpacity") {
+				if (++i < argLength) {
+
+					temporary = parseInt(argv[i], 10);
+					if (temporary < 0 || temporary > 1) {
+						throw new Error("--blockOutOpacity must be value between 0 and 1.");
+					}
+					options.blockOutOpacity = temporary;
+				}
 
 			} else if (argv[i] == "--copyImageA") {
 				options.copyImageAToOutput = true;
