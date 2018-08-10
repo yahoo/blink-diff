@@ -53,6 +53,7 @@ function load(value, defaultValue) {
  * @param {boolean} [options.composeLeftToRight=false] Create composition from left to right, otherwise let it decide on its own whats best
  * @param {boolean} [options.composeTopToBottom=false] Create composition from top to bottom, otherwise let it decide on its own whats best
  * @param {boolean} [options.hideShift=false] Hides shift highlighting by using the background color instead
+ * @param {float} [options.blockOutOutputOpacity=1.0]
  * @param {int} [options.hShift=2] Horizontal shift for possible antialiasing
  * @param {int} [options.vShift=2] Vertical shift for possible antialiasing
  * @param {object} [options.cropImageA=null] Cropping for first image (default: no cropping)
@@ -66,7 +67,7 @@ function load(value, defaultValue) {
  * @param {int} [options.cropImageB.width] Width of cropping region (default: Width that is left)
  * @param {int} [options.cropImageB.height] Height of cropping region (default: Height that is left)
  * @param {boolean} [options.perceptual=false] Turns perceptual comparison on
- * @param {float} [options.gamma] Gamma correction for all colors
+ * @param {float} [options.gamma = 1.0] Gamma correction for all colors
  * @param {float} [options.gammaR] Gamma correction for red
  * @param {float} [options.gammaG] Gamma correction for green
  * @param {float} [options.gammaB] Gamma correction for blue
@@ -93,6 +94,7 @@ function load(value, defaultValue) {
  * @property {int} _outputShiftBlue
  * @property {int} _outputShiftAlpha
  * @property {float} _outputShiftOpacity
+ * @property {float} _blockOutOutputOpacity
  * @property {int} _outputBackgroundRed
  * @property {int} _outputBackgroundGreen
  * @property {int} _outputBackgroundBlue
@@ -196,7 +198,6 @@ function BlinkDiff (options) {
 	this._filter = load(options.filter, []);
 
 	this._debug = load(options.debug, false);
-
 	this._composition = load(options.composition, true);
 	this._composeLeftToRight = load(options.composeLeftToRight, false);
 	this._composeTopToBottom = load(options.composeTopToBottom, false);
@@ -206,6 +207,8 @@ function BlinkDiff (options) {
 
 	this._cropImageA = options.cropImageA;
 	this._cropImageB = options.cropImageB;
+
+	this._blockOutOutputOpacity = load(options.blockOutOutputOpacity, 1.0);
 
 	// Prepare reference white
 	this._refWhite = this._convertRgbToXyz({c1: 1, c2: 1, c3: 1, c4: 1});
@@ -400,6 +403,15 @@ BlinkDiff.prototype = {
 				alpha: this._blockOutAlpha,
 				opacity: this._blockOutOpacity
 			};
+
+			outputOpacityColor = {
+				red: this._blockOutRed,
+				green: this._blockOutGreen,
+				blue: this._blockOutBlue,
+				alpha: this._blockOutAlpha,
+				opacity: this._blockOutOutputOpacity
+			};
+
 			for (i = 0, len = this._blockOut.length; i < len; i++) {
 				rect = this._blockOut[i];
 
@@ -408,13 +420,18 @@ BlinkDiff.prototype = {
 
 				this._imageACompare.fillRect(rect.x, rect.y, rect.width, rect.height, color);
 				this._imageBCompare.fillRect(rect.x, rect.y, rect.width, rect.height, color);
+
+				if (this._blockOutOutputOpacity != 1.0) {
+					this._imageA.fillRect(rect.x, rect.y, rect.width, rect.height, outputOpacityColor);
+					this._imageB.fillRect(rect.x, rect.y, rect.width, rect.height, outputOpacityColor);
+				}
 			}
 
 			// Copy image to composition
 			if (this._copyImageAToOutput) {
-				this._copyImage(this._debug ? this._imageACompare : this._imageA, this._imageOutput);
+				this._copyImage((this._debug || this._blockOutOutputOpacity != 1.0) ? this._imageACompare : this._imageA, this._imageOutput);
 			} else if (this._copyImageBToOutput) {
-				this._copyImage(this._debug ? this._imageBCompare : this._imageB, this._imageOutput);
+				this._copyImage((this._debug || this._blockOutOutputOpacity != 1.0)? this._imageBCompare : this._imageB, this._imageOutput);
 			}
 
 			// Apply all filters
@@ -529,7 +546,6 @@ BlinkDiff.prototype = {
 			};
 			for (i = 0, len = this._blockOut.length; i < len; i++) {
 				rect = this._blockOut[i];
-
 				// Make sure the block-out parameters fit
 				this._correctDimensions(this._imageACompare.getWidth(), this._imageACompare.getHeight(), rect);
 

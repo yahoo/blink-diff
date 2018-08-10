@@ -76,27 +76,54 @@ Only PNGs are supported at this point.
 
 The command-line tool exposes a couple of flags and parameters for the comparison:
 ```
---verbose           Turn on verbose mode
---debug             Turn on debug mode - leaving all filters and modifications on the result
---threshold p       Number of pixels/percent 'p' below which differences are ignored
---threshold-type t  'pixel' and 'percent' as type of threshold. (default: pixel)
---delta p           Max. distance colors in the 4 dimensional color-space without triggering a difference. (default: 20)
---copyImageA        Copies first image to output as base. (default: true)
---copyImageB        Copies second image to output as base.
---no-copy           Doesn't copy anything to output as base.
---output o          Write difference to the file 'o'
---filter f          Filters f (separated with comma) that will be applied before the comparison.
---no-composition    Turns the composition feature off
---compose-ltr       Compose output image from left to right
---compose-ttb       Compose output image from top to bottom
---hide-shift        Hides shift highlighting (default: false)
---h-shift           Acceptable horizontal shift of pixel. (default: 0)
---v-shift           Acceptable vertical shift of pixel. (default: 0)
---block-out x,y,w,h Block-out area. Can be repeated multiple times.
---version           Print version
---help              This help
+--verbose                 Turn on verbose mode
+--debug                   Turn on debug mode - leaving all filters and modifications on the result
+--threshold p             Number of pixels/percent 'p' below which differences are ignored. (default: 500 pixels)
+--threshold-type t        'pixel' and 'percent' as type of threshold. (default: pixel)
+--delta p                 Max. distance colors in the 4 dimensional color-space without triggering a difference. (default: 40)
+--gamma e                 Base Gamma correction exponent e. (default: 1.0)
+--gammaR e                Gamma correction exponent e for red
+--gammaG e                Gamma correction exponent e for green
+--gammaB e                Gamma correction exponent e for blue
+--copyImageA              Copies first image to output as base. (default: true)
+--copyImageB              Copies second image to output as base.
+--no-copy                 Doesn't copy anything to output as base.
+--output o                Write difference to the file 'o'
+--filter f                Filters f (separated with comma) that will be applied before the comparison.
+--no-composition          Turns the composition feature off
+--compose-ltr             Compose output image from left to right
+--compose-ttb             Compose output image from top to bottom
+--hide-shift              Hides shift highlighting (default: false)
+--h-shift                 Acceptable horizontal shift of pixel. (default: 0)
+--v-shift                 Acceptable vertical shift of pixel. (default: 0)
+--block-out x,y,w,h       Block-out area. Can be repeated multiple times.
+--blockOutOpacity d       Block-out opacity. (default: 1)")
+--blockOutOutputOpacity d Block-out output opacity (doesn't affect comparison) (default: 1.0)
+--version                 Print version
+--help                    This help
 ```
 
+**For Vernier**
+
+Added on Vernier's fork are additional features from the object usage for use within the command-line tool.
+The purpose of this fork is to use blink-diff for QA testing of images.
+
+###New flags
+
+Color filtering: When testing for color differences, blink-diff applies an algorithm to calculate the distance between colors in 4D color space. The steps for this conversion are RGB[0-255] to RGB[0-1], RGB-1 to XYZ, and XYZ to CIELAB. If the gamma
+	flag is used, the gamma exponent is applied to the R, G, or B values after they are converted to 0-1. The result of that is that the changed values decrease to be exponentially smaller, as does the differences between them. This makes it more 
+	likely they will meet the default 20 unit distance threshold for color differences used by blink-diff.
+* ```gamma```
+* ```gammaR```
+* ```gammaG```
+* ```gammaB```
+
+Compare filtering: This flag adjusts the opacity of block-out filters, which are applied to images pre-comparison. Higher the opacity means fewer differences will be yielded in that region.
+* ```blockOutOpacity```
+
+Output adjustments: This doesn't have any effect on the comparison of images. This feature was added explicitly to the Vernier fork to allow for more verbose output data; it allows users to see block-out regions while still being able to adjust
+	opacity and see the elements underneath from the compared images.
+* ```blockOutOutputOpacity```
 
 ###Object usage
 
@@ -169,7 +196,7 @@ All the parameters that were available in the command-line tool are also availab
 * ```cropImageA``` Cropping for first image (default: no cropping) - Format: { x:<int>, y:<int>, width:<int>, height:<int> }
 * ```cropImageB``` Cropping for second image (default: no cropping) - Format: { x:<int>, y:<int>, width:<int>, height:<int> }
 * ```perceptual``` Turn the perceptual comparison mode on. See below for more information.
-* ```gamma``` Gamma correction for all colors (will be used as base) (default: none) - Any value here will turn the perceptual comparison mode on
+* ```gamma``` Gamma correction for all colors (will be used as base) (default: none) - Any value here will turn the perceptual comparison mode on. (default: 1.0)
 * ```gammaR``` Gamma correction for red - Any value here will turn the perceptual comparison mode on
 * ```gammaG``` Gamma correction for green - Any value here will turn the perceptual comparison mode on
 * ```gammaB``` Gamma correction for blue - Any value here will turn the perceptual comparison mode on
