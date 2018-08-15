@@ -22,7 +22,7 @@ function load(value, defaultValue) {
  * @param {string} [options.imageOutputPath=undefined] Path to output image file
  * @param {int} [options.imageOutputLimit=BlinkDiff.OUTPUT_ALL] Determines when an image output is created
  * @param {string} [options.thresholdType=BlinkDiff.THRESHOLD_PIXEL] Defines the threshold of the comparison
- * @param {int} [options.threshold=500] Threshold limit according to the comparison limit.
+ * @param {int} [options.threshold=100] Threshold limit according to the comparison limit.
  * @param {number} [options.delta=20] Distance between the color coordinates in the 4 dimensional color-space that will not trigger a difference.
  * @param {int} [options.outputMaskRed=255] Value to set for red on difference pixel. 'Undefined' will not change the value.
  * @param {int} [options.outputMaskGreen=0] Value to set for green on difference pixel. 'Undefined' will not change the value.
@@ -53,6 +53,7 @@ function load(value, defaultValue) {
  * @param {boolean} [options.composeLeftToRight=false] Create composition from left to right, otherwise let it decide on its own whats best
  * @param {boolean} [options.composeTopToBottom=false] Create composition from top to bottom, otherwise let it decide on its own whats best
  * @param {boolean} [options.hideShift=false] Hides shift highlighting by using the background color instead
+ * @param {float} [options.blockOutOutputOpacity=1.0]
  * @param {int} [options.hShift=2] Horizontal shift for possible antialiasing
  * @param {int} [options.vShift=2] Vertical shift for possible antialiasing
  * @param {object} [options.cropImageA=null] Cropping for first image (default: no cropping)
@@ -93,6 +94,7 @@ function load(value, defaultValue) {
  * @property {int} _outputShiftBlue
  * @property {int} _outputShiftAlpha
  * @property {float} _outputShiftOpacity
+ * @property {float} _blockOutOutputOpacity
  * @property {int} _outputBackgroundRed
  * @property {int} _outputBackgroundGreen
  * @property {int} _outputBackgroundBlue
@@ -196,7 +198,6 @@ function BlinkDiff (options) {
 	this._filter = load(options.filter, []);
 
 	this._debug = load(options.debug, false);
-
 	this._composition = load(options.composition, true);
 	this._composeLeftToRight = load(options.composeLeftToRight, false);
 	this._composeTopToBottom = load(options.composeTopToBottom, false);
@@ -206,6 +207,8 @@ function BlinkDiff (options) {
 
 	this._cropImageA = options.cropImageA;
 	this._cropImageB = options.cropImageB;
+
+	this._blockOutOutputOpacity = load(options.blockOutOutputOpacity, 1.0);
 
 	// Prepare reference white
 	this._refWhite = this._convertRgbToXyz({c1: 1, c2: 1, c3: 1, c4: 1});
@@ -400,6 +403,15 @@ BlinkDiff.prototype = {
 				alpha: this._blockOutAlpha,
 				opacity: this._blockOutOpacity
 			};
+
+			outputOpacityColor = {
+				red: this._blockOutRed,
+				green: this._blockOutGreen,
+				blue: this._blockOutBlue,
+				alpha: this._blockOutAlpha,
+				opacity: this._blockOutOutputOpacity
+			};
+
 			for (i = 0, len = this._blockOut.length; i < len; i++) {
 				rect = this._blockOut[i];
 
@@ -408,13 +420,18 @@ BlinkDiff.prototype = {
 
 				this._imageACompare.fillRect(rect.x, rect.y, rect.width, rect.height, color);
 				this._imageBCompare.fillRect(rect.x, rect.y, rect.width, rect.height, color);
+
+				if (this._blockOutOutputOpacity != 1.0) {
+					this._imageA.fillRect(rect.x, rect.y, rect.width, rect.height, outputOpacityColor);
+					this._imageB.fillRect(rect.x, rect.y, rect.width, rect.height, outputOpacityColor);
+				}
 			}
 
 			// Copy image to composition
 			if (this._copyImageAToOutput) {
-				this._copyImage(this._debug ? this._imageACompare : this._imageA, this._imageOutput);
+				this._copyImage((this._debug || this._blockOutOutputOpacity != 1.0) ? this._imageACompare : this._imageA, this._imageOutput);
 			} else if (this._copyImageBToOutput) {
-				this._copyImage(this._debug ? this._imageBCompare : this._imageB, this._imageOutput);
+				this._copyImage((this._debug || this._blockOutOutputOpacity != 1.0)? this._imageBCompare : this._imageB, this._imageOutput);
 			}
 
 			// Apply all filters
@@ -529,7 +546,6 @@ BlinkDiff.prototype = {
 			};
 			for (i = 0, len = this._blockOut.length; i < len; i++) {
 				rect = this._blockOut[i];
-
 				// Make sure the block-out parameters fit
 				this._correctDimensions(this._imageACompare.getWidth(), this._imageACompare.getHeight(), rect);
 
@@ -930,15 +946,15 @@ BlinkDiff.prototype = {
 			c1: color.c1 / 255, c2: color.c2 / 255, c3: color.c3 / 255, c4: color.c4
 		};
 
-		if (gamma || gamma.R !== undefined || gamma.G !== undefined || gamma.B !== undefined) {
-			if (gamma.R !== undefined) {
-				result.c1 = Math.pow(result.c1, gamma.R);
+		if (gamma || gamma.r !== undefined || gamma.g !== undefined || gamma.g !== undefined) {
+			if (gamma.r !== undefined) {
+				result.c1 = Math.pow(result.c1, gamma.r);
 			}
-			if (gamma.G !== undefined) {
-				result.c2 = Math.pow(result.c2, gamma.G);
+			if (gamma.g !== undefined) {
+				result.c2 = Math.pow(result.c2, gamma.g);
 			}
-			if (gamma.B !== undefined) {
-				result.c3 = Math.pow(result.c3, gamma.B);
+			if (gamma.b !== undefined) {
+				result.c3 = Math.pow(result.c3, gamma.b);
 			}
 		}
 

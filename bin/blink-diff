@@ -75,25 +75,31 @@ function printHelp () {
 	console.log("  Compares image1 and image2.");
 	console.log("");
 	console.log("  Options:");
-	console.log("    --verbose           Turn on verbose mode");
-	console.log("    --debug             Turn on debug mode - leaving all filters and modifications on the result");
-	console.log("    --threshold p       Number of pixels/percent 'p' below which differences are ignored");
-	console.log("    --threshold-type t  'pixel' and 'percent' as type of threshold. (default: pixel)");
-	console.log("    --delta p           Max. distance colors in the 4 dimensional color-space without triggering a difference. (default: 20)");
-	console.log("    --copyImageA        Copies first image to output as base. (default: true)");
-	console.log("    --copyImageB        Copies second image to output as base.");
-	console.log("    --no-copy           Doesn't copy anything to output as base.");
-	console.log("    --output o          Write difference to the file 'o'");
-	console.log("    --filter f          Filters f (separated with comma) that will be applied before the comparison.");
-	console.log("    --no-composition    Turns the composition feature off");
-	console.log("    --compose-ltr       Compose output image from left to right");
-	console.log("    --compose-ttb       Compose output image from top to bottom");
-	console.log("    --hide-shift        Hides shift highlighting (default: false)");
-	console.log("    --h-shift           Acceptable horizontal shift of pixel. (default: 0)");
-	console.log("    --v-shift           Acceptable vertical shift of pixel. (default: 0)");
-	console.log("    --block-out x,y,w,h Block-out area. Can be repeated multiple times.");
-	console.log("    --version           Print version");
-	console.log("    --help              This help");
+	console.log("    --verbose                 Turn on verbose mode");
+	console.log("    --debug                   Turn on debug mode - leaving all filters and modifications on the result");
+	console.log("    --threshold p             Number of pixels/percent 'p' below which differences are ignored");
+	console.log("    --threshold-type t        'pixel' and 'percent' as type of threshold. (default: pixel)");
+	console.log("    --delta p                 Max. distance colors in the 4 dimensional color-space without triggering a difference. (default: 20)");
+	console.log("    --gamma e                 Base Gamma correction exponent e");
+	console.log("    --gammaR e                Gamma correction exponent e for red");
+	console.log("    --gammaG e                Gamma correction exponent e for green");
+	console.log("    --gammaB e                Gamma correction exponent e for blue");
+	console.log("    --copyImageA              Copies first image to output as base. (default: true)");
+	console.log("    --copyImageB              Copies second image to output as base.");
+	console.log("    --no-copy                 Doesn't copy anything to output as base.");
+	console.log("    --output o                Write difference to the file 'o'");
+	console.log("    --filter f                Filters f (separated with comma) that will be applied before the comparison.");
+	console.log("    --no-composition          Turns the composition feature off");
+	console.log("    --compose-ltr             Compose output image from left to right");
+	console.log("    --compose-ttb             Compose output image from top to bottom");
+	console.log("    --hide-shift              Hides shift highlighting (default: false)");
+	console.log("    --h-shift                 Acceptable horizontal shift of pixel. (default: 0)");
+	console.log("    --v-shift                 Acceptable vertical shift of pixel. (default: 0)");
+	console.log("    --block-out x,y,w,h       Block-out area. Can be repeated multiple times.");
+	console.log("    --blockOutOpacity d       Block-out opacity. (default: 1)");
+	console.log("    --blockOutOutputOpacity d Block-out output opacity (doesn't affect comparison) (default: 1.0)");
+	console.log("    --version                 Print version");
+	console.log("    --help                    This help");
 	console.log("");
 }
 
@@ -144,6 +150,16 @@ function parseArgs (argv) {
 			} else if (argv[i] == "--hide-shift") {
 				options.hideShift = true;
 
+			} else if (argv[i] == "--blockOutOutputOpacity") {
+				if (++i < argLength) {
+
+					temporary = parseFloat(argv[i]);
+					if (temporary < 0 || temporary > 1) {
+						throw new Error("--blockOutOutputOpacity must be value between 0 and 1.");
+					}
+					options.blockOutOutputOpacity = temporary;
+				}
+
 			} else if (argv[i] == "--copyImageA") {
 				options.copyImageAToOutput = true;
 				options.copyImageBToOutput = false;
@@ -183,6 +199,46 @@ function parseArgs (argv) {
 						throw new Error("--h-shift must be positive");
 					}
 					options.hShift = temporary;
+				}
+
+			} else if (argv[i] == "--gamma") {
+				if (++i < argLength) {
+
+					temporary = parseFloat(argv[i]);
+					if (temporary < 0) {
+						throw new Error("--gamma must be positive");
+					}
+					options.gamma = temporary;
+				}
+
+			} else if (argv[i] == "--gammaR") {
+				if (++i < argLength) {
+
+					temporary = parseFloat(argv[i]);
+					if (temporary < 0) {
+						throw new Error("--gammaR must be positive");
+					}
+					options.gammaR = temporary;
+				}
+
+			} else if (argv[i] == "--gammaG") {
+				if (++i < argLength) {
+
+					temporary = parseFloat(argv[i]);
+					if (temporary < 0) {
+						throw new Error("--gammaG must be positive");
+					}
+					options.gammaG = temporary;
+				}
+
+			} else if (argv[i] == "--gammaB") {
+				if (++i < argLength) {
+
+					temporary = parseFloat(argv[i]);
+					if (temporary < 0) {
+						throw new Error("--gammaB must be positive");
+					}
+					options.gammaB = temporary;
 				}
 
 			} else if (argv[i] == "--v-shift") {
