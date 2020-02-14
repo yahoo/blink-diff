@@ -53,8 +53,8 @@ function load(value, defaultValue) {
  * @param {boolean} [options.composeLeftToRight=false] Create composition from left to right, otherwise let it decide on its own whats best
  * @param {boolean} [options.composeTopToBottom=false] Create composition from top to bottom, otherwise let it decide on its own whats best
  * @param {boolean} [options.hideShift=false] Hides shift highlighting by using the background color instead
- * @param {int} [options.hShift=2] Horizontal shift for possible antialiasing
- * @param {int} [options.vShift=2] Vertical shift for possible antialiasing
+ * @param {int} [options.hShift=0] Horizontal shift for possible antialiasing
+ * @param {int} [options.vShift=0] Vertical shift for possible antialiasing
  * @param {object} [options.cropImageA=null] Cropping for first image (default: no cropping)
  * @param {int} [options.cropImageA.x=0] Coordinate for left corner of cropping region
  * @param {int} [options.cropImageA.y=0] Coordinate for top corner of cropping region
@@ -201,8 +201,8 @@ function BlinkDiff (options) {
 	this._composeLeftToRight = load(options.composeLeftToRight, false);
 	this._composeTopToBottom = load(options.composeTopToBottom, false);
 
-	this._hShift = load(options.hShift, 2);
-	this._vShift = load(options.vShift, 2);
+	this._hShift = load(options.hShift, 0);
+	this._vShift = load(options.vShift, 0);
 
 	this._cropImageA = options.cropImageA;
 	this._cropImageB = options.cropImageB;

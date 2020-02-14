@@ -163,8 +163,8 @@ All the parameters that were available in the command-line tool are also availab
 * ```composition``` Creates as output a composition of all three images (approved, highlight, and build) (default: true)
 * ```composeLeftToRight``` Creates comparison-composition from left to right, otherwise it lets decide the app on what is best
 * ```composeTopToBottom``` Creates comparison-composition from top to bottom, otherwise it lets decide the app on what is best
-* ```hShift``` Horizontal shift for possible antialiasing (default: 2) Set to 0 to turn this off.
-* ```vShift``` Vertical shift for possible antialiasing (default: 2) Set to 0 to turn this off.
+* ```hShift``` Horizontal shift for possible antialiasing (default: 0)
+* ```vShift``` Vertical shift for possible antialiasing (default: 0)
 * ```hideShift``` Uses the background color for "highlighting" shifts. (default: false)
 * ```cropImageA``` Cropping for first image (default: no cropping) - Format: { x:<int>, y:<int>, width:<int>, height:<int> }
 * ```cropImageB``` Cropping for second image (default: no cropping) - Format: { x:<int>, y:<int>, width:<int>, height:<int> }
